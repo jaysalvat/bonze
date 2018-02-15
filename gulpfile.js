@@ -258,16 +258,16 @@
     /** Publish release, meta and ZIP file on Github pages **/
 
     gulp.task('tmp-clean', function (cb) {
-        return del([ './tmp' ], cb);
+        return del([ './docs/tmp' ], cb);
     });
 
     gulp.task('tmp-create', function (cb) {
-        return exec('mkdir -p ./tmp', cb);
+        return exec('mkdir -p ./docs/tmp', cb);
     });
 
     gulp.task('tmp-copy', [ 'tmp-create' ], function () {
         return gulp.src('./dist/**/*')
-            .pipe(gulp.dest('./tmp'));
+            .pipe(gulp.dest('./docs/tmp'));
     });
 
     gulp.task('zip', [ 'tmp-create' ], function () {
@@ -275,7 +275,7 @@
 
         return gulp.src('./dist/**/*')
             .pipe(plugins.zip(filename))
-            .pipe(gulp.dest('./tmp'));
+            .pipe(gulp.dest('./docs/tmp'));
     });
 
     gulp.task('meta', function (cb) {
@@ -294,18 +294,14 @@
     gulp.task('gh-pages', function (cb) {
         var version = getPackageJson().version;
 
-        exec([  'git checkout gh-pages',
-                'rm -rf releases/' + version,
-                'mkdir -p releases/' + version,
-                'cp -r tmp/* releases/' + version,
-                'git add -A releases/' + version,
-                'rm -rf releases/latest',
-                'mkdir -p releases/latest',
-                'cp -r tmp/* releases/latest',
-                'git add -A releases/latest',
-                'git commit -m "Publish release v' + version + '."',
-                'git push origin gh-pages',
-                'git checkout -'
+        exec([
+                'mkdir -p docs/releases/' + version,
+                'cp -r docs/tmp/* docs/releases/' + version,
+                'git add -A docs/releases/' + version,
+                'rm -rf docs/releases/latest',
+                'mkdir -p docs/releases/latest',
+                'cp -r docs/tmp/* docs/releases/latest',
+                'git add -A docs/releases/latest',
             ].join(' && '),
             function (err, output) {
                 if (err) {
@@ -314,10 +310,31 @@
                 return cb();
             }
         );
+
+        // exec([  'git checkout gh-pages',
+        //         'rm -rf releases/' + version,
+        //         'mkdir -p releases/' + version,
+        //         'cp -r tmp/* releases/' + version,
+        //         'git add -A releases/' + version,
+        //         'rm -rf releases/latest',
+        //         'mkdir -p releases/latest',
+        //         'cp -r tmp/* releases/latest',
+        //         'git add -A releases/latest',
+        //         'git commit -m "Publish release v' + version + '."',
+        //         'git push origin gh-pages',
+        //         'git checkout -'
+        //     ].join(' && '),
+        //     function (err, output) {
+        //         if (err) {
+        //             return cb(err + ' ' + output);
+        //         }
+        //         return cb();
+        //     }
+        // );
     });
 
     gulp.task('publish', sync([
-      [ 'fail-if-not-master', 'fail-if-dirty' ],
+        [ 'fail-if-not-master', 'fail-if-dirty' ],
         'tmp-create',
         'tmp-copy',
         'meta',
@@ -356,11 +373,11 @@
         'build',            // Second complete build with version bumped
         'changelog',        // Get last commit and auto edit the changlog in VIM
         'copyright-year',   // Change Copyright years in .md
+        'publish',          // Add a zip file in gh-pages branch on Github
         'git-add',          // Git add changes
         'git-commit',       // Git commit new build
         'git-tag',          // Create Git tag
         'git-push',         // Push to repositoty
-        'publish',          // Add a zip file in gh-pages branch on Github
         'npm-publish'       // Publish on NPM
     ],
     'releasing'));
