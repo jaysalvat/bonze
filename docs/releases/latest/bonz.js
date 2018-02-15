@@ -1,7 +1,7 @@
 /*! -----------------------------------------------------------------------------
  * @license
  * bonz — Tiny but powerful JS selector helper
- * v0.0.1 - built 2018-02-15
+ * v0.0.2 - built 2018-02-15
  * Licensed under the MIT License.
  * ----------------------------------------------------------------------------
  * Copyright (C) 2018 Jay Salvat
@@ -87,7 +87,6 @@
             return elements;
         };
 
-        console.log('----', fn);
         fn._bonz = true;
 
         return fn;
