@@ -1,18 +1,18 @@
 {
-  "name": "bonz",
+  "name": "bonze",
   "version": "0.0.2",
   "description": "Tiny but powerful JS selector helper",
-  "homepage": "http://bonz.jaysalvat.com",
+  "homepage": "http://bonze.jaysalvat.com",
   "author": "Jay Salvat",
   "license": "MIT",
-  "main": "dist/bonz.js",
+  "main": "dist/bonze.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha ./test/tests.js",
     "test-watch": "./node_modules/.bin/mocha ./test/ --watch"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jaysalvat/bonz.git"
+    "url": "https://github.com/jaysalvat/bonze.git"
   },
   "keywords": [],
   "devDependencies": {
@@ -30,6 +30,7 @@
     "gulp-jshint": "^2.0.1",
     "gulp-load-plugins": "^1.2.4",
     "gulp-mocha": "^5.0.0",
+    "gulp-mocha-phantomjs": "^0.12.2",
     "gulp-rename": "^1.2.0",
     "gulp-replace": "^0.6.1",
     "gulp-sass": "^3.1.0",
@@ -38,6 +39,7 @@
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.2",
     "gulp-zip": "^4.1.0",
+    "jsdom": "^11.6.2",
     "jshint": "^2.9.2",
     "mocha": "^5.0.1",
     "yargs": "^11.0.0"

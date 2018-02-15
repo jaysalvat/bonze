@@ -1,12 +1,3 @@
-/*! -----------------------------------------------------------------------------
- * @license
- * bonz — Tiny but powerful JS selector helper
- * v0.0.2 - built 2018-02-15
- * Licensed under the MIT License.
- * ----------------------------------------------------------------------------
- * Copyright (C) 2018 Jay Salvat
- * http://jaysalvat.com/
- * --------------------------------------------------------------------------*/
 /* global define */
 
 (function (context, factory) {
@@ -22,34 +13,45 @@
 })(this, function () {
     'use strict';
 
-    function bonz(selector, context) {
+    function bonze (selector, context) {
         var elements = [];
 
         if (!selector) {
             return elements;
-        } else if (selector._bonz) {
+        }
+
+        else if (selector._bonze) {
             return selector;
-        } else if (typeof selector === 'function') {
+        }
+
+        else if (typeof selector === 'function') {
             return document.addEventListener('DOMContentLoaded', selector);
-        } else if (selector instanceof Array) {
+        }
+
+        else if (selector instanceof Array) {
             elements = selector;
-        } else if (selector.nodeType) {
-            elements = [selector];
-        } else if (selector.match(/^\s*<(\w+|!)[^>]*>/)) {
+        }
+
+        else if (selector.nodeType) {
+            elements = [ selector ];
+        }
+
+        else if (selector.match(/^\s*<(\w+|!)[^>]*>/)) {
             var container = document.createElement('div');
             container.innerHTML = selector;
             elements = [].slice.call(container.childNodes);
+
         } else {
-            var contexts = context ? bonz(context)() : [document];
+            var contexts = context ? bonze(context)() : [ document ];
 
             contexts.forEach(function (context) {
-                context = bonz(context)(0);
+                context = bonze(context)(0);
                 var found = [].slice.call(context.querySelectorAll(selector));
                 elements = elements.concat(found);
             });
         }
 
-        var fn = function fn(value1, value2) {
+        var fn = function (value1, value2) {
             elements = elements.slice();
 
             if (value1 === 'first') {
@@ -62,7 +64,7 @@
 
             if (typeof value1 === 'number') {
                 if (value2) {
-                    elements = [elements[value1]];
+                    elements = [ elements[value1] ];
                     return fn(value2);
                 }
                 return elements[value1];
@@ -87,11 +89,10 @@
             return elements;
         };
 
-        fn._bonz = true;
+        fn._bonze = true;
 
         return fn;
     }
 
-    return bonz;
+    return bonze;
 });
-//# sourceMappingURL=maps/bonz.js.map

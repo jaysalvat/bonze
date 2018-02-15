@@ -1,8 +1,8 @@
 {
-  "name": "bonz",
+  "name": "bonze",
   "version": "0.0.2",
   "main": [
-    "dist/bonz.js"
+    "dist/bonze.js"
   ],
   "ignore": [
     "src",

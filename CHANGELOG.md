@@ -1,10 +1,10 @@
-# bonz
+# bonze
 
 Tiny but powerful JS selector helper
 
 ## CHANGE LOG
 
-### bonz 0.0.2 2018-02-15
+### bonze 0.0.2 2018-02-15
 
 * Release test 2
 * Fix tests

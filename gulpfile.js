@@ -26,7 +26,7 @@
         .argv;
 
     var settings = {
-        name: 'bonz',
+        name: 'bonze',
         banner: {
             content: [
                 '/*! -----------------------------------------------------------------------------',
@@ -118,7 +118,7 @@
     });
 
     gulp.task('sass', function () {
-        return gulp.src("./src/sass/bonz.sass")
+        return gulp.src("./src/sass/bonze.sass")
             .pipe(plugins.if(argv.dev, plugins.sourcemaps.init()))
             .pipe(plugins.sass({
                 outputStyle: 'expanded',
@@ -166,7 +166,7 @@
             }
 
             var updates = [
-                '### bonz ' + version + ' ' + date,
+                '### bonze ' + version + ' ' + date,
                 '',
                 '* ' + stdout.replace(/\n/g, '\n* ')
             ].join('\n');

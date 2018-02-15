@@ -1,6 +1,6 @@
 /*! -----------------------------------------------------------------------------
  * @license
- * bonz — Tiny but powerful JS selector helper
+ * bonze — Tiny but powerful JS selector helper
  * v0.0.2 - built 2018-02-15
  * Licensed under the MIT License.
  * ----------------------------------------------------------------------------
@@ -22,12 +22,12 @@
 })(this, function () {
     'use strict';
 
-    function bonz(selector, context) {
+    function bonze(selector, context) {
         var elements = [];
 
         if (!selector) {
             return elements;
-        } else if (selector._bonz) {
+        } else if (selector._bonze) {
             return selector;
         } else if (typeof selector === 'function') {
             return document.addEventListener('DOMContentLoaded', selector);
@@ -40,10 +40,10 @@
             container.innerHTML = selector;
             elements = [].slice.call(container.childNodes);
         } else {
-            var contexts = context ? bonz(context)() : [document];
+            var contexts = context ? bonze(context)() : [document];
 
             contexts.forEach(function (context) {
-                context = bonz(context)(0);
+                context = bonze(context)(0);
                 var found = [].slice.call(context.querySelectorAll(selector));
                 elements = elements.concat(found);
             });
@@ -87,11 +87,11 @@
             return elements;
         };
 
-        fn._bonz = true;
+        fn._bonze = true;
 
         return fn;
     }
 
-    return bonz;
+    return bonze;
 });
-//# sourceMappingURL=maps/bonz.js.map
+//# sourceMappingURL=maps/bonze.js.map
