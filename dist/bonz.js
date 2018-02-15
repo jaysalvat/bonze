@@ -20,10 +20,14 @@
         context.$ = factory();
     }
 })(this, function () {
+    'use strict';
+
     function bonz(selector, context) {
         var elements = [];
 
-        if (selector._bonz) {
+        if (!selector) {
+            return elements;
+        } else if (selector._bonz) {
             return selector;
         } else if (typeof selector === 'function') {
             return document.addEventListener('DOMContentLoaded', selector);
@@ -83,10 +87,11 @@
             return elements;
         };
 
+        console.log('----', fn);
         fn._bonz = true;
 
         return fn;
-    };
+    }
 
     return bonz;
 });

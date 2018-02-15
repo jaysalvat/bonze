@@ -11,10 +11,16 @@
         context.$ = factory();
     }
 })(this, function () {
+    'use strict';
+
     function bonz (selector, context) {
         var elements = [];
 
-        if (selector._bonz) {
+        if (!selector) {
+            return elements;
+        }
+
+        else if (selector._bonz) {
             return selector;
         }
 
@@ -86,7 +92,7 @@
         fn._bonz = true;
 
         return fn;
-    };
+    }
 
     return bonz;
 });
