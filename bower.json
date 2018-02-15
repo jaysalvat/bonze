@@ -1,0 +1,14 @@
+{
+  "name": "bonz",
+  "version": "0.0.1",
+  "main": [
+    "dist/bonz.js"
+  ],
+  "ignore": [
+    "src",
+    "test",
+    "gulpfile.js",
+    "package.json"
+  ],
+  "dependencies": {}
+}
