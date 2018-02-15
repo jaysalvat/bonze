@@ -2,10 +2,10 @@
   "name": "bonze",
   "version": "0.0.3",
   "description": "Tiny but powerful JS selector helper",
-  "homepage": "http://bonze.jaysalvat.com",
+  "homepage": "http://jaysalvat.com",
   "author": "Jay Salvat",
   "license": "MIT",
-  "main": "dist/bonze.js",
+  "main": "dist/bonze.min.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha ./test/tests.js",
     "test-watch": "./node_modules/.bin/mocha ./test/ --watch"
