@@ -66,15 +66,32 @@ describe("bonze tests", function () {
 
     it("should target first/last p", function () {
         var first = $('p')('first', function (elmt) {
-            elmt.innerHTML = 'is first';
+            elmt.innerHTML = 'is first p';
         });
 
         var last = $('p')('last', function (elmt) {
-            elmt.innerHTML = 'is last';
+            elmt.innerHTML = 'is last p';
         });
 
-        expect(first(0).innerHTML).to.contains('is first');
-        expect(last(0).innerHTML).to.contains('is last');
+        expect(first(0).innerHTML).to.equal('is first p');
+        expect(last(0).innerHTML).to.equal('is last p');
+    });
+
+    it("should filter p", function () {
+        var ps = $('p')
+                    (function (elmt) {
+                        return elmt.innerHTML.match(/it works/g);
+                    }, 'filter')
+                    (function (elmt) {
+                        elmt.innerHTML = 'is a middle p';
+                    });
+
+        var ps = $('p');
+
+        expect(ps(0).innerHTML).to.equal('is first p');
+        expect(ps(1).innerHTML).to.equal('is a middle p');
+        expect(ps(2).innerHTML).to.equal('is a middle p');
+        expect(ps(3).innerHTML).to.equal('is last p');
     });
 
     it("should add a H1 element", function () {
