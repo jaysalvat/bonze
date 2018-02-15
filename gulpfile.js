@@ -285,8 +285,8 @@
             },
             json = JSON.stringify(metadata, null, 4);
 
-        fs.writeFileSync('tmp/metadata.json', json);
-        fs.writeFileSync('tmp/metadata.js', '__metadata(' + json + ');');
+        fs.writeFileSync('./docs/tmp/metadata.json', json);
+        fs.writeFileSync('./docs/tmp/metadata.js', '__metadata(' + json + ');');
 
         return cb();
     });
@@ -334,7 +334,6 @@
     });
 
     gulp.task('publish', sync([
-        [ 'fail-if-not-master', 'fail-if-dirty' ],
         'tmp-create',
         'tmp-copy',
         'meta',
@@ -364,7 +363,7 @@
     'building'));
 
     gulp.task('release', sync([
-      [ 'fail-if-not-master', 'fail-if-dirty' ], // Dirty or not master?
+        [ 'fail-if-not-master', 'fail-if-dirty' ], // Dirty or not master?
         'git-pull',         // Pull repository
         'lint',             // Lint JS
         'es6', 'minify-js', // JS transpilation/minification for unit tests
