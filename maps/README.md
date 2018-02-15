@@ -5,12 +5,6 @@
 
 Tiny but powerful JS selector helper
 
-**Home:**
-[http://bonze.jaysalvat.com/](http://bonze.jaysalvat.com/)
-
-**Documentation:**
-[http://bonze.jaysalvat.com/documentation/](http://bonze.jaysalvat.com/documentation/)
-
 ## Install
 
 Download latest [bonze version](http://jaysalvat.github.io/bonze/releases/latest/bonze.zip) and include it to your page.
