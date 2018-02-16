@@ -7,6 +7,7 @@
   "ignore": [
     "src",
     "test",
+    "docs",
     "gulpfile.js",
     "package.json"
   ],

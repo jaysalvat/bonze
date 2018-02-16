@@ -5,6 +5,21 @@
 
 Tiny but powerful JS selector helper
 
+## Example
+
+    ```javascript
+
+    const $elements = $('p.paragraph');
+
+    $elements((p, i) => {
+        p.innerHTML = 'Paragraph ' + i;
+    })(p => {
+        p.classList.add('new-class');
+    })
+
+    const domElementArray = $elements();
+    ```
+
 ## Install
 
 Download latest [bonze version](http://jaysalvat.github.io/bonze/releases/latest/bonze.zip) and include it to your page.

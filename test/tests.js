@@ -43,16 +43,19 @@ describe("bonze tests", function () {
 
     it("should find all p", function () {
         var ps = $('p')();
+
         expect(ps.length).to.be.equal(4);
     });
 
     it("should find p in #one", function () {
         var ps = $('p', '#one')();
+
         expect(ps.length).to.be.equal(2);
     });
 
     it("should find p in #two", function () {
         var ps = $('p', '#two')();
+
         expect(ps.length).to.be.equal(2);
     });
 
