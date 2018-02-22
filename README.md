@@ -9,15 +9,15 @@ Tiny but powerful JS selector helper
 
 ```javascript
 
-    const $elements = $('p.paragraph');
+const $elements = $('p');
 
-    $elements((p, i) => {
-        p.innerHTML = 'Paragraph ' + i;
-    })(p => {
-        p.classList.add('new-class');
-    })
+$elements((p, i) => {
+  p.innerHTML = 'Paragraph ' + i;
+})(p => {
+  p.classList.add('new-class');
+})
 
-    const domElementArray = $elements();
+const nativeDomElementArray = $elements();
 ```
 
 ## Install
