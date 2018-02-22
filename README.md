@@ -13,7 +13,7 @@ const $elements = $('p');
 
 $elements((p, i) => {
   p.innerHTML = 'Paragraph ' + i;
-})(p => {
+})((p) => {
   p.classList.add('new-class');
 })
 
