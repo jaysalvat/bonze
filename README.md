@@ -7,7 +7,7 @@ Tiny but powerful JS selector helper
 
 ## Example
 
-    ```javascript
+```javascript
 
     const $elements = $('p.paragraph');
 
@@ -18,7 +18,7 @@ Tiny but powerful JS selector helper
     })
 
     const domElementArray = $elements();
-    ```
+```
 
 ## Install
 
