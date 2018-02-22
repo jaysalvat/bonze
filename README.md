@@ -8,16 +8,13 @@ Tiny but powerful JS selector helper
 ## Example
 
 ```javascript
-
-const $elements = $('p');
-
-$elements((p, i) => {
+const $p = $('p')((p, i) => {
   p.innerHTML = 'Paragraph ' + i;
 })((p) => {
   p.classList.add('new-class');
 })
 
-const nativeDomElementArray = $elements();
+const nativeDomElementArray = $p();
 ```
 
 ## Install
