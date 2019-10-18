@@ -3,7 +3,7 @@
 
 'use strict';
 
-var html = `
+const html = `
     <body>
         <div class="bonz">
             <div id="one">
@@ -17,93 +17,98 @@ var html = `
         </div>
     </body>`;
 
+let $, chai;
+
 if (typeof window === 'undefined') {
-    var $ = require('../dist/bonze.js');
-    var chai = require('chai');
-    var jsdom = require("jsdom");
+  $ = require('../dist/bonze.js');
+  chai = require('chai');
 
-    var { JSDOM } = jsdom;
-    var dom = new JSDOM(html);
-    var { window } = dom;
-    var { document } = (dom).window;
+  const jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const dom = new JSDOM(html);
+  const { window } = dom;
+  const { document } = (dom).window;
 
-    global.window = window;
-    global.document = document;
+  global.window = window;
+  global.document = document;
 } else {
-    document.querySelector('#test').innerHTML = html;
+  $ = window.$;
+  chai = window.chai;
+
+  document.querySelector('#test').innerHTML = html;
 }
 
-var expect = chai.expect;
+const expect = chai.expect;
 
-describe("bonze tests", function () {
-    it("should work", function () {
-        expect($).to.be.a('function');
-        expect($).to.not.throw(Error);
+describe('bonze tests', () => {
+  it('should work', () => {
+    expect($).to.be.a('function');
+    expect($).to.not.throw(Error);
+  });
+
+  it('should find all p', () => {
+    const ps = $('p')();
+
+    expect(ps.length).to.be.equal(4);
+  });
+
+  it('should find p in #one', () => {
+    const ps = $('p', '#one')();
+
+    expect(ps.length).to.be.equal(2);
+  });
+
+  it('should find p in #two', () => {
+    const ps = $('p', '#two')();
+
+    expect(ps.length).to.be.equal(2);
+  });
+
+  it('should change p content', () => {
+    const ps = $('p')((elmt, i) => {
+      elmt.innerHTML = 'it works ' + i;
     });
 
-    it("should find all p", function () {
-        var ps = $('p')();
+    expect(ps(0).innerHTML).to.contains('it works');
+  });
 
-        expect(ps.length).to.be.equal(4);
+  it('should target first/last p', () => {
+    const first = $('p')('first', (elmt) => {
+      elmt.innerHTML = 'is first p';
     });
 
-    it("should find p in #one", function () {
-        var ps = $('p', '#one')();
-
-        expect(ps.length).to.be.equal(2);
+    const last = $('p')('last', (elmt) => {
+      elmt.innerHTML = 'is last p';
     });
 
-    it("should find p in #two", function () {
-        var ps = $('p', '#two')();
+    expect(first(0).innerHTML).to.equal('is first p');
+    expect(last(0).innerHTML).to.equal('is last p');
+  });
 
-        expect(ps.length).to.be.equal(2);
+  it('should filter p', () => {
+    let ps;
+
+    ps = $('p')((elmt) => {
+      return elmt.innerHTML.match(/it works/g);
+    }, 'filter')((elmt) => {
+      elmt.innerHTML = 'is a middle p';
     });
 
-    it("should change p content", function () {
-        var ps = $('p')(function (elmt, i) {
-            elmt.innerHTML = 'it works ' + i;
-        });
+    ps = $('p');
 
-        expect(ps(0).innerHTML).to.contains('it works');
+    expect(ps(0).innerHTML).to.equal('is first p');
+    expect(ps(1).innerHTML).to.equal('is a middle p');
+    expect(ps(2).innerHTML).to.equal('is a middle p');
+    expect(ps(3).innerHTML).to.equal('is last p');
+  });
+
+  it('should add a H1 element', () => {
+    $('<h1>a new element</h1>')((elmt) => {
+      $('#one')(0).prepend(elmt);
     });
 
-    it("should target first/last p", function () {
-        var first = $('p')('first', function (elmt) {
-            elmt.innerHTML = 'is first p';
-        });
+    const h1 = $('h1', '.bonz')();
 
-        var last = $('p')('last', function (elmt) {
-            elmt.innerHTML = 'is last p';
-        });
-
-        expect(first(0).innerHTML).to.equal('is first p');
-        expect(last(0).innerHTML).to.equal('is last p');
-    });
-
-    it("should filter p", function () {
-        var ps = $('p')
-                    (function (elmt) {
-                        return elmt.innerHTML.match(/it works/g);
-                    }, 'filter')
-                    (function (elmt) {
-                        elmt.innerHTML = 'is a middle p';
-                    });
-
-        var ps = $('p');
-
-        expect(ps(0).innerHTML).to.equal('is first p');
-        expect(ps(1).innerHTML).to.equal('is a middle p');
-        expect(ps(2).innerHTML).to.equal('is a middle p');
-        expect(ps(3).innerHTML).to.equal('is last p');
-    });
-
-    it("should add a H1 element", function () {
-        $('<h1>a new element</h1>')(function (elmt) {
-            $('#one')(0).prepend(elmt);
-        });
-
-        var h1 = $('h1', '.bonz')();
-
-        expect(h1.length).to.be.equal(1);
-    });
+    expect(h1.length).to.be.equal(1);
+  });
 });
