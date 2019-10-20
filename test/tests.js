@@ -126,6 +126,20 @@ describe('bonze tests', () => {
     });
   });
 
+  it('should filter p', () => {
+    const ps1 = bonze('p').filter((elmt) => {
+      return elmt.innerHTML.indexOf('one') > -1;
+    });
+
+    expect(ps1().length).to.be.equal(4);
+
+    const ps2 = bonze('p').filter((elmt) => {
+      return elmt.innerHTML.indexOf('-2') > -1;
+    });
+
+    expect(ps2().length).to.be.equal(2);
+  });
+
   it('should change p content using the each alias', () => {
     const ps = bonze('p').each((elmt, i) => {
       elmt.innerHTML = 'p #' + i;

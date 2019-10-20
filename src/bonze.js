@@ -48,11 +48,12 @@ export default function bonze(selector, context = null) {
     return elements;
   };
 
-  fn.nth = (value) => bonze(elements[value]);
   fn.first = () => bonze(elements[0]);
   fn.last = () => bonze(elements[elements.length - 1]);
   fn.odd = () => bonze(elements.filter((elmt, i) => !(i % 2)));
   fn.even = () => bonze(elements.filter((elmt, i) => (i % 2)));
+  fn.nth = (value) => bonze(elements[value]);
+  fn.filter = (fn) => bonze(elements.filter((elmt, i) => fn(elmt, i, elements)));
   fn.each = fn;
 
   fn._bonze = true;
