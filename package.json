@@ -14,7 +14,7 @@
     "test:watch": "mocha ./test/ --watch",
     "prewatch": "rm -rf ./dist",
     "watch": "rollup -c --watch",
-    "prebuild": "rm -rf ./dist",
+    "prebuild": "git pull origin master && rm -rf ./dist",
     "build": "rollup -c",
     "postbuild": "npm test",
     "version": "npm run build",
@@ -24,7 +24,6 @@
     "release:patch": "npm version patch -m 'Release patch v%s' && npm publish",
     "release:minor": "npm version minor -m 'Release minor v%s' && npm publish",
     "release:major": "npm version major -m 'Release major v%s' && npm publish",
-    "prepublish": "git pull origin master",
     "postpublish": "git push origin master --tags"
   },
   "files": [
