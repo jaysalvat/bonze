@@ -19,18 +19,18 @@
     "build": "rollup -c",
     "postbuild": "npm test",
     "version": "npm run build",
-    "release:patch": "npm version patch -m 'Release v%s'",
-    "release:minor": "npm version minor -m 'Release v%s'",
-    "release:major": "npm version major -m 'Release v%s'",
-    "postrelease:patch": "npm publish",
-    "postrelease:minor": "npm publish",
-    "postrelease:major": "npm publish",
+    "version:patch": "npm version patch -m 'Release v%s'",
+    "version:minor": "npm version minor -m 'Release v%s'",
+    "version:major": "npm version major -m 'Release v%s'",
+    "release:patch": "npm version:patch && npm publish'",
+    "release:minor": "npm version:minor && npm publish'",
+    "release:major": "npm version:major && npm publish'",
     "prepublish": "git pull origin master",
     "postpublish": "git push origin master --tags"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint:fix && npm test",
+      "pre-commit": "npm run lint:fix",
       "pre-push": "npm run lint:fix && npm test"
     }
   },
