@@ -19,7 +19,7 @@ const banner = `
 
 const watched = process.env.ROLLUP_WATCH;
 
-const configDev = {
+const standard = {
   input: entrypoint,
   output: [
     {
@@ -37,7 +37,7 @@ const configDev = {
   ]
 };
 
-const configProd = {
+const minified = {
   input: entrypoint,
   output: [
     {
@@ -56,11 +56,10 @@ const configProd = {
   ]
 };
 
-const configs = [];
+const configs = [ standard ];
 
 if (!watched) {
-  configs.push(configProd);
+  configs.push(minified);
 }
-configs.push(configDev);
 
 module.exports = configs;
