@@ -21,10 +21,9 @@
     "version:patch": "npm version patch -m 'Bump to patch v%s'",
     "version:minor": "npm version minor -m 'Bump to minor v%s'",
     "version:major": "npm version major -m 'Bump to major v%s'",
-    "release:patch": "npm version patch -m 'Release patch v%s'",
-    "release:minor": "npm version minor -m 'Release minor v%s'",
-    "release:major": "npm version major -m 'Release majorv%s'",
-    "postrelease": "npm publish",
+    "release:patch": "npm version patch -m 'Release patch v%s' && npm publish",
+    "release:minor": "npm version minor -m 'Release minor v%s' && npm publish",
+    "release:major": "npm version major -m 'Release major v%s' && npm publish",
     "prepublish": "git pull origin master",
     "postpublish": "git push origin master --tags"
   },
