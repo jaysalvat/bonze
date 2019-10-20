@@ -1,6 +1,6 @@
 {
   "name": "bonze",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Tiny but powerful JS selector helper",
   "homepage": "http://jaysalvat.com",
   "author": "Jay Salvat",
@@ -27,10 +27,10 @@
     "postpublish": "git push origin master --tags"
   },
   "husky": {
-      "hooks": {
+    "hooks": {
       "pre-commit": "npm run lint:fix",
       "pre-push": "npm run lint:fix && npm test"
-      }
+    }
   },
   "files": [
     "dist"
