@@ -1,4 +1,4 @@
-# bonze
+# Bonze
 
 [![NPM version](https://badge.fury.io/js/bonze.svg)](http://badge.fury.io/js/bonze)
 
@@ -9,43 +9,43 @@ Tiny but powerful JS selector helper
 ### Dom ready
 
 ```javascript
-$(() => {
+bonze(() => {
   document.body.classList.add('ready');
 });
 ```
 
-### Create elementss
+### Create element
 
 ```javascript
-$('<h1>My New Title</h1>')((h1) => {
+bonze('<h1>My New Title</h1>')((h1) => {
   document.body.prepend(h1);
 });
 ```
 
-### Select elementss
+### Select elements
 
 ```javascript
-$('div')((div) => {
+bonze('div')(div => {
   div.classList.add('red');
 });
 
-$('div').first()((div) => {
+bonze('div').first()(div => {
   div.classList.add('first-child');
 });
 
-$('div').last()((div) => {
+bonze('div').last()(div => {
   p.classList.add('last-child');
 });
 
-$('div').nth(2)((div) => {
+bonze('div').nth(2)(div => {
   div.classList.add('second-child');
 });
 
-$('div').odd()((div) => {
+bonze('div').odd()(div => {
   p.classList.add('odd');
 });
 
-$('div').even()((div) => {
+bonze('div').even()(div => {
   div.classList.add('even');
 });
 ```
@@ -53,25 +53,25 @@ $('div').even()((div) => {
 ### Chainable
 
 ```javascript
-$('div')
+bonze('div')
   ((div, i) => {
     div.innerHTML = 'Paragraph ' + i;
   })
-  ((div) => {
+  (div => {
     div.classList.add('green');
   })
   .last()
-  ((div) => {
+  (div => {
     div.classList.add('red');
   })
 ```
 
-### Get native elements
+### Get DOM elements
 
 ```javascript
-const nativeDomElementArray = $('div')();
+const domElementArray = bonze('div')();
 
-const nativeDomFirstElement = $('div')(0);
+const domFirstElement = bonze('div')(0);
 ```
 
 ## Install
@@ -95,5 +95,5 @@ Or include it from Unpkg.com
 bonze is UMD and ES6/Webpack/Browserify friendly.
 
 ```javascript
-import $ from 'bonze';
+import bonze from 'bonze';
 ```
