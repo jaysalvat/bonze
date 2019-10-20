@@ -1,40 +1,88 @@
 # bonze
 
 [![NPM version](https://badge.fury.io/js/bonze.svg)](http://badge.fury.io/js/bonze)
-[![Bower version](https://badge.fury.io/bo/bonze.svg)](http://badge.fury.io/bo/bonze)
 
 Tiny but powerful JS selector helper
 
 ## Example
 
+### Dom ready
+
 ```javascript
-$('p')
-  ((p, i) => {
-    p.innerHTML = 'Paragraph ' + i;
+$(() => {
+  document.body.classList.add('ready');
+});
+```
+
+### Create elementss
+
+```javascript
+$('<h1>My New Title</h1>')((h1) => {
+  document.body.prepend(h1);
+});
+```
+
+### Select elementss
+
+```javascript
+$('div')((div) => {
+  div.classList.add('red');
+});
+
+$('div').first()((div) => {
+  div.classList.add('first-child');
+});
+
+$('div').last()((div) => {
+  p.classList.add('last-child');
+});
+
+$('div').nth(2)((div) => {
+  div.classList.add('second-child');
+});
+
+$('div').odd()((div) => {
+  p.classList.add('odd');
+});
+
+$('div').even()((div) => {
+  div.classList.add('even');
+});
+```
+
+### Chainable
+
+```javascript
+$('div')
+  ((div, i) => {
+    div.innerHTML = 'Paragraph ' + i;
   })
-  ((p) => {
-    p.classList.add('newclass');
-  });
+  ((div) => {
+    div.classList.add('green');
+  })
+  .last()
+  ((div) => {
+    div.classList.add('red');
+  })
+```
 
-$('<h1>My New Title</h1>')
-  ((h1) => {
-    document.body.prepend(h1);
-  });
+### Get native elements
 
+```javascript
 const nativeDomElementArray = $('div')();
+
+const nativeDomFirstElement = $('div')(0);
 ```
 
 ## Install
 
-Download latest [bonze version](http://jaysalvat.github.io/bonze/releases/latest/bonze.zip) and include it to your page.
+Download latest [bonze version](https://github.com/jaysalvat/bonze/archive/master.zip) and include it to your page.
+
+Or include it from Unpkg.com
 
 ```html
-<script src="/path/to/bonze/dist/bonze.min.js"></script>
+<script src="https://unpkg.com/bonze@latest/dist/bonze.js"></script>
 ```
-
-### Bower install
-
-    bower install --save bonze
 
 ### NPM install
 
