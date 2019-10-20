@@ -17,15 +17,22 @@
     "watch": "rollup -c --watch",
     "prebuild": "npm run clean",
     "build": "rollup -c",
+    "postbuild": "npm test",
     "version": "npm run build",
-    "publish:patch": "npm version patch -m 'Release v%s'",
-    "publish:minor": "npm version minor -m 'Release v%s'",
-    "publish:major": "npm version major -m 'Release v%s'",
+    "release:patch": "npm version patch -m 'Release v%s'",
+    "release:minor": "npm version minor -m 'Release v%s'",
+    "release:major": "npm version major -m 'Release v%s'",
+    "postrelease:patch": "npm publish",
+    "postrelease:minor": "npm publish",
+    "postrelease:major": "npm publish",
     "prepublish": "git pull origin master",
-    "postpublish:patch": "npm publish",
-    "postpublish:minor": "npm publish",
-    "postpublish:major": "npm publish",
     "postpublish": "git push origin master --tags"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint:fix && npm test",
+      "pre-push": "npm run lint:fix && npm test"
+    }
   },
   "files": [
     "dist"
@@ -43,6 +50,7 @@
     "@babel/preset-env": "^7.6.3",
     "chai": "^4.2.0",
     "eslint": "^6.5.1",
+    "husky": "^3.0.9",
     "jsdom": "^15.2.0",
     "mocha": "^6.2.2",
     "rollup": "^1.25.0",
