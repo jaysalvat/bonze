@@ -27,12 +27,6 @@
     "prepublish": "git pull origin master",
     "postpublish": "git push origin master --tags"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint:fix",
-      "pre-push": "npm run lint:fix && npm test"
-    }
-  },
   "files": [
     "dist"
   ],
