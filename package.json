@@ -6,10 +6,10 @@
   "author": "Jay Salvat",
   "license": "MIT",
   "main": "dist/bonze.js",
-  "pkg": "dist/bonze.min.js",
+  "unpkg": "dist/bonze.min.js",
   "scripts": {
-    "lint": "eslint '**/*.js'",
-    "lint:fix": "eslint '**/*.js' --fix",
+    "lint": "eslint 'src/*.js'",
+    "lint:fix": "eslint 'src/*.js' --fix",
     "test": "mocha ./test/tests.js",
     "test:watch": "mocha ./test/ --watch",
     "prewatch": "rm -rf ./dist",
@@ -25,6 +25,12 @@
     "release:minor": "npm version minor -m 'Release minor v%s' && npm publish",
     "release:major": "npm version major -m 'Release major v%s' && npm publish",
     "postpublish": "git push origin master --tags"
+  },
+  "husky": {
+      "hooks": {
+      "pre-commit": "npm run lint:fix",
+      "pre-push": "npm run lint:fix && npm test"
+      }
   },
   "files": [
     "dist"
