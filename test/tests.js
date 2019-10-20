@@ -126,6 +126,16 @@ describe('bonze tests', () => {
     });
   });
 
+  it('should change p content using the each alias', () => {
+    const ps = bonze('p').each((elmt, i) => {
+      elmt.innerHTML = 'p #' + i;
+    });
+
+    bonze(ps)((element) => {
+      expect(element.innerHTML).to.match(/p #\d/);
+    });
+  });
+
   it('should target even p', () => {
     bonze('p').even()((elmt, i) => {
       elmt.innerHTML = 'even';

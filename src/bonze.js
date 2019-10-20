@@ -53,6 +53,7 @@ export default function bonze(selector, context = null) {
   fn.last = () => bonze(elements[elements.length - 1]);
   fn.odd = () => bonze(elements.filter((elmt, i) => !(i % 2)));
   fn.even = () => bonze(elements.filter((elmt, i) => (i % 2)));
+  fn.each = fn;
 
   fn._bonze = true;
 
