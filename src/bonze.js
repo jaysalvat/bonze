@@ -1,9 +1,9 @@
 
-export default function bonze(selector, context = null) {
+export default function $(selector, context = null) {
   let elements = [];
 
   if (!selector) {
-    return bonze(elements);
+    return $(elements);
 
   } else if (selector._bonze) {
     return selector;
@@ -24,36 +24,39 @@ export default function bonze(selector, context = null) {
     elements = [].slice.call(container.childNodes);
 
   } else {
-    const contexts = context ? bonze(context)() : [ document ];
+    const contexts = context ? $(context)() : [ document ];
 
     contexts.forEach((context) => {
-      context = bonze(context)(0);
+      context = $(context)(0);
+
       const found = [].slice.call(context.querySelectorAll(selector));
+
       elements = elements.concat(found);
     });
   }
 
   elements = elements.slice();
 
-  const fn = (callback) => {
-    if (typeof callback === 'number') {
-      return elements[callback];
+  const fn = (value) => {
+    if (typeof value === 'number') {
+      return elements[value];
     }
 
-    if (typeof callback === 'function') {
-      elements.forEach((element, index) => callback.call(element, element, index, elements));
+    if (typeof value === 'function') {
+      elements.forEach((element, index) => value.call(element, element, index, elements));
       return fn;
     }
 
     return elements;
   };
 
-  fn.first = () => bonze(elements[0]);
-  fn.last = () => bonze(elements[elements.length - 1]);
-  fn.odd = () => bonze(elements.filter((elmt, i) => !(i % 2)));
-  fn.even = () => bonze(elements.filter((elmt, i) => (i % 2)));
-  fn.nth = (value) => bonze(elements[value]);
-  fn.filter = (fn) => bonze(elements.filter((elmt, i) => fn(elmt, i, elements)));
+  fn.first = () => $(elements[0]);
+  fn.last = () => $(elements[elements.length - 1]);
+  fn.odd = () => $(elements.filter((elmt, i) => !(i % 2)));
+  fn.even = () => $(elements.filter((elmt, i) => (i % 2)));
+  fn.nth = (value) => $(elements[value]);
+  fn.filter = (fn) => $(elements.filter((elmt, i) => fn(elmt, i, elements)));
+  fn.set = (fn) => $(fn(elements));
   fn.each = fn;
 
   fn._bonze = true;
