@@ -20,7 +20,7 @@ export default function $(selector, context = null) {
   } else if (selector.match(/^\s*<(\w+|!)[^>]*>/)) {
     const container = document.createElement('div');
 
-    container.innerHTML = selector;
+    container.innerHTML = selector.trim();
     elements = [].slice.call(container.childNodes);
 
   } else {
