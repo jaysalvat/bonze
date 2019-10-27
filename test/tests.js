@@ -39,10 +39,9 @@ describe('bonze tests', () => {
   beforeEach(() => {
     if (helper.isCli()) {
       const jsdom = require('jsdom');
-      const { JSDOM } = jsdom;
-      const dom = new JSDOM(html);
+      const dom = new jsdom.JSDOM(html);
       const { window } = dom;
-      const { document } = (dom).window;
+      const { document } = dom.window;
 
       global.window = window;
       global.document = document;
