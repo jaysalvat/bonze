@@ -12,16 +12,18 @@ export default function $(selector, context = null) {
     return document.addEventListener('DOMContentLoaded', selector);
 
   } else if (selector instanceof Array) {
-    elements = selector;
+    selector.forEach((item) => {
+      $(item)(($elm) => elements.push($elm));
+    });
 
   } else if (selector.nodeType) {
     elements = [ selector ];
 
   } else if (selector.match(/^\s*<(\w+|!)[^>]*>/)) {
-    const container = document.createElement('div');
+    const $container = document.createElement('div');
 
-    container.innerHTML = selector.trim();
-    elements = [].slice.call(container.childNodes);
+    $container.innerHTML = selector.trim();
+    elements = [].slice.call($container.childNodes);
 
   } else {
     const contexts = context ? $(context)() : [ document ];
