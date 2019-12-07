@@ -89,11 +89,11 @@ $('div').nth(2, div => {
 });
 
 $('div').last(div => {
-  p.classList.add('last');
+  div.classList.add('last');
 });
 
 $('div').odd(div => {
-  p.classList.add('odd');
+  div.classList.add('odd');
 });
 
 $('div').even(div => {
