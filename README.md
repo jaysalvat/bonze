@@ -2,7 +2,8 @@
 
 [![NPM version](https://badge.fury.io/js/bonze.svg)](http://badge.fury.io/js/bonze)
 
-Tiny but powerful JS DOM selector toolkit. < 1kb Gzipped.
+Tiny but powerful, chainable and extendable tool for selecting, creating and managing DOM Elements.
+Less than 1kb Gzipped.
 
 ## Concept
 
@@ -28,23 +29,19 @@ $('div, p')(el => el.style.color = 'green');
 
     npm install --save bonze
 
-Then...
-
 ```javascript
 import $ from 'bonze';
 ```
 
 ### CDN
 
-From Unpkg.com
+From [Unpkg.com](https://unpkg.com/bonze)
 
 ```html
 <script src="https://unpkg.com/bonze"></script>
 ```
 
-### Download
-
-Download latest [bonze version](https://github.com/jaysalvat/bonze/archive/master.zip).
+Or download the latest [bonze version](https://github.com/jaysalvat/bonze/archive/master.zip).
 
 ## Example
 
@@ -113,7 +110,7 @@ $('div')
   })
 ```
 
-### Plugins
+### Extendable
 
 ```javascript
 $.plugin('addClass', (el, index, elmts, name) => {
