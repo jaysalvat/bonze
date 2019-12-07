@@ -2,8 +2,8 @@
 
 [![NPM version](https://badge.fury.io/js/bonze.svg)](http://badge.fury.io/js/bonze)
 
-Tiny but powerful, chainable and extendable tool for selecting, creating and filtering DOM Elements.
-Less than 1kb Gzipped.
+Tiny chainable and extendable tool wrapping native querySelectorAll for selecting, creating and filtering DOM Elements with ease.
+**1kb Gzipped**.
 
 ## Concept
 
@@ -22,7 +22,9 @@ elements[elements.length - 1].style.color = 'red';
 ### With Bonze
 
 ```javascript
-$('div, p')(el => el.style.color = 'green').last(el => el.style.color = 'red');
+$('div, p')
+  .each(el => el.style.color = 'green')
+  .last(el => el.style.color = 'red');
 ```
 
 ## Install
@@ -62,9 +64,7 @@ $('h1, h2, h3').each(headings => {
   headings.classList.add('red');
 });
 
-// Shortcut
-
-$('h1, h2, h3')(headings => {
+$('h1, h2, h3')(headings => { // Shortcut for each
   headings.classList.add('red');
 });
 ```
@@ -124,10 +124,9 @@ $('div')
   (div => {
     div.classList.add('green');
   })
-  .last()
-  (div => {
+  .last(div => {
     div.classList.add('red');
-  })
+  });
 ```
 
 ### Extendable
