@@ -8,14 +8,12 @@ const entrypoint = './src/bonze.js';
 const date = new Date();
 
 const banner = `
-/*! -----------------------------------------------------------------------------
-* ${pkg.name} — ${pkg.description}
-* ${pkg.version} - built ${date.toISOString()}
-* Licensed under the MIT License.
-* ----------------------------------------------------------------------------
-* Copyright (C) ${date.getFullYear()} Jay Salvat
-* http://jaysalvat.com/
-* --------------------------------------------------------------------------*/`;
+/*!
+ * ${pkg.name} — ${pkg.description}
+ * @version ${pkg.version} built ${date.toISOString()}
+ * @license MIT
+ * @author Jay Salvat http://jaysalvat.com/
+ */`;
 
 const watched = process.env.ROLLUP_WATCH;
 

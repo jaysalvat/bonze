@@ -2,7 +2,7 @@
 
 [![NPM version](https://badge.fury.io/js/bonze.svg)](http://badge.fury.io/js/bonze)
 
-Tiny but powerful JS selector helper
+Tiny but powerful JS DOM selector toolkit. < 1kb Gzipped.
 
 ## Example
 
