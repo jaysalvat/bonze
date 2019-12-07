@@ -184,6 +184,14 @@ describe('bonze tests', () => {
     });
 
   });
+
+  it('should accept plugins', () => {
+    bonze.plugin('addClass', ($el, i, elmts, name) => $el.classList.add(name));
+
+    expect(bonze('p.red')().length).to.be.equal(0);
+    bonze('p').addClass('red');
+    expect(bonze('p.red')().length).to.be.equal(8);
+  });
 });
 
 after(() => {

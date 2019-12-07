@@ -1,5 +1,4 @@
-
-export default function $(selector, context = null) {
+function $(selector, context = null) {
   let elements = [];
 
   if (!selector) {
@@ -45,13 +44,14 @@ export default function $(selector, context = null) {
     }
 
     if (typeof value === 'function') {
-      elements.forEach((element, index) => value.call(element, element, index, elements));
+      elements.forEach((element, i) => value.call(element, element, i, elements));
       return fn;
     }
 
     return elements;
   };
 
+  fn._bonze = true;
   fn.first = () => $(elements[0]);
   fn.last = () => $(elements[elements.length - 1]);
   fn.odd = () => $(elements.filter((elmt, i) => !(i % 2)));
@@ -61,7 +61,20 @@ export default function $(selector, context = null) {
   fn.set = (fn) => $(fn(elements));
   fn.each = fn;
 
-  fn._bonze = true;
+  Object.entries($.plugins).forEach(([ name, plugin ]) => {
+    fn[name] = (...args1) => {
+      $(elements)((...args2) => {
+        plugin.apply(args2[0], [ ...args2, ...args1 ]);
+      });
+    };
+  });
 
   return fn;
 }
+
+$.plugins = {};
+$.plugin = function(name, fn) {
+  $.plugins[name] = fn;
+};
+
+export default $;

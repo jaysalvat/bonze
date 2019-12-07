@@ -48,6 +48,11 @@ bonze('div').odd()(div => {
 bonze('div').even()(div => {
   div.classList.add('even');
 });
+
+bonze("div").filter(div => el.textContent.includes('error'))(el => {
+  el.classList.add('red');
+});
+
 ```
 
 ### Chainable
@@ -66,12 +71,25 @@ bonze('div')
   })
 ```
 
+### Plugins
+
+```javascript
+bonze.plugin('addClass', (el, index, elmts, name) => {
+  el.classList.add(name);
+});
+
+bonze('div').odd().addClass('black');
+bonze('div').even().addClass('white');
+```
+
 ### Get DOM elements
 
 ```javascript
 const domElementArray = bonze('div')();
 
 const domFirstElement = bonze('div')(0);
+
+const domSecondElement = bonze('div')(1);
 ```
 
 ## Install
