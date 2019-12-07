@@ -1,3 +1,5 @@
+![Bonze](https://jaysalvat.github.io/bonze/bonze.svg)
+
 # Bonze
 
 [![NPM version](https://badge.fury.io/js/bonze.svg)](http://badge.fury.io/js/bonze)
