@@ -2,7 +2,7 @@
 
 [![NPM version](https://badge.fury.io/js/bonze.svg)](http://badge.fury.io/js/bonze)
 
-Tiny but powerful, chainable and extendable tool for selecting, creating and managing DOM Elements.
+Tiny but powerful, chainable and extendable tool for selecting, creating and filtering DOM Elements.
 Less than 1kb Gzipped.
 
 ## Concept
@@ -68,6 +68,14 @@ $('div')(div => {
   div.classList.add('red');
 });
 
+$('h1, h2, h3')(headings => {
+  headings.classList.add('red');
+});
+```
+
+### Filter elements
+
+```javascript
 $('div').first()(div => {
   div.classList.add('first-child');
 });
