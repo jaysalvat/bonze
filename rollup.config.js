@@ -12,7 +12,7 @@ const banner = `
  * ${pkg.name} — ${pkg.description}
  * @version ${pkg.version} built ${date.toISOString()}
  * @license MIT
- * @author Jay Salvat http://jaysalvat.com/
+ * @author Jay Salvat http://jaysalvat.com
  */`;
 
 const watched = process.env.ROLLUP_WATCH;
