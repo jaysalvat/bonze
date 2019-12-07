@@ -4,12 +4,54 @@
 
 Tiny but powerful JS DOM selector toolkit. < 1kb Gzipped.
 
+## Concept
+
+### Without Bonze
+
+```javascript
+const elements = document.querySelectorAll('div, p');
+
+for (let i = 0; i < elements.length; ++i) {
+  elements[i].style.color = 'green';
+}
+```
+
+### With Bonze
+
+```javascript
+$('div, p')(el => el.style.color = 'green');
+```
+
+## Install
+
+### NPM
+
+    npm install --save bonze
+
+Then...
+
+```javascript
+import $ from 'bonze';
+```
+
+### CDN
+
+From Unpkg.com
+
+```html
+<script src="https://unpkg.com/bonze"></script>
+```
+
+### Download
+
+Download latest [bonze version](https://github.com/jaysalvat/bonze/archive/master.zip).
+
 ## Example
 
 ### Dom ready
 
 ```javascript
-bonze(() => {
+$(() => {
   document.body.classList.add('ready');
 });
 ```
@@ -17,7 +59,7 @@ bonze(() => {
 ### Create element
 
 ```javascript
-bonze('<h1>My New Title</h1>')((h1) => {
+$('<h1>My New Title</h1>')((h1) => {
   document.body.prepend(h1);
 });
 ```
@@ -25,31 +67,31 @@ bonze('<h1>My New Title</h1>')((h1) => {
 ### Select elements
 
 ```javascript
-bonze('div')(div => {
+$('div')(div => {
   div.classList.add('red');
 });
 
-bonze('div').first()(div => {
+$('div').first()(div => {
   div.classList.add('first-child');
 });
 
-bonze('div').last()(div => {
+$('div').last()(div => {
   p.classList.add('last-child');
 });
 
-bonze('div').nth(2)(div => {
+$('div').nth(2)(div => {
   div.classList.add('second-child');
 });
 
-bonze('div').odd()(div => {
+$('div').odd()(div => {
   p.classList.add('odd');
 });
 
-bonze('div').even()(div => {
+$('div').even()(div => {
   div.classList.add('even');
 });
 
-bonze("div").filter(div => el.textContent.includes('error'))(el => {
+$("div").filter(div => el.textContent.includes('error'))(el => {
   el.classList.add('red');
 });
 
@@ -58,7 +100,7 @@ bonze("div").filter(div => el.textContent.includes('error'))(el => {
 ### Chainable
 
 ```javascript
-bonze('div')
+$('div')
   ((div, i) => {
     div.innerHTML = 'Paragraph ' + i;
   })
@@ -74,44 +116,20 @@ bonze('div')
 ### Plugins
 
 ```javascript
-bonze.plugin('addClass', (el, index, elmts, name) => {
+$.plugin('addClass', (el, index, elmts, name) => {
   el.classList.add(name);
 });
 
-bonze('div').odd().addClass('black');
-bonze('div').even().addClass('white');
+$('div').odd().addClass('black');
+$('div').even().addClass('white');
 ```
 
 ### Get DOM elements
 
 ```javascript
-const domElementArray = bonze('div')();
+const domElementArray = $('div')();
 
-const domFirstElement = bonze('div')(0);
+const domFirstElement = $('div')(0);
 
-const domSecondElement = bonze('div')(1);
-```
-
-## Install
-
-Download latest [bonze version](https://github.com/jaysalvat/bonze/archive/master.zip) and include it to your page.
-
-Or include it from Unpkg.com
-
-```html
-<script src="https://unpkg.com/bonze"></script>
-```
-
-### NPM install
-
-    npm install --save bonze
-
-### Yarn install
-
-    yarn add bonze
-
-bonze is UMD and ES6/Webpack/Browserify friendly.
-
-```javascript
-import bonze from 'bonze';
+const domSecondElement = $('div')(1);
 ```
