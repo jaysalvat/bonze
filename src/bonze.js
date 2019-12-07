@@ -62,9 +62,9 @@ function $(selector, context = null) {
   fn.each = fn;
 
   Object.entries($.plugins).forEach(([ name, plugin ]) => {
-    fn[name] = (...args1) => {
-      $(elements)((...args2) => {
-        plugin.apply(args2[0], [ ...args2, ...args1 ]);
+    fn[name] = (...argsFn) => {
+      $(elements)((...args) => {
+        plugin.apply(args[0], [ ...args, ...argsFn ]);
       });
     };
   });
