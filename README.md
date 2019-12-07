@@ -15,12 +15,14 @@ const elements = document.querySelectorAll('div, p');
 for (let i = 0; i < elements.length; ++i) {
   elements[i].style.color = 'green';
 }
+
+elements[elements.length - 1].style.color = 'red';
 ```
 
 ### With Bonze
 
 ```javascript
-$('div, p')(el => el.style.color = 'green');
+$('div, p')(el => el.style.color = 'green').last(el => el.style.color = 'red');
 ```
 
 ## Install
@@ -43,7 +45,7 @@ From [Unpkg.com](https://unpkg.com/bonze)
 
 Or download the latest [bonze version](https://github.com/jaysalvat/bonze/archive/master.zip).
 
-## Example
+## Examples
 
 ### Dom ready
 
@@ -53,22 +55,24 @@ $(() => {
 });
 ```
 
-### Create element
-
-```javascript
-$('<h1>My New Title</h1>')((h1) => {
-  document.body.prepend(h1);
-});
-```
-
 ### Select elements
 
 ```javascript
-$('div')(div => {
-  div.classList.add('red');
+$('h1, h2, h3').each(headings => {
+  headings.classList.add('red');
 });
 
+// Shortcut
+
 $('h1, h2, h3')(headings => {
+  headings.classList.add('red');
+});
+```
+
+### Select elements in context
+
+```javascript
+$('h1, h2, h3', '#article')(headings => {
   headings.classList.add('red');
 });
 ```
@@ -76,30 +80,38 @@ $('h1, h2, h3')(headings => {
 ### Filter elements
 
 ```javascript
-$('div').first()(div => {
-  div.classList.add('first-child');
+$('div').first(div => {
+  div.classList.add('first');
 });
 
-$('div').last()(div => {
-  p.classList.add('last-child');
+$('div').nth(2, div => {
+  div.classList.add('third');
 });
 
-$('div').nth(2)(div => {
-  div.classList.add('second-child');
+$('div').last(div => {
+  p.classList.add('last');
 });
 
-$('div').odd()(div => {
+$('div').odd(div => {
   p.classList.add('odd');
 });
 
-$('div').even()(div => {
+$('div').even(div => {
   div.classList.add('even');
 });
 
-$("div").filter(div => el.textContent.includes('error'))(el => {
-  el.classList.add('red');
+$('div').filter(div => div.textContent.includes('error'), div => {
+  div.classList.add('red');
 });
 
+```
+
+### Create element
+
+```javascript
+$('<h1>My New Title</h1>')((h1) => {
+  document.body.prepend(h1);
+});
 ```
 
 ### Chainable

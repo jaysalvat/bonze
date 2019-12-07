@@ -51,14 +51,16 @@ function $(selector, context = null) {
     return elements;
   };
 
+  const proxy = (func, element) => $($(element)(func));
+
   fn._bonze = true;
-  fn.first = () => $(elements[0]);
-  fn.last = () => $(elements[elements.length - 1]);
-  fn.odd = () => $(elements.filter((elmt, i) => !(i % 2)));
-  fn.even = () => $(elements.filter((elmt, i) => (i % 2)));
-  fn.nth = (value) => $(elements[value]);
-  fn.filter = (fn) => $(elements.filter((elmt, i) => fn(elmt, i, elements)));
-  fn.set = (fn) => $(fn(elements));
+  fn.first = (f) => proxy(f, elements[0]);
+  fn.last = (f) => proxy(f, elements[elements.length - 1]);
+  fn.odd = (f) => proxy(f, elements.filter((elmt, i) => !(i % 2)));
+  fn.even = (f) => proxy(f, elements.filter((elmt, i) => (i % 2)));
+  fn.nth = (value, f) => proxy(f, elements[value]);
+  fn.filter = (filter, f) => proxy(f, elements.filter((elmt, i) => filter(elmt, i, elements)));
+  fn.set = (f) => $(f(elements));
   fn.each = fn;
 
   Object.entries($.plugins).forEach(([ name, plugin ]) => {

@@ -84,17 +84,27 @@ describe('bonze tests', () => {
   });
 
   it('should target first p', () => {
-    const first = bonze('p').first()(($elmt) => {
+    const first1 = bonze('p').first()(($elmt) => {
       $elmt.innerHTML = 'is first p';
     });
-    expect(first(0).innerHTML).to.equal('is first p');
+    expect(first1(0).innerHTML).to.equal('is first p');
+
+    const first2 = bonze('p').first(($elmt) => {
+      $elmt.innerHTML = 'is first p with callback';
+    });
+    expect(first2(0).innerHTML).to.equal('is first p with callback');
   });
 
   it('should target last p', () => {
-    const last = bonze('p').last()(($elmt) => {
+    const last1 = bonze('p').last()(($elmt) => {
       $elmt.innerHTML = 'is last p';
     });
-    expect(last(0).innerHTML).to.equal('is last p');
+    expect(last1(0).innerHTML).to.equal('is last p');
+
+    const last2 = bonze('p').last(($elmt) => {
+      $elmt.innerHTML = 'is last p with callback';
+    });
+    expect(last2(0).innerHTML).to.equal('is last p with callback');
   });
 
   it('should target specific p', () => {
@@ -107,6 +117,18 @@ describe('bonze tests', () => {
         expect($elmt.innerHTML).to.equal('p #2');
       } else {
         expect($elmt.innerHTML).to.not.be.equal('p #2');
+      }
+    });
+
+    bonze('p').nth(3, ($elmt) => {
+      $elmt.innerHTML = 'p #3 with callback';
+    });
+
+    bonze('p')(($elmt, i) => {
+      if (i === 3) {
+        expect($elmt.innerHTML).to.equal('p #3 with callback');
+      } else {
+        expect($elmt.innerHTML).to.not.be.equal('p #3 with callback');
       }
     });
   });
@@ -144,8 +166,8 @@ describe('bonze tests', () => {
       $elmt.innerHTML = 'p #' + i;
     });
 
-    bonze(ps)((element) => {
-      expect(element.innerHTML).to.match(/p #\d/);
+    bonze(ps)(($elmt) => {
+      expect($elmt.innerHTML).to.match(/p #\d/);
     });
   });
 
@@ -160,6 +182,54 @@ describe('bonze tests', () => {
       } else {
         expect($elmt.innerHTML).to.not.be.equal('even');
       }
+    });
+
+    bonze('p').even()(($elmt, i) => {
+      $elmt.innerHTML = 'even';
+    });
+
+    bonze('p')(($elmt, i) => {
+      if (helper.isEven(i + 1)) {
+        expect($elmt.innerHTML).to.be.equal('even');
+      } else {
+        expect($elmt.innerHTML).to.not.be.equal('even');
+      }
+    });
+  });
+
+  it('should target odd p', () => {
+    bonze('p').odd()(($elmt, i) => {
+      $elmt.innerHTML = 'odd';
+    });
+
+    bonze('p')(($elmt, i) => {
+      if (helper.isOdd(i + 1)) {
+        expect($elmt.innerHTML).to.be.equal('odd');
+      } else {
+        expect($elmt.innerHTML).to.not.be.equal('odd');
+      }
+    });
+
+    bonze('p').odd()(($elmt, i) => {
+      $elmt.innerHTML = 'odd';
+    });
+
+    bonze('p')(($elmt, i) => {
+      if (helper.isOdd(i + 1)) {
+        expect($elmt.innerHTML).to.be.equal('odd');
+      } else {
+        expect($elmt.innerHTML).to.not.be.equal('odd');
+      }
+    });
+  });
+
+  it('should morph results', () => {
+    const elmts = bonze('p').set(() => bonze('div'));
+
+    expect(elmts().length).to.be.equal(2);
+
+    elmts().forEach(($elmt) => {
+      expect($elmt.tagName).to.be.equal('DIV');
     });
   });
 
@@ -182,7 +252,6 @@ describe('bonze tests', () => {
     bonze('body, #one, #two, #one p:nth-child(1), #one p:nth-child(2), #two p:nth-child(1), #two p:nth-child(2), #one p:last-child')(($elmt) => {
       expect($elmt.classList.contains('target')).to.equal(true);
     });
-
   });
 
   it('should accept plugins', () => {
