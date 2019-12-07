@@ -99,7 +99,7 @@ Download latest [bonze version](https://github.com/jaysalvat/bonze/archive/maste
 Or include it from Unpkg.com
 
 ```html
-<script src="https://unpkg.com/bonze@latest/dist/bonze.js"></script>
+<script src="https://unpkg.com/bonze"></script>
 ```
 
 ### NPM install
