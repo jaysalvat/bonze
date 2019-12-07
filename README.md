@@ -149,3 +149,7 @@ const domFirstElement = $('div')(0);
 
 const domSecondElement = $('div')(1);
 ```
+
+# Credits
+
+Icon made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](www.flaticon.com).
