@@ -26,7 +26,7 @@ const helper = {
 let bonze, chai;
 
 if (helper.isCli()) {
-  bonze = require('../dist/bonze.js');
+  bonze = require('../dist/bonze.min.js');
   chai = require('chai');
 } else {
   bonze = window.bonze;
