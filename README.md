@@ -72,7 +72,7 @@ From [Unpkg.com](https://unpkg.com/bonze)
 Or download the latest [bonze version](https://github.com/jaysalvat/bonze/archive/master.zip).
 If you include bonze this way use `bonze` instead of `$` in the examples below.
 
-## Examples
+## Usage
 
 ### Dom ready
 

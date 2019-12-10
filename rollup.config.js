@@ -8,12 +8,20 @@ const dist = './dist';
 const entrypoint = './src/bonze.js';
 const date = new Date();
 
-const banner = `
-/*!
- * ${pkg.name} — ${pkg.description}
- * @version ${pkg.version} built ${date.toISOString()}
+const bannerFull = `
+/**!
+ * ${pkg.name}
+ * ${pkg.description}
+ * https://github.com/jaysalvat/bonze
+ * @version ${pkg.version} built ${date.toISOString().replace(/[TZ]/g, ' ')}
  * @license MIT
  * @author Jay Salvat http://jaysalvat.com
+ */`;
+
+const bannerLight = `
+/*!
+ * ${pkg.name} v${pkg.version}
+ * https://github.com/jaysalvat/bonze
  */`;
 
 const watched = process.env.ROLLUP_WATCH;
@@ -26,12 +34,21 @@ const standard = {
       file: `${dist}/${pkg.name}.js`,
       format: 'umd',
       sourcemap: watched,
-      banner: !watched && banner
+      banner: !watched && bannerFull
     }
   ],
   plugins: [
     babel({
       exclude: 'node_modules/**'
+    }),
+    terser({
+      mangle: false,
+      compress: false,
+      output: {
+        beautify: true,
+        indent_level: 2,
+        braces: true
+      }
     }),
     size()
   ]
@@ -45,7 +62,7 @@ const minified = {
       file: `${dist}/${pkg.name}.min.js`,
       format: 'umd',
       sourcemap: watched,
-      banner: !watched && banner
+      banner: !watched && bannerLight
     }
   ],
   plugins: [

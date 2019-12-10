@@ -1,7 +1,7 @@
 {
   "name": "bonze",
   "version": "1.5.2",
-  "description": "Tiny chainable and extendable tool wrapping native querySelectorAll for selecting, creating and filtering DOM Elements with ease.",
+  "description": "Super tiny chainable and extendable tool wrapping native `querySelectorAll` for selecting, creating and filtering DOM Elements with ease.",
   "homepage": "http://jaysalvat.com",
   "author": "Jay Salvat",
   "license": "MIT",
