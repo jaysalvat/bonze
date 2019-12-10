@@ -133,20 +133,6 @@ describe('bonze tests', () => {
     });
   });
 
-  it('should target odd p', () => {
-    bonze('p').odd()(($elmt, i) => {
-      $elmt.innerHTML = 'odd';
-    });
-
-    bonze('p')(($elmt, i) => {
-      if (helper.isOdd(i + 1)) {
-        expect($elmt.innerHTML).to.equal('odd');
-      } else {
-        expect($elmt.innerHTML).to.not.be.equal('odd');
-      }
-    });
-  });
-
   it('should filter p', () => {
     const ps1 = bonze('p').filter(($elmt) => {
       return $elmt.innerHTML.indexOf('one') > -1;
