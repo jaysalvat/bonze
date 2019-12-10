@@ -4,10 +4,26 @@
 
 [![NPM version](https://badge.fury.io/js/bonze.svg)](http://badge.fury.io/js/bonze)
 
-Tiny chainable and extendable tool wrapping native querySelectorAll for selecting, creating and filtering DOM Elements with ease.
+Super tiny chainable and extendable tool wrapping native querySelectorAll for selecting, creating and filtering DOM Elements with ease.
 **~750b Gzipped**.
 
 ## Concept
+
+### Without Bonze
+
+```javascript
+const el = document.querySelector('#section');
+
+if (el) {
+  el.style.color = 'green';
+}
+```
+
+### With Bonze
+
+```javascript
+$('#section')(el => el.style.color = 'green');
+```
 
 ### Without Bonze
 
@@ -18,7 +34,9 @@ for (let i = 0; i < elements.length; ++i) {
   elements[i].style.color = 'green';
 }
 
-elements[elements.length - 1].style.color = 'red';
+if (elements.length) {
+  elements[elements.length - 1].style.color = 'red';
+}
 ```
 
 ### With Bonze
