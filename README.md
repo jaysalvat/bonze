@@ -5,7 +5,7 @@
 [![NPM version](https://badge.fury.io/js/bonze.svg)](http://badge.fury.io/js/bonze)
 
 Tiny chainable and extendable tool wrapping native querySelectorAll for selecting, creating and filtering DOM Elements with ease.
-**1kb Gzipped**.
+**~750b Gzipped**.
 
 ## Concept
 

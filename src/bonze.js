@@ -39,19 +39,22 @@ function $(selector, context = null) {
   elements = elements.slice();
 
   const fn = (value) => {
+    if (typeof value === 'undefined') {
+      return elements;
+    }
+
     if (typeof value === 'number') {
       return elements[value];
     }
 
     if (typeof value === 'function') {
       elements.forEach((element, i) => value.call(element, element, i, elements));
-      return fn;
     }
 
-    return elements;
+    return fn;
   };
 
-  const proxy = (func, element) => $($(element)(func));
+  const proxy = (func, element) => func ? $(element)(func) : $(element);
 
   fn._bonze = true;
   fn.first = (f) => proxy(f, elements[0]);

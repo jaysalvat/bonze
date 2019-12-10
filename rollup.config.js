@@ -1,4 +1,5 @@
 import babel from 'rollup-plugin-babel';
+import size from 'rollup-plugin-size';
 import { terser } from 'rollup-plugin-terser';
 
 import pkg from './package.json';
@@ -31,7 +32,8 @@ const standard = {
   plugins: [
     babel({
       exclude: 'node_modules/**'
-    })
+    }),
+    size()
   ]
 };
 
@@ -50,14 +52,23 @@ const minified = {
     babel({
       exclude: 'node_modules/**'
     }),
-    terser()
+    terser({
+      mangle: {
+        eval: true,
+        toplevel: true
+      },
+      compress: {
+        toplevel: true,
+        reduce_funcs: true,
+        keep_infinity: true,
+        pure_getters: true,
+        passes: 10
+      }
+    }),
+    size()
   ]
 };
 
-const configs = [ standard ];
-
-if (!watched) {
-  configs.push(minified);
-}
+const configs = [ standard, minified ];
 
 module.exports = configs;
