@@ -7,6 +7,8 @@
 Super tiny chainable and extendable tool wrapping native `querySelectorAll` for selecting, creating and filtering DOM Elements with ease.
 **~750b Gzipped**.
 
+![Bonze](https://jaysalvat.github.io/bonze/screen.png)
+
 ## Concept
 
 ### Example 1
