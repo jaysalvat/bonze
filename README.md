@@ -71,7 +71,6 @@ From [Unpkg.com](https://unpkg.com/bonze)
 <script src="https://unpkg.com/bonze"></script>
 ```
 
-Or download the latest [bonze version](https://github.com/jaysalvat/bonze/archive/master.zip).
 If you include bonze this way use `bonze` instead of `$` in the examples below.
 
 ## Usage
