@@ -19,10 +19,7 @@ const bannerFull = `
  */`;
 
 const bannerLight = `
-/*!
- * ${pkg.name} v${pkg.version}
- * github.com/jaysalvat/bonze
- */`;
+/*! ${pkg.name} v${pkg.version} - github.com/jaysalvat/bonze */`;
 
 const watched = process.env.ROLLUP_WATCH;
 
@@ -33,6 +30,13 @@ const standard = {
       name: pkg.name,
       file: `${dist}/${pkg.name}.js`,
       format: 'umd',
+      sourcemap: watched,
+      banner: !watched && bannerFull
+    },
+    {
+      name: pkg.name,
+      file: `${dist}/${pkg.name}.esm.js`,
+      format: 'esm',
       sourcemap: watched,
       banner: !watched && bannerFull
     }
@@ -60,6 +64,13 @@ const minified = {
     {
       name: pkg.name,
       file: `${dist}/${pkg.name}.min.js`,
+      format: 'umd',
+      sourcemap: watched,
+      banner: !watched && bannerLight
+    },
+    {
+      name: pkg.name,
+      file: `${dist}/${pkg.name}.esm.min.js`,
       format: 'umd',
       sourcemap: watched,
       banner: !watched && bannerLight
