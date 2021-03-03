@@ -67,9 +67,18 @@ import $ from 'bonze';
 
 From [Unpkg.com](https://unpkg.com/bonze)
 
+UMD
+
 ```html
-<script src="https://unpkg.com/bonze"></script>
+<script src="https://unpkg.com/bonze@latest"></script>
 ```
+
+ESM module
+
+```html
+<script src="https://unpkg.com/bonze@latest/dist/bonze.esm.min.js"></script>
+```
+
 
 If you include bonze this way use `bonze` instead of `$` in the examples below.
 
