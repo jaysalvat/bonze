@@ -21,7 +21,7 @@ const bannerFull = `
 const bannerLight = `
 /*!
  * ${pkg.name} v${pkg.version}
- * https://github.com/jaysalvat/bonze
+ * github.com/jaysalvat/bonze
  */`;
 
 const watched = process.env.ROLLUP_WATCH;
