@@ -71,7 +71,7 @@ const minified = {
     {
       name: pkg.name,
       file: `${dist}/${pkg.name}.esm.min.js`,
-      format: 'umd',
+      format: 'esm',
       sourcemap: watched,
       banner: !watched && bannerLight
     }
