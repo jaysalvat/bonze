@@ -36,7 +36,7 @@ if (helper.isCli()) {
 const expect = chai.expect;
 
 describe('bonze tests', () => {
-  beforeEach(() => {
+  beforeEach((done) => {
     if (helper.isCli()) {
       const jsdom = require('jsdom');
       const dom = new jsdom.JSDOM(html);
@@ -48,6 +48,7 @@ describe('bonze tests', () => {
     } else {
       document.querySelector('#test').innerHTML = html;
     }
+    done();
   });
 
   it('should work', () => {
