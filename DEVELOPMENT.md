@@ -25,6 +25,11 @@
 
 # Bump version and Release (github and NPM)
 
-    npm run release:patch
-    npm run release:minor
-    npm run release:major
+On `master` branch only!
+Bump version and push to Github.
+Github Actions builds, runs tests and publishes on NPM.
+
+  npm run release
+  npm run release:patch
+  npm run release:minor
+  npm run release:major

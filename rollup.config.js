@@ -1,5 +1,5 @@
-import babel from 'rollup-plugin-babel';
-import size from 'rollup-plugin-size';
+import bundleSize from 'rollup-plugin-bundle-size';
+import { babel } from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 
 import pkg from './package.json';
@@ -54,7 +54,7 @@ const standard = {
         braces: true
       }
     }),
-    size()
+    bundleSize()
   ]
 };
 
@@ -78,7 +78,7 @@ const minified = {
   ],
   plugins: [
     babel({
-      exclude: 'node_modules/**'
+      babelHelpers: 'bundled'
     }),
     terser({
       mangle: {
@@ -93,7 +93,7 @@ const minified = {
         passes: 10
       }
     }),
-    size()
+    bundleSize()
   ]
 };
 
