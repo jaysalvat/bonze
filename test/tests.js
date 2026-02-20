@@ -250,6 +250,35 @@ describe('bonze tests', () => {
     expect(bonze('#one p:first-child')(0).innerHTML).to.not.equal('sibling')
   })
 
+  it('should navigate back to previous state', () => {
+    const all = bonze('p')
+
+    expect(all.back()).to.equal(all)
+
+    const even = all.even()
+
+    expect(even().length).to.be.equal(4)
+    expect(even.back()).to.equal(all)
+
+    const first = even.first()
+
+    expect(first.back()).to.equal(even)
+    expect(first.back().back()).to.equal(all)
+
+    bonze('p')
+      .even(($elmt) => { $elmt.innerHTML = 'even' })
+      .back()
+      .odd(($elmt) => { $elmt.innerHTML = 'odd' })
+
+    bonze('p')(($elmt, i) => {
+      if (i % 2) {
+        expect($elmt.innerHTML).to.equal('even')
+      } else {
+        expect($elmt.innerHTML).to.equal('odd')
+      }
+    })
+  })
+
   it('should accept plugins', () => {
     bonze.plugin('addClass', ($el, i, elmts, name) => $el.classList.add(name))
 

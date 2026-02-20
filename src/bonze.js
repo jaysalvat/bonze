@@ -54,7 +54,12 @@ function $(selector, context = null) {
     return fn
   }
 
-  const proxy = (func, element) => func ? $(element)(func) : $(element)
+  const proxy = (func, element) => {
+    const next = $(element)
+
+    next._prev = fn
+    return func ? next(func) : next
+  }
 
   fn._bonze = true
   fn.first = (f) => proxy(f, elements[0])
@@ -64,7 +69,8 @@ function $(selector, context = null) {
   fn.nth = (value, f) => proxy(f, elements[value])
   fn.filter = (filter, f) => proxy(f, elements.filter((elmt, i) => filter(elmt, i, elements)))
   fn.siblings = (f) => proxy(f, [ ...new Set(elements.flatMap((elmt) => elmt.parentNode ? [].slice.call(elmt.parentNode.children).filter((child) => child !== elmt) : [])) ])
-  fn.set = (f) => $(f(elements))
+  fn.set = (f) => { const next = $(f(elements)); next._prev = fn; return next }
+  fn.back = () => fn._prev || fn
   fn.each = fn
 
   Object.entries($.plugins).forEach(([ name, plugin ]) => {

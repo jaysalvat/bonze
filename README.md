@@ -152,6 +152,17 @@ $('<h1>My New Title</h1>')((h1) => {
 });
 ```
 
+### Navigate back
+
+`.back()` returns the previous selection in the chain, allowing you to branch from the same root.
+
+```javascript
+$('div')
+  .even(div => div.classList.add('even'))
+  .back()
+  .odd(div => div.classList.add('odd'));
+```
+
 ### Chainable
 
 ```javascript
