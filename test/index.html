@@ -15,6 +15,14 @@
 
         <div id="test"></div>
 
+        <script type="importmap">
+        {
+            "imports": {
+                "chai": "../node_modules/chai/index.js"
+            }
+        }
+        </script>
+
         <script src="../node_modules/mocha/mocha.js"></script>
 
         <script>
@@ -22,7 +30,7 @@
             mocha.setup('bdd');
         </script>
         <script type="module">
-            import './tests.browser.js';
+            import './tests.js';
 
             mocha.checkLeaks();
             mocha.run().globals('devToolsOptions');

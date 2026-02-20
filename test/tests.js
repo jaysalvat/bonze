@@ -1,25 +1,23 @@
-/* global describe, it, beforeEach, after; */
-/* jshint expr: true */
+/* global describe, it, beforeEach, after */
 
 import { expect } from 'chai'
-import { JSDOM } from 'jsdom'
 import bonze from '../dist/bonze.esm.min.js'
 
+const isBrowser = typeof window !== 'undefined'
+
 const html = `
-    <body>
-      <div id="one">
-          <p>one-1</p>
-          <p>one-2</p>
-          <p>one-3</p>
-          <p>one-4</p>
-      </div>
-      <div id="two">
-          <p>two-1</p>
-          <p>two-2</p>
-          <p>two-3</p>
-          <p>two-4</p>
-      </div>
-    </body>`
+    <div id="one">
+        <p>one-1</p>
+        <p>one-2</p>
+        <p>one-3</p>
+        <p>one-4</p>
+    </div>
+    <div id="two">
+        <p>two-1</p>
+        <p>two-2</p>
+        <p>two-3</p>
+        <p>two-4</p>
+    </div>`
 
 const helper = {
   isOdd: (n) => (n % 2),
@@ -28,13 +26,18 @@ const helper = {
 
 describe('bonze tests', () => {
   beforeEach((done) => {
-    const dom = new JSDOM(html)
-    const { window } = dom
-    const { document } = dom.window
+    if (isBrowser) {
+      document.querySelector('#test').innerHTML = html
+      done()
+    } else {
+      import('jsdom').then(({ JSDOM }) => {
+        const dom = new JSDOM(`<!DOCTYPE html><html><body><div id="test">${html}</div></body></html>`)
 
-    globalThis.window = window
-    globalThis.document = document
-    done()
+        globalThis.window = dom.window
+        globalThis.document = dom.window.document
+        done()
+      })
+    }
   })
 
   it('should work', () => {
@@ -197,7 +200,7 @@ describe('bonze tests', () => {
   })
 
   it('should morph results', () => {
-    const elmts = bonze('p').set(() => bonze('div'))
+    const elmts = bonze('p', '#test').set(() => bonze('div', '#test'))
 
     expect(elmts().length).to.be.equal(2)
 
@@ -225,6 +228,26 @@ describe('bonze tests', () => {
     bonze('body, #one, #two, #one p:nth-child(1), #one p:nth-child(2), #two p:nth-child(1), #two p:nth-child(2), #one p:last-child')(($elmt) => {
       expect($elmt.classList.contains('target')).to.equal(true)
     })
+  })
+
+  it('should get siblings', () => {
+    const sibs1 = bonze('#one p:first-child').siblings()
+
+    expect(sibs1().length).to.be.equal(3)
+
+    const sibs2 = bonze('#one p').siblings()
+
+    expect(sibs2().length).to.be.equal(4)
+
+    const sibs3 = bonze('#one p:first-child').siblings(($elmt) => {
+      $elmt.innerHTML = 'sibling'
+    })
+
+    expect(sibs3().length).to.be.equal(3)
+    sibs3(($elmt) => {
+      expect($elmt.innerHTML).to.equal('sibling')
+    })
+    expect(bonze('#one p:first-child')(0).innerHTML).to.not.equal('sibling')
   })
 
   it('should accept plugins', () => {

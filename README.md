@@ -138,6 +138,10 @@ $('div').filter(div => div.textContent.includes('error'), div => {
   div.classList.add('red');
 });
 
+$('div.focus').siblings(div => {
+  div.classList.add('warning');
+});
+
 ```
 
 ### Create element

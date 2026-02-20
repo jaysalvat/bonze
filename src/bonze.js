@@ -63,6 +63,7 @@ function $(selector, context = null) {
   fn.even = (f) => proxy(f, elements.filter((elmt, i) => (i % 2)))
   fn.nth = (value, f) => proxy(f, elements[value])
   fn.filter = (filter, f) => proxy(f, elements.filter((elmt, i) => filter(elmt, i, elements)))
+  fn.siblings = (f) => proxy(f, [ ...new Set(elements.flatMap((elmt) => elmt.parentNode ? [].slice.call(elmt.parentNode.children).filter((child) => child !== elmt) : [])) ])
   fn.set = (f) => $(f(elements))
   fn.each = fn
 
