@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bonze — selector demo</title>
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="brand"><img src="../bonze.svg" alt="bonze"></a>
+  </nav>
+  <script>document.querySelector(`[data-page="${location.pathname.split('/').pop().replace('.html','')}"]`)?.classList.add('active')</script>
+
+  <main>
+    <h1>bonze — <code>$(selector)</code></h1>
+    <p class="subtitle">Multiple input types: CSS string, context, array of selectors, HTML creation.</p>
+
+    <!-- Scene 1: CSS selector -->
+    <div class="scene">
+      <h2>CSS selector</h2>
+      <p class="desc">Pass any valid CSS selector string to find matching elements.</p>
+
+      <div class="grid" id="s1-items">
+        <div class="item a">alpha</div>
+        <div class="item b">beta</div>
+        <div class="item a">alpha</div>
+        <div class="item b">beta</div>
+        <div class="item a">alpha</div>
+        <div class="item b">beta</div>
+      </div>
+
+      <div class="controls">
+        <button id="s1-all">$('.item')</button>
+        <button id="s1-a">$('.item.a')</button>
+        <button id="s1-b">$('.item.b')</button>
+        <button class="ghost" id="s1-reset">reset</button>
+      </div>
+
+      <pre id="s1-code"><span class="cm">// click a button</span></pre>
+    </div>
+
+    <!-- Scene 2: Context -->
+    <div class="scene">
+      <h2>Context</h2>
+      <p class="desc">Pass a second argument to restrict the search to a container element.</p>
+
+      <div class="groups">
+        <div class="group-wrap">
+          <div class="group-label">#ctx-one</div>
+          <div class="group" id="ctx-one">
+            <div class="item">one-1</div>
+            <div class="item">one-2</div>
+            <div class="item">one-3</div>
+          </div>
+        </div>
+        <div class="group-wrap">
+          <div class="group-label">#ctx-two</div>
+          <div class="group" id="ctx-two">
+            <div class="item">two-1</div>
+            <div class="item">two-2</div>
+            <div class="item">two-3</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="s2-one">$('.item', '#ctx-one')</button>
+        <button id="s2-two">$('.item', '#ctx-two')</button>
+        <button class="ghost" id="s2-reset">reset</button>
+      </div>
+
+      <pre id="s2-code"><span class="cm">// click a button</span></pre>
+    </div>
+
+    <!-- Scene 3: Array of selectors -->
+    <div class="scene">
+      <h2>Array of selectors</h2>
+      <p class="desc">Pass an array to combine and deduplicate multiple selectors or elements.</p>
+
+      <div class="grid" id="s3-items">
+        <div class="item" data-t="x">x-1</div>
+        <div class="item" data-t="y">y-1</div>
+        <div class="item" data-t="z">z-1</div>
+        <div class="item" data-t="x">x-2</div>
+        <div class="item" data-t="y">y-2</div>
+        <div class="item" data-t="z">z-2</div>
+      </div>
+
+      <div class="controls">
+        <button id="s3-xy">$(['[data-t=x]', '[data-t=y]'])</button>
+        <button id="s3-yz">$(['[data-t=y]', '[data-t=z]'])</button>
+        <button class="ghost" id="s3-reset">reset</button>
+      </div>
+
+      <pre id="s3-code"><span class="cm">// click a button</span></pre>
+    </div>
+
+    <!-- Scene 4: HTML string -->
+    <div class="scene">
+      <h2>HTML string</h2>
+      <p class="desc">Pass an HTML string to create DOM elements on the fly.</p>
+
+      <div class="grid" id="s4-target"></div>
+
+      <div class="controls">
+        <button id="s4-add">$('&lt;div&gt;') — add element</button>
+        <button class="ghost" id="s4-reset">reset</button>
+      </div>
+
+      <pre>$(<span class="str">'&lt;div class="item new"&gt;created&lt;/div&gt;'</span>)(($el) <span class="kw">=></span> {
+  document.<span class="fn">querySelector</span>(<span class="str">'#s4-target'</span>).<span class="fn">appendChild</span>($el)
+})</pre>
+    </div>
+  </main>
+
+  <script type="module">
+    import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+
+    // Scene 1
+    const s1codes = {
+      all: `$(<span class="str">'.item'</span>)(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`,
+      a:   `$(<span class="str">'.item.a'</span>)(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`,
+      b:   `$(<span class="str">'.item.b'</span>)(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`,
+    }
+
+    function s1(sel, key) {
+      $('#s1-items .item')((el) => el.classList.remove('hl'))
+      $(sel, '#s1-items')((el) => el.classList.add('hl'))
+      document.querySelector('#s1-code').innerHTML = s1codes[key]
+    }
+
+    $('#s1-all')((el) => el.addEventListener('click', () => s1('.item', 'all')))
+    $('#s1-a')((el)   => el.addEventListener('click', () => s1('.item.a', 'a')))
+    $('#s1-b')((el)   => el.addEventListener('click', () => s1('.item.b', 'b')))
+    $('#s1-reset')((el) => el.addEventListener('click', () => {
+      $('#s1-items .item')((el) => el.classList.remove('hl'))
+      document.querySelector('#s1-code').innerHTML = `<span class="cm">// click a button</span>`
+    }))
+
+    // Scene 2
+    function s2(ctx) {
+      $('.item', '#ctx-one')((el) => el.classList.remove('hl'))
+      $('.item', '#ctx-two')((el) => el.classList.remove('hl'))
+      $('.item', ctx)((el) => el.classList.add('hl'))
+      document.querySelector('#s2-code').innerHTML =
+        `$(<span class="str">'.item'</span>, <span class="str">'${ctx}'</span>)(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`
+    }
+
+    $('#s2-one')((el)   => el.addEventListener('click', () => s2('#ctx-one')))
+    $('#s2-two')((el)   => el.addEventListener('click', () => s2('#ctx-two')))
+    $('#s2-reset')((el) => el.addEventListener('click', () => {
+      $('.item', '#ctx-one')((el) => el.classList.remove('hl'))
+      $('.item', '#ctx-two')((el) => el.classList.remove('hl'))
+      document.querySelector('#s2-code').innerHTML = `<span class="cm">// click a button</span>`
+    }))
+
+    // Scene 3
+    function s3(types) {
+      $('#s3-items .item')((el) => el.classList.remove('hl'))
+      $(types.map((t) => `[data-t=${t}]`))((el) => el.classList.add('hl'))
+      const selStr = types.map((t) => `<span class="str">'[data-t=${t}]'</span>`).join(', ')
+      document.querySelector('#s3-code').innerHTML =
+        `$([${selStr}])(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`
+    }
+
+    $('#s3-xy')((el)    => el.addEventListener('click', () => s3(['x', 'y'])))
+    $('#s3-yz')((el)    => el.addEventListener('click', () => s3(['y', 'z'])))
+    $('#s3-reset')((el) => el.addEventListener('click', () => {
+      $('#s3-items .item')((el) => el.classList.remove('hl'))
+      document.querySelector('#s3-code').innerHTML = `<span class="cm">// click a button</span>`
+    }))
+
+    // Scene 4
+    let count = 0
+    $('#s4-add')((el) => el.addEventListener('click', () => {
+      count++
+      $(`<div class="item new">created-${count}</div>`)((el) => {
+        document.querySelector('#s4-target').appendChild(el)
+      })
+    }))
+    $('#s4-reset')((el) => el.addEventListener('click', () => {
+      document.querySelector('#s4-target').innerHTML = ''
+      count = 0
+    }))
+  </script>
+</body>
+</html>

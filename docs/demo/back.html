@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bonze — back demo</title>
+  <link rel="stylesheet" href="demo.css">
+  <style>
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .stack-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stack-label {
+      font-size: .75rem;
+      font-family: monospace;
+      color: var(--dim);
+      width: 90px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .stack-row.active .stack-label { color: var(--indigo-text); font-weight: 600; }
+    .stack-row.active .item { border-color: var(--indigo); background: var(--indigo-light); }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="brand"><img src="../bonze.svg" alt="bonze"></a>
+  </nav>
+  <script>document.querySelector(`[data-page="${location.pathname.split('/').pop().replace('.html','')}"]`)?.classList.add('active')</script>
+
+  <main>
+    <h1>bonze — <code>.back()</code></h1>
+    <p class="subtitle">Returns the previous bonze instance in the chain — the selection that existed before the last traversal method. If there is no previous state, returns itself.</p>
+
+    <!-- Scene 1: basic back -->
+    <div class="scene">
+      <h2>Navigate back</h2>
+      <p class="desc">Each traversal method (<code>.first()</code>, <code>.odd()</code>, <code>.filter()</code>…) stores a reference to its parent selection. <code>.back()</code> climbs back up.</p>
+
+      <div class="stack" id="s1-stack">
+        <div class="stack-row" id="s1-all">
+          <span class="stack-label">$('p')</span>
+          <div class="grid" style="margin:0">
+            <div class="item">p-1</div>
+            <div class="item">p-2</div>
+            <div class="item">p-3</div>
+            <div class="item">p-4</div>
+            <div class="item">p-5</div>
+            <div class="item">p-6</div>
+          </div>
+        </div>
+        <div class="stack-row" id="s1-odd">
+          <span class="stack-label">.odd()</span>
+          <div class="grid" style="margin:0">
+            <div class="item">p-1</div>
+            <div class="item">p-3</div>
+            <div class="item">p-5</div>
+          </div>
+        </div>
+        <div class="stack-row" id="s1-first">
+          <span class="stack-label">.first()</span>
+          <div class="grid" style="margin:0">
+            <div class="item">p-1</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="s1-go-first">select .first()</button>
+        <button id="s1-back1">.back() → .odd()</button>
+        <button id="s1-back2">.back().back() → $('p')</button>
+        <button class="ghost" id="s1-reset">reset</button>
+      </div>
+
+      <pre id="s1-code"><span class="cm">// click a button</span></pre>
+    </div>
+
+    <!-- Scene 2: the key use case -->
+    <div class="scene">
+      <h2>The key use case — act on a subset, then return</h2>
+      <p class="desc">Apply an operation to a subset of elements, call <code>.back()</code>, then act on a different subset — all in one chain.</p>
+
+      <div class="grid" id="s2-items">
+        <div class="item">item-1</div>
+        <div class="item">item-2</div>
+        <div class="item">item-3</div>
+        <div class="item">item-4</div>
+        <div class="item">item-5</div>
+        <div class="item">item-6</div>
+      </div>
+
+      <div class="controls">
+        <button id="s2-chain">even(hl) .back() odd(src)</button>
+        <button id="s2-triple">first(hl) .back() last(src) .back() nth(2,changed)</button>
+        <button class="ghost" id="s2-reset">reset</button>
+      </div>
+
+      <pre id="s2-code"><span class="cm">// click a button</span></pre>
+    </div>
+
+    <!-- Scene 3: back on root returns itself -->
+    <div class="scene">
+      <h2>No previous state — returns itself</h2>
+      <p class="desc">If <code>.back()</code> is called on the initial selection (no traversal before it), it returns the same bonze instance — safe to call at any depth.</p>
+
+      <div class="grid" id="s3-items">
+        <div class="item">item-1</div>
+        <div class="item">item-2</div>
+        <div class="item">item-3</div>
+      </div>
+
+      <div class="controls">
+        <button id="s3-back">$('...').back() — returns self</button>
+      </div>
+
+      <pre>$(<span class="str">'#s3-items .item'</span>).<span class="fn">back</span>() <span class="cm">// no _prev → returns itself</span>
+$(<span class="str">'#s3-items .item'</span>).<span class="fn">back</span>().<span class="fn">back</span>() <span class="cm">// still the same instance</span></pre>
+    </div>
+  </main>
+
+  <script type="module">
+    import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+
+    // Scene 1 — visualise the stack
+    function setActive(id) {
+      ['s1-all', 's1-odd', 's1-first'].forEach((rid) => {
+        document.querySelector(`#${rid}`).classList.toggle('active', rid === id)
+      })
+    }
+
+    let chain1 = null
+
+    $('#s1-go-first')((el) => el.addEventListener('click', () => {
+      chain1 = $('#s1-all .item')
+        .odd()
+        .first()
+      setActive('s1-first')
+      document.querySelector('#s1-code').innerHTML =
+        `<span class="cm">// current: first of odd</span>\n` +
+        `$(<span class="str">'#s1-all .item'</span>).<span class="fn">odd</span>().<span class="fn">first</span>()`
+    }))
+
+    $('#s1-back1')((el) => el.addEventListener('click', () => {
+      if (!chain1) return
+      chain1 = chain1.back()
+      setActive('s1-odd')
+      document.querySelector('#s1-code').innerHTML =
+        `<span class="cm">// .back() → back to odd selection</span>\n` +
+        `...<span class="fn">.back</span>() <span class="cm">// 3 items</span>`
+    }))
+
+    $('#s1-back2')((el) => el.addEventListener('click', () => {
+      if (!chain1) return
+      chain1 = chain1.back()
+      setActive('s1-all')
+      document.querySelector('#s1-code').innerHTML =
+        `<span class="cm">// .back().back() → original 6 items</span>\n` +
+        `...<span class="fn">.back</span>().<span class="fn">back</span>() <span class="cm">// 6 items</span>`
+    }))
+
+    $('#s1-reset')((el) => el.addEventListener('click', () => {
+      chain1 = null
+      setActive(null)
+      document.querySelector('#s1-code').innerHTML = `<span class="cm">// click a button</span>`
+    }))
+
+    // Scene 2 — practical chaining
+    function reset2() {
+      $('#s2-items .item')((el) => el.classList.remove('hl', 'src', 'changed'))
+    }
+
+    $('#s2-chain')((el) => el.addEventListener('click', () => {
+      reset2()
+      $('#s2-items .item')
+        .even(($el) => $el.classList.add('hl'))
+        .back()
+        .odd(($el) => $el.classList.add('src'))
+      document.querySelector('#s2-code').innerHTML =
+        `$(<span class="str">'#s2-items .item'</span>)\n` +
+        `  .<span class="fn">even</span>(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))\n` +
+        `  .<span class="fn">back</span>()\n` +
+        `  .<span class="fn">odd</span>(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'src'</span>))`
+    }))
+
+    $('#s2-triple')((el) => el.addEventListener('click', () => {
+      reset2()
+      $('#s2-items .item')
+        .first(($el) => $el.classList.add('hl'))
+        .back()
+        .last(($el) => $el.classList.add('src'))
+        .back()
+        .nth(2, ($el) => $el.classList.add('changed'))
+      document.querySelector('#s2-code').innerHTML =
+        `$(<span class="str">'#s2-items .item'</span>)\n` +
+        `  .<span class="fn">first</span>(cb)  <span class="cm">// highlight first</span>\n` +
+        `  .<span class="fn">back</span>()\n` +
+        `  .<span class="fn">last</span>(cb)   <span class="cm">// source last</span>\n` +
+        `  .<span class="fn">back</span>()\n` +
+        `  .<span class="fn">nth</span>(<span class="num">2</span>, cb)  <span class="cm">// change nth(2)</span>`
+    }))
+
+    $('#s2-reset')((el) => el.addEventListener('click', () => {
+      reset2()
+      document.querySelector('#s2-code').innerHTML = `<span class="cm">// click a button</span>`
+    }))
+
+    // Scene 3 — back on root
+    $('#s3-back')((el) => el.addEventListener('click', () => {
+      const sel = $('#s3-items .item')
+      const back = sel.back()
+      $('#s3-items .item')((el) => el.classList.remove('hl', 'src'))
+      sel.back()(($el) => $el.classList.add('hl'))
+      if (back === sel) {
+        sel(($el) => $el.classList.add('src'))
+      }
+    }))
+  </script>
+</body>
+</html>

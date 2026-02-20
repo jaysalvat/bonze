@@ -1,0 +1,339 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --indigo: #6366f1;
+  --indigo-dark: #4f46e5;
+  --indigo-light: #eef2ff;
+  --indigo-text: #4338ca;
+  --amber: #f59e0b;
+  --amber-light: #fffbeb;
+  --amber-text: #92400e;
+  --green: #10b981;
+  --green-light: #ecfdf5;
+  --green-text: #065f46;
+  --rose: #f43f5e;
+  --rose-light: #fff1f2;
+  --rose-text: #9f1239;
+  --border: #e0e0e0;
+  --bg: #f5f5f5;
+  --card: #fff;
+  --text: #222;
+  --muted: #666;
+  --dim: #888;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* ── Nav ──────────────────────────────────────────── */
+nav {
+  background: #1e1e2e;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+nav::-webkit-scrollbar {
+  display: none;
+}
+
+nav a {
+  color: #9399b2;
+  text-decoration: none;
+  font-size: .8rem;
+  padding: 12px 13px;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+  font-family: monospace;
+}
+
+nav a:hover {
+  color: #cdd6f4;
+}
+
+nav a.active {
+  color: #cba6f7;
+  border-bottom-color: #cba6f7;
+}
+
+nav a.brand {
+  color: #fff;
+  font-weight: 700;
+  font-size: .9rem;
+  margin-right: 4px;
+  padding-right: 18px;
+  border-right: 1px solid #313244;
+  border-bottom: none;
+}
+
+nav a.brand img {
+  height: 18px;
+  display: block;
+}
+
+/* ── Layout ───────────────────────────────────────── */
+main {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+h1 {
+  font-size: 1.35rem;
+  margin: 0 0 4px;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin: 0 0 28px;
+  font-size: .9rem;
+}
+
+.center {
+  text-align: center;
+}
+
+/* ── Scene card ───────────────────────────────────── */
+.scene {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.scene h2 {
+  margin: 0 0 3px;
+  font-size: .95rem;
+  color: #444;
+}
+
+.scene .desc {
+  font-size: .81rem;
+  color: var(--dim);
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+/* ── Grid / Groups ────────────────────────────────── */
+.grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.groups {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.group-wrap {
+  flex: 1;
+  min-width: 120px;
+}
+
+.group-label {
+  font-size: .72rem;
+  color: var(--dim);
+  font-family: monospace;
+  margin-bottom: 6px;
+}
+
+.group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px;
+  background: #f9f9f9;
+  border: 1px dashed #ddd;
+  border-radius: 6px;
+}
+
+/* ── Items ────────────────────────────────────────── */
+.item {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 2px solid #ddd;
+  background: #fafafa;
+  font-size: .82rem;
+  font-family: monospace;
+  cursor: default;
+  transition: background .18s, border-color .18s, color .18s;
+  user-select: none;
+}
+
+/* selected / highlighted */
+.item.hl {
+  border-color: var(--amber);
+  background: var(--amber-light);
+  color: var(--amber-text);
+}
+
+/* source element */
+.item.src {
+  border-color: var(--indigo);
+  background: var(--indigo-light);
+  color: var(--indigo-text);
+  font-weight: 600;
+}
+
+/* newly created */
+.item.new {
+  border-color: var(--green);
+  background: var(--green-light);
+  color: var(--green-text);
+}
+
+/* mutated via callback */
+.item.changed {
+  border-color: var(--rose);
+  background: var(--rose-light);
+  color: var(--rose-text);
+}
+
+/* ── Legend ───────────────────────────────────────── */
+.legend {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 14px;
+  font-size: .78rem;
+  flex-wrap: wrap;
+}
+
+.legend span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  border: 2px solid;
+  flex-shrink: 0;
+}
+
+.dot.hl {
+  border-color: var(--amber);
+  background: var(--amber-light);
+}
+
+.dot.src {
+  border-color: var(--indigo);
+  background: var(--indigo-light);
+}
+
+.dot.new {
+  border-color: var(--green);
+  background: var(--green-light);
+}
+
+.dot.changed {
+  border-color: var(--rose);
+  background: var(--rose-light);
+}
+
+/* ── Controls ─────────────────────────────────────── */
+.controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+button {
+  padding: 7px 14px;
+  border-radius: 6px;
+  border: none;
+  background: var(--indigo);
+  color: #fff;
+  font-size: .81rem;
+  cursor: pointer;
+  transition: background .15s;
+  font-family: system-ui, sans-serif;
+}
+
+button:hover {
+  background: var(--indigo-dark);
+}
+
+button.ghost {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+button.ghost:hover {
+  background: #d1d5db;
+}
+
+/* ── Count badge ──────────────────────────────────── */
+.count {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: .79rem;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.count strong {
+  color: var(--indigo-text);
+  font-size: 1rem;
+}
+
+/* ── Code blocks ──────────────────────────────────── */
+pre {
+  background: #1e1e2e;
+  color: #cdd6f4;
+  padding: 13px 16px;
+  border-radius: 6px;
+  font-size: .79rem;
+  overflow-x: auto;
+  margin: 14px 0 0;
+  line-height: 1.65;
+}
+
+.kw {
+  color: #cba6f7;
+}
+
+.fn {
+  color: #89b4fa;
+}
+
+.str {
+  color: #a6e3a1;
+}
+
+.cm {
+  color: #6c7086;
+}
+
+.num {
+  color: #fab387;
+}
+
+code {
+  font-size: .8rem;
+  background: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #555;
+}

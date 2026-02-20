@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bonze — odd · even demo</title>
+  <link rel="stylesheet" href="demo.css">
+  <style>
+    .item .idx {
+      font-size: .7rem;
+      opacity: .5;
+      margin-left: 4px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="brand"><img src="../bonze.svg" alt="bonze"></a>
+  </nav>
+  <script>document.querySelector(`[data-page="${location.pathname.split('/').pop().replace('.html','')}"]`)?.classList.add('active')</script>
+
+  <main>
+    <h1>bonze — <code>.odd()</code> <code>.even()</code></h1>
+    <p class="subtitle">Filter to odd or even indexed elements. Index is zero-based: <code>.odd()</code> keeps indices 0, 2, 4… and <code>.even()</code> keeps 1, 3, 5…</p>
+
+    <div class="scene">
+      <h2>Six items</h2>
+      <p class="desc">Each item shows its zero-based index. Click a button to see which are selected.</p>
+
+      <div class="grid" id="oe-items">
+        <div class="item">item <span class="idx">[0]</span></div>
+        <div class="item">item <span class="idx">[1]</span></div>
+        <div class="item">item <span class="idx">[2]</span></div>
+        <div class="item">item <span class="idx">[3]</span></div>
+        <div class="item">item <span class="idx">[4]</span></div>
+        <div class="item">item <span class="idx">[5]</span></div>
+      </div>
+
+      <div class="controls">
+        <button id="btn-odd">.odd()</button>
+        <button id="btn-even">.even()</button>
+        <button class="ghost" id="btn-oe-reset">reset</button>
+      </div>
+
+      <pre id="oe-code"><span class="cm">// click a button</span></pre>
+    </div>
+
+    <div class="scene">
+      <h2>With callback shorthand</h2>
+      <p class="desc">Pass a callback directly: <code>.odd(cb)</code> is shorthand for <code>.odd()(cb)</code>.</p>
+
+      <div class="grid" id="oecb-items">
+        <div class="item">item <span class="idx">[0]</span></div>
+        <div class="item">item <span class="idx">[1]</span></div>
+        <div class="item">item <span class="idx">[2]</span></div>
+        <div class="item">item <span class="idx">[3]</span></div>
+        <div class="item">item <span class="idx">[4]</span></div>
+        <div class="item">item <span class="idx">[5]</span></div>
+      </div>
+
+      <div class="controls">
+        <button id="btn-odd-cb">.odd(cb)</button>
+        <button id="btn-even-cb">.even(cb)</button>
+        <button class="ghost" id="btn-oecb-reset">reset</button>
+      </div>
+
+      <pre id="oecb-code"><span class="cm">// click a button</span></pre>
+    </div>
+  </main>
+
+  <script type="module">
+    import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+
+    // Scene 1
+    function oe(method) {
+      $('#oe-items .item')((el) => el.classList.remove('hl'))
+      $('#oe-items .item')[method]()(($el) => $el.classList.add('hl'))
+      document.querySelector('#oe-code').innerHTML =
+        `$(<span class="str">'#oe-items .item'</span>).<span class="fn">${method}</span>()(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`
+    }
+
+    $('#btn-odd')((el)      => el.addEventListener('click', () => oe('odd')))
+    $('#btn-even')((el)     => el.addEventListener('click', () => oe('even')))
+    $('#btn-oe-reset')((el) => el.addEventListener('click', () => {
+      $('#oe-items .item')((el) => el.classList.remove('hl'))
+      document.querySelector('#oe-code').innerHTML = `<span class="cm">// click a button</span>`
+    }))
+
+    // Scene 2 — with callback
+    function oecb(method) {
+      $('#oecb-items .item')((el) => el.classList.remove('hl'))
+      $('#oecb-items .item')[method](($el) => $el.classList.add('hl'))
+      document.querySelector('#oecb-code').innerHTML =
+        `$(<span class="str">'#oecb-items .item'</span>).<span class="fn">${method}</span>(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`
+    }
+
+    $('#btn-odd-cb')((el)      => el.addEventListener('click', () => oecb('odd')))
+    $('#btn-even-cb')((el)     => el.addEventListener('click', () => oecb('even')))
+    $('#btn-oecb-reset')((el)  => el.addEventListener('click', () => {
+      $('#oecb-items .item')((el) => el.classList.remove('hl'))
+      document.querySelector('#oecb-code').innerHTML = `<span class="cm">// click a button</span>`
+    }))
+  </script>
+</body>
+</html>

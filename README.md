@@ -9,6 +9,10 @@ Super tiny chainable and extendable tool wrapping native `querySelectorAll` for 
 
 ![Bonze](https://jaysalvat.github.io/bonze/screen.png)
 
+## Demos
+
+See [demos here.](https://jaysalvat.github.io/bonze/demo/)
+
 ## Concept
 
 ### Example 1

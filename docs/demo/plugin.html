@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bonze — plugin demo</title>
+  <link rel="stylesheet" href="demo.css">
+  <style>
+    .item.badge::after {
+      content: attr(data-badge);
+      font-size: .65rem;
+      background: var(--rose);
+      color: #fff;
+      border-radius: 10px;
+      padding: 1px 6px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="brand"><img src="../bonze.svg" alt="bonze"></a>
+  </nav>
+  <script>document.querySelector(`[data-page="${location.pathname.split('/').pop().replace('.html','')}"]`)?.classList.add('active')</script>
+
+  <main>
+    <h1>bonze — <code>$.plugin()</code></h1>
+    <p class="subtitle">Register reusable methods that become available on every bonze instance. Plugin signature: <code>($el, index, allElements, ...args)</code>.</p>
+
+    <!-- Scene 1: simple plugin, no args -->
+    <div class="scene">
+      <h2>Simple plugin — no arguments</h2>
+      <p class="desc">Register a plugin once and call it on any selection.</p>
+
+      <div class="grid" id="p1-items">
+        <div class="item">alpha</div>
+        <div class="item">beta</div>
+        <div class="item">gamma</div>
+        <div class="item">delta</div>
+        <div class="item">epsilon</div>
+      </div>
+
+      <div class="controls">
+        <button id="p1-toggle">.toggleHL()</button>
+        <button class="ghost" id="p1-reset">reset</button>
+      </div>
+
+      <pre><span class="cm">// register once</span>
+$.<span class="fn">plugin</span>(<span class="str">'toggleHL'</span>, ($el) <span class="kw">=></span> $el.classList.<span class="fn">toggle</span>(<span class="str">'hl'</span>))
+
+<span class="cm">// use on any instance</span>
+$(<span class="str">'#p1-items .item'</span>).<span class="fn">toggleHL</span>()</pre>
+    </div>
+
+    <!-- Scene 2: plugin with arguments -->
+    <div class="scene">
+      <h2>Plugin with arguments</h2>
+      <p class="desc">Extra arguments passed when calling the plugin are forwarded to the handler.</p>
+
+      <div class="grid" id="p2-items">
+        <div class="item">alpha</div>
+        <div class="item">beta</div>
+        <div class="item">gamma</div>
+        <div class="item">delta</div>
+      </div>
+
+      <div class="controls">
+        <button id="p2-new">.badge('new')</button>
+        <button id="p2-hot">.badge('hot')</button>
+        <button id="p2-sale">.badge('sale')</button>
+        <button class="ghost" id="p2-reset">reset</button>
+      </div>
+
+      <pre><span class="cm">// register with extra arg</span>
+$.<span class="fn">plugin</span>(<span class="str">'badge'</span>, ($el, i, els, label) <span class="kw">=></span> {
+  $el.dataset.badge = label
+  $el.classList.<span class="fn">add</span>(<span class="str">'badge'</span>)
+})
+
+<span class="cm">// call with argument</span>
+$(<span class="str">'#p2-items .item'</span>).<span class="fn">badge</span>(<span class="str">'new'</span>)</pre>
+    </div>
+
+    <!-- Scene 3: plugin using index -->
+    <div class="scene">
+      <h2>Plugin using index</h2>
+      <p class="desc">The plugin receives each element's index, useful for staggered effects.</p>
+
+      <div class="grid" id="p3-items">
+        <div class="item">item-0</div>
+        <div class="item">item-1</div>
+        <div class="item">item-2</div>
+        <div class="item">item-3</div>
+        <div class="item">item-4</div>
+      </div>
+
+      <div class="controls">
+        <button id="p3-stagger">.stagger()</button>
+        <button class="ghost" id="p3-reset">reset</button>
+      </div>
+
+      <pre><span class="cm">// register: uses index to delay each item</span>
+$.<span class="fn">plugin</span>(<span class="str">'stagger'</span>, ($el, i) <span class="kw">=></span> {
+  $el.style.transitionDelay = <span class="str">`\${i * 80}ms`</span>
+  $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>)
+})
+
+$(<span class="str">'#p3-items .item'</span>).<span class="fn">stagger</span>()</pre>
+    </div>
+  </main>
+
+  <script type="module">
+    import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+
+    // Register all plugins up front
+    $.plugin('toggleHL', ($el) => $el.classList.toggle('hl'))
+
+    $.plugin('badge', ($el, i, els, label) => {
+      $el.dataset.badge = label
+      $el.classList.add('badge')
+    })
+
+    $.plugin('stagger', ($el, i) => {
+      $el.style.transitionDelay = `${i * 80}ms`
+      $el.classList.add('hl')
+    })
+
+    // Scene 1
+    $('#p1-toggle')((el) => el.addEventListener('click', () => {
+      $('#p1-items .item').toggleHL()
+    }))
+    $('#p1-reset')((el) => el.addEventListener('click', () => {
+      $('#p1-items .item')((el) => el.classList.remove('hl'))
+    }))
+
+    // Scene 2
+    function badge(label) {
+      $('#p2-items .item')((el) => {
+        el.classList.remove('badge')
+        delete el.dataset.badge
+      })
+      $('#p2-items .item').badge(label)
+    }
+
+    $('#p2-new')((el)   => el.addEventListener('click', () => badge('new')))
+    $('#p2-hot')((el)   => el.addEventListener('click', () => badge('hot')))
+    $('#p2-sale')((el)  => el.addEventListener('click', () => badge('sale')))
+    $('#p2-reset')((el) => el.addEventListener('click', () => {
+      $('#p2-items .item')((el) => {
+        el.classList.remove('badge')
+        delete el.dataset.badge
+      })
+    }))
+
+    // Scene 3
+    $('#p3-stagger')((el) => el.addEventListener('click', () => {
+      $('#p3-items .item')((el) => el.classList.remove('hl'))
+      requestAnimationFrame(() => {
+        $('#p3-items .item').stagger()
+      })
+    }))
+    $('#p3-reset')((el) => el.addEventListener('click', () => {
+      $('#p3-items .item')((el) => {
+        el.style.transitionDelay = ''
+        el.classList.remove('hl')
+      })
+    }))
+  </script>
+</body>
+</html>

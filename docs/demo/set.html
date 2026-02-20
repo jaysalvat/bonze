@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bonze — set demo</title>
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="brand"><img src="../bonze.svg" alt="bonze"></a>
+  </nav>
+  <script>document.querySelector(`[data-page="${location.pathname.split('/').pop().replace('.html','')}"]`)?.classList.add('active')</script>
+
+  <main>
+    <h1>bonze — <code>.set(fn)</code></h1>
+    <p class="subtitle">Morph the current element collection. The callback receives the elements array and must return something <code>$()</code> can wrap.</p>
+
+    <!-- Scene 1: slice the collection -->
+    <div class="scene">
+      <h2>Slice a collection</h2>
+      <p class="desc">Use <code>.set()</code> to derive a sub-array from the current elements.</p>
+
+      <div class="grid" id="set1-items">
+        <div class="item">item-0</div>
+        <div class="item">item-1</div>
+        <div class="item">item-2</div>
+        <div class="item">item-3</div>
+        <div class="item">item-4</div>
+        <div class="item">item-5</div>
+      </div>
+
+      <div class="controls">
+        <button id="set1-first3">.set(els =&gt; els.slice(0, 3))</button>
+        <button id="set1-last3">.set(els =&gt; els.slice(-3))</button>
+        <button id="set1-rev">.set(els =&gt; [...els].reverse())</button>
+        <button class="ghost" id="set1-reset">reset</button>
+      </div>
+
+      <pre id="set1-code"><span class="cm">// click a button</span></pre>
+    </div>
+
+    <!-- Scene 2: replace with a different selection -->
+    <div class="scene">
+      <h2>Replace with a different selection</h2>
+      <p class="desc">Start from one group, then morph the selection to a completely different set of elements.</p>
+
+      <div class="groups">
+        <div class="group-wrap">
+          <div class="group-label">#set2-a</div>
+          <div class="group" id="set2-a">
+            <div class="item">A-1</div>
+            <div class="item">A-2</div>
+            <div class="item">A-3</div>
+          </div>
+        </div>
+        <div class="group-wrap">
+          <div class="group-label">#set2-b</div>
+          <div class="group" id="set2-b">
+            <div class="item">B-1</div>
+            <div class="item">B-2</div>
+            <div class="item">B-3</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="set2-a">start: A — then .set() to B</button>
+        <button id="set2-b">start: B — then .set() to A</button>
+        <button class="ghost" id="set2-reset">reset</button>
+      </div>
+
+      <pre id="set2-code"><span class="cm">// click a button</span></pre>
+    </div>
+
+    <!-- Scene 3: transform to parents -->
+    <div class="scene">
+      <h2>Derive parent elements</h2>
+      <p class="desc">Collect the unique parent nodes of the current selection.</p>
+
+      <div class="groups" id="set3-root">
+        <div class="group-wrap">
+          <div class="group" id="set3-g1">
+            <div class="item">item-1a</div>
+            <div class="item">item-1b</div>
+          </div>
+        </div>
+        <div class="group-wrap">
+          <div class="group" id="set3-g2">
+            <div class="item">item-2a</div>
+            <div class="item">item-2b</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="set3-items">select items</button>
+        <button id="set3-parents">.set() → unique parents</button>
+        <button class="ghost" id="set3-reset">reset</button>
+      </div>
+
+      <pre id="set3-code"><span class="cm">// click a button</span></pre>
+    </div>
+  </main>
+
+  <script type="module">
+    import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+
+    // Scene 1
+    const set1cases = {
+      first3: {
+        fn: (els) => els.slice(0, 3),
+        label: `(els) <span class="kw">=></span> els.<span class="fn">slice</span>(<span class="num">0</span>, <span class="num">3</span>)`
+      },
+      last3: {
+        fn: (els) => els.slice(-3),
+        label: `(els) <span class="kw">=></span> els.<span class="fn">slice</span>(<span class="num">-3</span>)`
+      },
+      rev: {
+        fn: (els) => [...els].reverse(),
+        label: `(els) <span class="kw">=></span> [...els].<span class="fn">reverse</span>()`
+      }
+    }
+
+    function s1(key) {
+      $('#set1-items .item')((el) => el.classList.remove('hl', 'src'))
+      const result = $('#set1-items .item').set(set1cases[key].fn)
+      result(($el) => $el.classList.add('hl'))
+      document.querySelector('#set1-code').innerHTML =
+        `$(<span class="str">'#set1-items .item'</span>).<span class="fn">set</span>(${set1cases[key].label})`
+    }
+
+    $('#set1-first3')((el)  => el.addEventListener('click', () => s1('first3')))
+    $('#set1-last3')((el)   => el.addEventListener('click', () => s1('last3')))
+    $('#set1-rev')((el)     => el.addEventListener('click', () => s1('rev')))
+    $('#set1-reset')((el)   => el.addEventListener('click', () => {
+      $('#set1-items .item')((el) => el.classList.remove('hl', 'src'))
+      document.querySelector('#set1-code').innerHTML = `<span class="cm">// click a button</span>`
+    }))
+
+    // Scene 2
+    function s2(from, to) {
+      $('#set2-a .item, #set2-b .item')((el) => el.classList.remove('hl', 'src'))
+      const fromSel = `#set2-${from} .item`
+      const toSel   = `#set2-${to}   .item`
+      $(fromSel)(($el) => $el.classList.add('src'))
+      $(fromSel).set(() => $(toSel))(($el) => $el.classList.add('hl'))
+      document.querySelector('#set2-code').innerHTML =
+        `$(<span class="str">'#set2-${from} .item'</span>).<span class="fn">set</span>(() <span class="kw">=></span> $(<span class="str">'#set2-${to} .item'</span>))`
+    }
+
+    $('#set2-a')((el)     => el.addEventListener('click', () => s2('a', 'b')))
+    $('#set2-b')((el)     => el.addEventListener('click', () => s2('b', 'a')))
+    $('#set2-reset')((el) => el.addEventListener('click', () => {
+      $('#set2-a .item, #set2-b .item')((el) => el.classList.remove('hl', 'src'))
+      document.querySelector('#set2-code').innerHTML = `<span class="cm">// click a button</span>`
+    }))
+
+    // Scene 3
+    $('#set3-items')((el) => el.addEventListener('click', () => {
+      $('#set3-root .item')((el) => el.classList.remove('hl', 'src', 'new'))
+      $('#set3-root .group')((el) => el.classList.remove('hl'))
+      $('#set3-root .item')(($el) => $el.classList.add('src'))
+      document.querySelector('#set3-code').innerHTML =
+        `$(<span class="str">'#set3-root .item'</span>) <span class="cm">// all items selected</span>`
+    }))
+
+    $('#set3-parents')((el) => el.addEventListener('click', () => {
+      $('#set3-root .item')((el) => el.classList.remove('hl', 'src'))
+      $('#set3-root .group')((el) => el.classList.remove('hl'))
+      $('#set3-root .item')
+        .set((els) => [...new Set(els.map((el) => el.parentNode))])
+        (($el) => $el.classList.add('hl'))
+      document.querySelector('#set3-code').innerHTML =
+        `$(<span class="str">'#set3-root .item'</span>).<span class="fn">set</span>(\n  (els) <span class="kw">=></span> [...<span class="kw">new</span> <span class="fn">Set</span>(els.<span class="fn">map</span>((el) <span class="kw">=></span> el.parentNode))]\n)`
+    }))
+
+    $('#set3-reset')((el) => el.addEventListener('click', () => {
+      $('#set3-root .item')((el) => el.classList.remove('hl', 'src', 'new'))
+      $('#set3-root .group')((el) => el.classList.remove('hl'))
+      document.querySelector('#set3-code').innerHTML = `<span class="cm">// click a button</span>`
+    }))
+  </script>
+</body>
+</html>
