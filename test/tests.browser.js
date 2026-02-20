@@ -1,9 +1,9 @@
-/* global describe, it, beforeEach, after; */
-/* jshint expr: true */
+/* global window, document */
 
-import { expect } from 'chai'
-import { JSDOM } from 'jsdom'
+import { expect } from '../node_modules/chai/index.js'
 import bonze from '../dist/bonze.esm.min.js'
+
+const { describe, it, beforeEach, after } = window
 
 const html = `
     <body>
@@ -28,12 +28,7 @@ const helper = {
 
 describe('bonze tests', () => {
   beforeEach((done) => {
-    const dom = new JSDOM(html)
-    const { window } = dom
-    const { document } = dom.window
-
-    globalThis.window = window
-    globalThis.document = document
+    document.querySelector('#test').innerHTML = html
     done()
   })
 
@@ -197,7 +192,7 @@ describe('bonze tests', () => {
   })
 
   it('should morph results', () => {
-    const elmts = bonze('p').set(() => bonze('div'))
+    const elmts = bonze('p', '#test').set(() => bonze('div', '#test'))
 
     expect(elmts().length).to.be.equal(2)
 
@@ -237,5 +232,5 @@ describe('bonze tests', () => {
 })
 
 after(() => {
-  document.querySelector('#test')?.remove()
+  document.querySelector('#test').remove()
 })

@@ -1,8 +1,7 @@
 import bundleSize from 'rollup-plugin-bundle-size';
-import { babel } from '@rollup/plugin-babel';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 
-import pkg from './package.json';
+import pkg from './package.json' with { type: 'json' };
 
 const dist = './dist';
 const entrypoint = './src/bonze.js';
@@ -42,9 +41,6 @@ const standard = {
     }
   ],
   plugins: [
-    babel({
-      exclude: 'node_modules/**'
-    }),
     terser({
       mangle: false,
       compress: false,
@@ -77,9 +73,6 @@ const minified = {
     }
   ],
   plugins: [
-    babel({
-      babelHelpers: 'bundled'
-    }),
     terser({
       mangle: {
         eval: true,
@@ -99,4 +92,4 @@ const minified = {
 
 const configs = [ standard, minified ];
 
-module.exports = configs;
+export default configs;

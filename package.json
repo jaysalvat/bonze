@@ -3,6 +3,7 @@
   "version": "1.6.2",
   "description": "Super tiny chainable and extendable tool wrapping native `querySelectorAll` for selecting, creating and filtering DOM Elements with ease.",
   "homepage": "http://jaysalvat.com",
+  "type": "module",
   "author": "Jay Salvat",
   "license": "MIT",
   "main": "dist/bonze.js",
@@ -38,16 +39,13 @@
     "dom"
   ],
   "devDependencies": {
-    "@babel/core": "^7.13.8",
-    "@babel/preset-env": "^7.13.9",
-    "@rollup/plugin-babel": "^5.3.0",
-    "chai": "^4.3.1",
-    "eslint": "^7.21.0",
-    "jsdom": "^16.4.0",
-    "mocha": "^8.3.0",
-    "rollup": "^2.40.0",
+    "chai": "^6.2.2",
+    "eslint": "^10.0.0",
+    "jsdom": "^28.1.0",
+    "mocha": "^11.7.5",
+    "rollup": "^4.58.0",
+    "@rollup/plugin-terser": "^0.4.4",
     "rollup-plugin-bundle-size": "^1.0.3",
-    "rollup-plugin-sizes": "^1.0.4",
-    "rollup-plugin-terser": "^7.0.2"
+    "rollup-plugin-sizes": "^1.1.0"
   }
 }
