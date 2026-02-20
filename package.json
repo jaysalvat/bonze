@@ -1,6 +1,6 @@
 {
   "name": "bonze",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Super tiny chainable and extendable tool wrapping native `querySelectorAll` for selecting, creating and filtering DOM Elements with ease.",
   "homepage": "http://jaysalvat.com",
   "type": "module",
@@ -18,7 +18,7 @@
     "prewatch": "rm -rf ./dist",
     "watch": "rollup -c --watch",
     "build": "rollup -c",
-    "version": "npm run build && git add dist/",
+    "version": "npm run build",
     "release:patch": "npm version patch -m 'Release patch v%s' && npm publish",
     "release:minor": "npm version minor -m 'Release minor v%s' && npm publish",
     "release:major": "npm version major -m 'Release major v%s' && npm publish",
