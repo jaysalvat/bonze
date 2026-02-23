@@ -22,7 +22,6 @@
     "release:patch": "npm version patch -m 'Release patch v%s' && npm publish",
     "release:minor": "npm version minor -m 'Release minor v%s' && npm publish",
     "release:major": "npm version major -m 'Release major v%s' && npm publish",
-    "install-hooks": "chmod +x .githooks/*; for file in `ls .githooks`; do ln -sf ../../.githooks/${file} .git/hooks/${file}; done",
     "postinstall": "npm run install-hooks"
   },
   "files": [
@@ -37,13 +36,16 @@
     "dom"
   ],
   "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
     "chai": "^6.2.2",
     "eslint": "^10.0.0",
     "jsdom": "^28.1.0",
     "mocha": "^11.7.5",
     "rollup": "^4.58.0",
-    "@rollup/plugin-terser": "^0.4.4",
     "rollup-plugin-bundle-size": "^1.0.3",
     "rollup-plugin-sizes": "^1.1.0"
+  },
+  "dependencies": {
+    "@jaysalvat/eslint-config": "^3.1.0"
   }
 }

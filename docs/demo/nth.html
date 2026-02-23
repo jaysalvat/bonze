@@ -3,26 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bonze — nth demo</title>
-  <link rel="stylesheet" href="demo.css">
+  <title>bonze - nth demo</title>
+  <link rel="stylesheet" href="_demo.css">
   <style>
     .index-btns { display: flex; gap: 6px; flex-wrap: wrap; }
     .index-btns button { min-width: 42px; font-family: monospace; }
   </style>
 </head>
 <body>
-  <nav>
-    <a href="index.html" class="brand"><img src="../bonze.svg" alt="bonze"></a>
-  </nav>
-  <script>document.querySelector(`[data-page="${location.pathname.split('/').pop().replace('.html','')}"]`)?.classList.add('active')</script>
+  <header id="header"></header>
 
   <main>
-    <h1>bonze — <code>.nth(n)</code></h1>
+    <h1>bonze <code>.nth(n)</code></h1>
     <p class="subtitle">Target the nth element by zero-based index. Optional callback shorthand.</p>
 
     <div class="scene">
       <h2>Select by index</h2>
-      <p class="desc">Index is zero-based. Click a button to highlight the corresponding item.</p>
+      <p class="desc">Index is zero-based. Click a button to higfocusight the corresponding item.</p>
 
       <div class="grid" id="nth-items">
         <div class="item">item-0</div>
@@ -33,9 +30,8 @@
         <div class="item">item-5</div>
       </div>
 
-      <div class="index-btns" id="nth-btns"></div>
-
-      <div class="controls" style="margin-top:12px">
+      <div class="controls">
+        <div class="index-btns" id="nth-btns"></div>
         <button class="ghost" id="nth-reset">reset</button>
       </div>
 
@@ -55,9 +51,8 @@
         <div class="item">item-5</div>
       </div>
 
-      <div class="index-btns" id="nth2-btns"></div>
-
-      <div class="controls" style="margin-top:12px">
+      <div class="controls">
+        <div class="index-btns" id="nth2-btns"></div>
         <button class="ghost" id="nth2-reset">reset</button>
       </div>
 
@@ -65,47 +60,51 @@
     </div>
   </main>
 
+  <footer id="footer"></footer>
+
   <script type="module">
     import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+    import { setCode, loadHeader, loadFooter } from './demo.js'
 
-    // Scene 1 — without callback
+    loadHeader('nth')
+    loadFooter()
+
+    // Scene 1 - without callback
     const btns = document.querySelector('#nth-btns')
 
     for (let i = 0; i < 6; i++) {
       const btn = document.createElement('button')
       btn.textContent = i
       btn.addEventListener('click', () => {
-        $('#nth-items .item')((el) => el.classList.remove('hl'))
-        $('#nth-items .item').nth(i)(($el) => $el.classList.add('hl'))
-        document.querySelector('#nth-code').innerHTML =
-          `$(<span class="str">'#nth-items .item'</span>).<span class="fn">nth</span>(<span class="num">${i}</span>)(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`
+        $('#nth-items .item')((el) => el.classList.remove('focus'))
+        $('#nth-items .item').nth(i)(($el) => $el.classList.add('focus'))
+        setCode('#nth-code', `$('.item').nth(${i})(($el) => $el.classList.add('focus'))`)
       })
       btns.appendChild(btn)
     }
 
     $('#nth-reset')((el) => el.addEventListener('click', () => {
-      $('#nth-items .item')((el) => el.classList.remove('hl'))
-      document.querySelector('#nth-code').innerHTML = `<span class="cm">// click an index button</span>`
+      $('#nth-items .item')((el) => el.classList.remove('focus'))
+      setCode('#nth-code', '// click an index button')
     }))
 
-    // Scene 2 — with callback
+    // Scene 2 - with callback
     const btns2 = document.querySelector('#nth2-btns')
 
     for (let i = 0; i < 6; i++) {
       const btn = document.createElement('button')
       btn.textContent = i
       btn.addEventListener('click', () => {
-        $('#nth2-items .item')((el) => el.classList.remove('hl'))
-        $('#nth2-items .item').nth(i, ($el) => $el.classList.add('hl'))
-        document.querySelector('#nth2-code').innerHTML =
-          `$(<span class="str">'#nth2-items .item'</span>).<span class="fn">nth</span>(<span class="num">${i}</span>, ($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`
+        $('#nth2-items .item')((el) => el.classList.remove('focus'))
+        $('#nth2-items .item').nth(i, ($el) => $el.classList.add('focus'))
+        setCode('#nth2-code', `$('.item').nth(${i}, ($el) => $el.classList.add('focus'))`)
       })
       btns2.appendChild(btn)
     }
 
     $('#nth2-reset')((el) => el.addEventListener('click', () => {
-      $('#nth2-items .item')((el) => el.classList.remove('hl'))
-      document.querySelector('#nth2-code').innerHTML = `<span class="cm">// click an index button</span>`
+      $('#nth2-items .item')((el) => el.classList.remove('focus'))
+      setCode('#nth2-code', '// click an index button')
     }))
   </script>
 </body>

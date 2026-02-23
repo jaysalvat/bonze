@@ -3,21 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bonze — first · last demo</title>
-  <link rel="stylesheet" href="demo.css">
+  <title>bonze - first · last demo</title>
+  <link rel="stylesheet" href="_demo.css">
 </head>
 <body>
-  <nav>
-    <a href="index.html" class="brand"><img src="../bonze.svg" alt="bonze"></a>
-  </nav>
-  <script>document.querySelector(`[data-page="${location.pathname.split('/').pop().replace('.html','')}"]`)?.classList.add('active')</script>
+  <header id="header"></header>
 
   <main>
-    <h1>bonze — <code>.first()</code> <code>.last()</code></h1>
+    <h1>bonze <code>.first()</code> <code>.last()</code></h1>
     <p class="subtitle">Target the first or last element of the current selection. Optional callback shorthand.</p>
 
     <div class="scene">
-      <h2>Without callback — returns a bonze instance</h2>
+      <h2>Without callback - returns a bonze instance</h2>
       <p class="desc"><code>.first()</code> and <code>.last()</code> return a new bonze wrapping a single element. Chain further operations on it.</p>
 
       <div class="grid" id="fl-items">
@@ -35,11 +32,11 @@
         <button class="ghost" id="btn-fl-reset">reset</button>
       </div>
 
-      <pre id="fl-code"><span class="cm">// click a button</span></pre>
+      <pre id="fl-code">// click a button</pre>
     </div>
 
     <div class="scene">
-      <h2>With callback — iterates immediately</h2>
+      <h2>With callback - iterates immediately</h2>
       <p class="desc">Pass a callback directly to <code>.first(cb)</code> or <code>.last(cb)</code> as a shorthand for <code>.first()(cb)</code>.</p>
 
       <div class="grid" id="flcb-items">
@@ -57,41 +54,45 @@
         <button class="ghost" id="btn-flcb-reset">reset</button>
       </div>
 
-      <pre id="flcb-code"><span class="cm">// click a button</span></pre>
+      <pre id="flcb-code">// click a button</pre>
     </div>
   </main>
 
+  <footer id="footer"></footer>
+
   <script type="module">
     import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+    import { setCode, loadHeader, loadFooter } from './demo.js'
+
+    loadHeader('first-last')
+    loadFooter()
 
     // Scene 1
     function fl(method) {
-      $('#fl-items .item')((el) => el.classList.remove('hl'))
-      $('#fl-items .item')[method]()(($el) => $el.classList.add('hl'))
-      document.querySelector('#fl-code').innerHTML =
-        `$(<span class="str">'#fl-items .item'</span>).<span class="fn">${method}</span>()(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`
+      $('#fl-items .item')((el) => el.classList.remove('focus'))
+      $('#fl-items .item')[method]()(($el) => $el.classList.add('focus'))
+      setCode('#fl-code', `$('.item').${method}()(($el) => $el.classList.add('focus'))`)
     }
 
     $('#btn-first')((el)    => el.addEventListener('click', () => fl('first')))
     $('#btn-last')((el)     => el.addEventListener('click', () => fl('last')))
     $('#btn-fl-reset')((el) => el.addEventListener('click', () => {
-      $('#fl-items .item')((el) => el.classList.remove('hl'))
-      document.querySelector('#fl-code').innerHTML = `<span class="cm">// click a button</span>`
+      $('#fl-items .item')((el) => el.classList.remove('focus'))
+      setCode('#fl-code', '// click a button')
     }))
 
     // Scene 2
     function flcb(method) {
-      $('#flcb-items .item')((el) => el.classList.remove('hl'))
-      $('#flcb-items .item')[method](($el) => $el.classList.add('hl'))
-      document.querySelector('#flcb-code').innerHTML =
-        `$(<span class="str">'#flcb-items .item'</span>).<span class="fn">${method}</span>(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`
+      $('#flcb-items .item')((el) => el.classList.remove('focus'))
+      $('#flcb-items .item')[method](($el) => $el.classList.add('focus'))
+      setCode('#flcb-code', `$('.item').${method}(($el) => $el.classList.add('focus'))`)
     }
 
     $('#btn-first-cb')((el)    => el.addEventListener('click', () => flcb('first')))
     $('#btn-last-cb')((el)     => el.addEventListener('click', () => flcb('last')))
     $('#btn-flcb-reset')((el)  => el.addEventListener('click', () => {
-      $('#flcb-items .item')((el) => el.classList.remove('hl'))
-      document.querySelector('#flcb-code').innerHTML = `<span class="cm">// click a button</span>`
+      $('#flcb-items .item')((el) => el.classList.remove('focus'))
+      setCode('#flcb-code', '// click a button')
     }))
   </script>
 </body>

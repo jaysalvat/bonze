@@ -3,23 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bonze — each demo</title>
-  <link rel="stylesheet" href="demo.css">
+  <title>bonze - each demo</title>
+  <link rel="stylesheet" href="_demo.css">
 </head>
 <body>
-  <nav>
-    <a href="index.html" class="brand"><img src="../bonze.svg" alt="bonze"></a>
-  </nav>
-  <script>document.querySelector(`[data-page="${location.pathname.split('/').pop().replace('.html','')}"]`)?.classList.add('active')</script>
+  <header id="header"></header>
 
   <main>
-    <h1>bonze — <code>(callback)</code> <code>.each</code></h1>
+    <h1>bonze <code>(callback)</code> <code>.each</code></h1>
     <p class="subtitle">Calling the bonze instance as a function iterates over all elements. <code>.each</code> is an alias for the same operation.</p>
 
     <!-- Scene 1: direct call -->
     <div class="scene">
       <h2>Direct call <code>$(sel)(callback)</code></h2>
-      <p class="desc">The callback receives <code>(element, index, allElements)</code>. The return value is the bonze instance — chainable.</p>
+      <p class="desc">The callback receives <code>(element, index, allElements)</code>. The return value is the bonze instance - chainable.</p>
 
       <div class="grid" id="ea1-items">
         <div class="item">alpha</div>
@@ -36,7 +33,7 @@
         <button class="ghost" id="ea1-reset">reset</button>
       </div>
 
-      <pre id="ea1-code"><span class="cm">// click a button</span></pre>
+      <pre id="ea1-code">// click a button</pre>
     </div>
 
     <!-- Scene 2: .each alias -->
@@ -58,7 +55,7 @@
         <button class="ghost" id="ea2-reset">reset</button>
       </div>
 
-      <pre id="ea2-code"><span class="cm">// click a button</span></pre>
+      <pre id="ea2-code">// click a button</pre>
     </div>
 
     <!-- Scene 3: chaining -->
@@ -80,12 +77,18 @@
         <button class="ghost" id="ea3-reset">reset</button>
       </div>
 
-      <pre id="ea3-code"><span class="cm">// click a button</span></pre>
+      <pre id="ea3-code">// click a button</pre>
     </div>
   </main>
 
+  <footer id="footer"></footer>
+
   <script type="module">
     import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+    import { setCode, loadHeader, loadFooter } from './demo.js'
+
+    loadHeader('each')
+    loadFooter()
 
     const ea1orig = ['alpha', 'beta', 'gamma', 'delta', 'epsilon']
     const ea2orig = [...ea1orig]
@@ -93,9 +96,8 @@
     // Scene 1
     $('#ea1-highlight')((el) => el.addEventListener('click', () => {
       reset1()
-      $('#ea1-items .item')(($el) => $el.classList.add('hl'))
-      document.querySelector('#ea1-code').innerHTML =
-        `$(<span class="str">'#ea1-items .item'</span>)(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`
+      $('#ea1-items .item')(($el) => $el.classList.add('focus'))
+      setCode('#ea1-code', "$('#ea1-items .item')(($el) => $el.classList.add('focus'))")
     }))
 
     $('#ea1-number')((el) => el.addEventListener('click', () => {
@@ -104,8 +106,7 @@
         $el.textContent = `#${i}`
         $el.classList.add('changed')
       })
-      document.querySelector('#ea1-code').innerHTML =
-        `$(<span class="str">'#ea1-items .item'</span>)(($el, i) <span class="kw">=></span> {\n  $el.textContent = <span class="str">\`#\${i}\`</span>\n})`
+      setCode('#ea1-code', "$('#ea1-items .item')(($el, i) => {\n  $el.textContent = `#${i}`\n})")
     }))
 
     $('#ea1-index')((el) => el.addEventListener('click', () => {
@@ -114,28 +115,26 @@
         $el.textContent += ` [${i}]`
         $el.classList.add('changed')
       })
-      document.querySelector('#ea1-code').innerHTML =
-        `$(<span class="str">'#ea1-items .item'</span>)(($el, i) <span class="kw">=></span> {\n  $el.textContent += <span class="str">\` [\${i}]\`</span>\n})`
+      setCode('#ea1-code', "$('#ea1-items .item')(($el, i) => {\n  $el.textContent += ` [${i}]`\n})")
     }))
 
     $('#ea1-reset')((el) => el.addEventListener('click', () => {
       reset1()
-      document.querySelector('#ea1-code').innerHTML = `<span class="cm">// click a button</span>`
+      setCode('#ea1-code', '// click a button')
     }))
 
     function reset1() {
       $('#ea1-items .item')(($el, i) => {
         $el.textContent = ea1orig[i]
-        $el.classList.remove('hl', 'changed')
+        $el.classList.remove('focus', 'changed')
       })
     }
 
     // Scene 2
     $('#ea2-highlight')((el) => el.addEventListener('click', () => {
       reset2()
-      $('#ea2-items .item').each(($el) => $el.classList.add('hl'))
-      document.querySelector('#ea2-code').innerHTML =
-        `$(<span class="str">'#ea2-items .item'</span>).<span class="fn">each</span>(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`
+      $('#ea2-items .item').each(($el) => $el.classList.add('focus'))
+      setCode('#ea2-code', "$('.item').each(($el) => $el.classList.add('focus'))")
     }))
 
     $('#ea2-number')((el) => el.addEventListener('click', () => {
@@ -144,45 +143,46 @@
         $el.textContent = `#${i}`
         $el.classList.add('changed')
       })
-      document.querySelector('#ea2-code').innerHTML =
-        `$(<span class="str">'#ea2-items .item'</span>).<span class="fn">each</span>(($el, i) <span class="kw">=></span> {\n  $el.textContent = <span class="str">\`#\${i}\`</span>\n})`
+      setCode('#ea2-code', "$('.item').each(($el, i) => {\n  $el.textContent = `#${i}`\n})")
     }))
 
     $('#ea2-reset')((el) => el.addEventListener('click', () => {
       reset2()
-      document.querySelector('#ea2-code').innerHTML = `<span class="cm">// click a button</span>`
+      setCode('#ea2-code', '// click a button')
     }))
 
     function reset2() {
       $('#ea2-items .item')(($el, i) => {
         $el.textContent = ea2orig[i]
-        $el.classList.remove('hl', 'changed')
+        $el.classList.remove('focus', 'changed')
       })
     }
 
     // Scene 3
     $('#ea3-chain')((el) => el.addEventListener('click', () => {
-      $('#ea3-items .item')((el) => el.classList.remove('hl', 'src', 'changed'))
+      $('#ea3-items .item')((el) => el.classList.remove('focus', 'src', 'changed'))
       $('#ea3-items .item')
-        (($el) => $el.classList.add('hl'))   // all
+        (($el) => $el.classList.add('focus'))   // all
         .odd(($el) => {                       // odd
-          $el.classList.remove('hl')
+          $el.classList.remove('focus')
           $el.classList.add('src')
         })
         .first(($el) => {                     // first of odd
-          $el.classList.remove('hl', 'src')
+          $el.classList.remove('focus', 'src')
           $el.classList.add('changed')
         })
-      document.querySelector('#ea3-code').innerHTML =
-        `$(<span class="str">'#ea3-items .item'</span>)\n` +
-        `  (($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))   <span class="cm">// all</span>\n` +
-        `  .<span class="fn">odd</span>(($el) <span class="kw">=></span> ...)              <span class="cm">// odd subset</span>\n` +
-        `  .<span class="fn">first</span>(($el) <span class="kw">=></span> ...)            <span class="cm">// first of odd</span>`
+      setCode(
+        '#ea3-code',
+        "$('.item')\n" +
+        "  (($el) => $el.classList.add('focus'))  // all\n" +
+        "  .odd(($el) => ...)    // odd subset\n" +
+        "  .first(($el) => ...)  // first of odd"
+      )
     }))
 
     $('#ea3-reset')((el) => el.addEventListener('click', () => {
-      $('#ea3-items .item')((el) => el.classList.remove('hl', 'src', 'changed'))
-      document.querySelector('#ea3-code').innerHTML = `<span class="cm">// click a button</span>`
+      $('#ea3-items .item')((el) => el.classList.remove('focus', 'src', 'changed'))
+      setCode('#ea3-code', '// click a button')
     }))
   </script>
 </body>

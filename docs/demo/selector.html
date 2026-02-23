@@ -3,17 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bonze — selector demo</title>
-  <link rel="stylesheet" href="demo.css">
+  <title>bonze - selector demo</title>
+  <link rel="stylesheet" href="_demo.css">
 </head>
 <body>
-  <nav>
-    <a href="index.html" class="brand"><img src="../bonze.svg" alt="bonze"></a>
-  </nav>
-  <script>document.querySelector(`[data-page="${location.pathname.split('/').pop().replace('.html','')}"]`)?.classList.add('active')</script>
+  <header id="header"></header>
 
   <main>
-    <h1>bonze — <code>$(selector)</code></h1>
+    <h1>bonze <code>$(selector)</code></h1>
     <p class="subtitle">Multiple input types: CSS string, context, array of selectors, HTML creation.</p>
 
     <!-- Scene 1: CSS selector -->
@@ -32,12 +29,12 @@
 
       <div class="controls">
         <button id="s1-all">$('.item')</button>
-        <button id="s1-a">$('.item.a')</button>
-        <button id="s1-b">$('.item.b')</button>
+        <button id="s1-a">$('.item.alpha')</button>
+        <button id="s1-b">$('.item.beta')</button>
         <button class="ghost" id="s1-reset">reset</button>
       </div>
 
-      <pre id="s1-code"><span class="cm">// click a button</span></pre>
+      <pre id="s1-code">// click a button</pre>
     </div>
 
     <!-- Scene 2: Context -->
@@ -70,7 +67,7 @@
         <button class="ghost" id="s2-reset">reset</button>
       </div>
 
-      <pre id="s2-code"><span class="cm">// click a button</span></pre>
+      <pre id="s2-code">// click a button</pre>
     </div>
 
     <!-- Scene 3: Array of selectors -->
@@ -93,7 +90,7 @@
         <button class="ghost" id="s3-reset">reset</button>
       </div>
 
-      <pre id="s3-code"><span class="cm">// click a button</span></pre>
+      <pre id="s3-code">// click a button</pre>
     </div>
 
     <!-- Scene 4: HTML string -->
@@ -104,75 +101,80 @@
       <div class="grid" id="s4-target"></div>
 
       <div class="controls">
-        <button id="s4-add">$('&lt;div&gt;') — add element</button>
+        <button id="s4-add">$('&lt;div&gt;') - add element</button>
         <button class="ghost" id="s4-reset">reset</button>
       </div>
 
-      <pre>$(<span class="str">'&lt;div class="item new"&gt;created&lt;/div&gt;'</span>)(($el) <span class="kw">=></span> {
-  document.<span class="fn">querySelector</span>(<span class="str">'#s4-target'</span>).<span class="fn">appendChild</span>($el)
-})</pre>
+      <pre id="s4-code"></pre>
     </div>
   </main>
 
+  <footer id="footer">xx</footer>
+
   <script type="module">
     import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+    import { setCode, loadHeader, loadFooter } from './demo.js'
+
+    loadHeader('selector')
+    loadFooter()
 
     // Scene 1
     const s1codes = {
-      all: `$(<span class="str">'.item'</span>)(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`,
-      a:   `$(<span class="str">'.item.a'</span>)(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`,
-      b:   `$(<span class="str">'.item.b'</span>)(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`,
+      all: `$('.item')(($el) => $el.classList.add('focus'))`,
+      a: `$('.item.alpha')(($el) => $el.classList.add('focus'))`,
+      b: `$('.item.beta')(($el) => $el.classList.add('focus'))`,
     }
 
     function s1(sel, key) {
-      $('#s1-items .item')((el) => el.classList.remove('hl'))
-      $(sel, '#s1-items')((el) => el.classList.add('hl'))
-      document.querySelector('#s1-code').innerHTML = s1codes[key]
+      $('#s1-items .item')((el) => el.classList.remove('focus'))
+      $(sel, '#s1-items')((el) => el.classList.add('focus'))
+      setCode('#s1-code', s1codes[key])
     }
 
     $('#s1-all')((el) => el.addEventListener('click', () => s1('.item', 'all')))
     $('#s1-a')((el)   => el.addEventListener('click', () => s1('.item.a', 'a')))
     $('#s1-b')((el)   => el.addEventListener('click', () => s1('.item.b', 'b')))
     $('#s1-reset')((el) => el.addEventListener('click', () => {
-      $('#s1-items .item')((el) => el.classList.remove('hl'))
-      document.querySelector('#s1-code').innerHTML = `<span class="cm">// click a button</span>`
+      $('#s1-items .item')((el) => el.classList.remove('focus'))
+      setCode('#s1-code', '// click a button')
     }))
 
     // Scene 2
     function s2(ctx) {
-      $('.item', '#ctx-one')((el) => el.classList.remove('hl'))
-      $('.item', '#ctx-two')((el) => el.classList.remove('hl'))
-      $('.item', ctx)((el) => el.classList.add('hl'))
-      document.querySelector('#s2-code').innerHTML =
-        `$(<span class="str">'.item'</span>, <span class="str">'${ctx}'</span>)(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`
+      $('.item', '#ctx-one')((el) => el.classList.remove('focus'))
+      $('.item', '#ctx-two')((el) => el.classList.remove('focus'))
+      $('.item', ctx)((el) => el.classList.add('focus'))
+      setCode('#s2-code', `$('.item', '${ctx}')(($el) => $el.classList.add('focus'))`)
     }
 
     $('#s2-one')((el)   => el.addEventListener('click', () => s2('#ctx-one')))
     $('#s2-two')((el)   => el.addEventListener('click', () => s2('#ctx-two')))
     $('#s2-reset')((el) => el.addEventListener('click', () => {
-      $('.item', '#ctx-one')((el) => el.classList.remove('hl'))
-      $('.item', '#ctx-two')((el) => el.classList.remove('hl'))
-      document.querySelector('#s2-code').innerHTML = `<span class="cm">// click a button</span>`
+      $('.item', '#ctx-one')((el) => el.classList.remove('focus'))
+      $('.item', '#ctx-two')((el) => el.classList.remove('focus'))
+      setCode('#s2-code', '// click a button')
     }))
 
     // Scene 3
     function s3(types) {
-      $('#s3-items .item')((el) => el.classList.remove('hl'))
-      $(types.map((t) => `[data-t=${t}]`))((el) => el.classList.add('hl'))
-      const selStr = types.map((t) => `<span class="str">'[data-t=${t}]'</span>`).join(', ')
-      document.querySelector('#s3-code').innerHTML =
-        `$([${selStr}])(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`
+      $('#s3-items .item')((el) => el.classList.remove('focus'))
+      $(types.map((t) => `[data-t=${t}]`))((el) => el.classList.add('focus'))
+      const selStr = types.map((t) => `'[data-t=${t}]'`).join(', ')
+      setCode('#s3-code', `$([${selStr}])(($el) => $el.classList.add('focus'))`)
     }
 
     $('#s3-xy')((el)    => el.addEventListener('click', () => s3(['x', 'y'])))
     $('#s3-yz')((el)    => el.addEventListener('click', () => s3(['y', 'z'])))
     $('#s3-reset')((el) => el.addEventListener('click', () => {
-      $('#s3-items .item')((el) => el.classList.remove('hl'))
-      document.querySelector('#s3-code').innerHTML = `<span class="cm">// click a button</span>`
+      $('#s3-items .item')((el) => el.classList.remove('focus'))
+      setCode('#s3-code', '// click a button')
     }))
 
     // Scene 4
     let count = 0
+
+    setCode('#s4-code', "$('<div class=\"item new\">created</div>')(($el) => {\n  document.body.appendChild($el)\n})")
+
     $('#s4-add')((el) => el.addEventListener('click', () => {
       count++
       $(`<div class="item new">created-${count}</div>`)((el) => {

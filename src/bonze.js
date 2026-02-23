@@ -22,15 +22,13 @@ function $(selector, context = null) {
     const $container = document.createElement('div')
 
     $container.innerHTML = selector.trim()
-    elements = [].slice.call($container.childNodes)
-
+    elements = Reflect.apply([].slice, $container.childNodes, [])
   } else {
     const contexts = context ? $(context)() : [ document ]
 
-    contexts.forEach((context) => {
-      context = $(context)(0)
-
-      const found = [].slice.call(context.querySelectorAll(selector))
+    contexts.forEach((ctx) => {
+      const contextNode = $(ctx)(0)
+      const found = Reflect.apply([].slice, contextNode.querySelectorAll(selector), [])
 
       elements = elements.concat(found)
     })
@@ -48,7 +46,7 @@ function $(selector, context = null) {
     }
 
     if (typeof value === 'function') {
-      elements.forEach((element, i) => value.call(element, element, i, elements))
+      elements.forEach((element, i) => Reflect.apply(value, element, [ element, i, elements ]))
     }
 
     return fn
@@ -58,25 +56,32 @@ function $(selector, context = null) {
     const next = $(element)
 
     next._prev = fn
+
     return func ? next(func) : next
   }
 
   fn._bonze = true
+  fn.each = fn
+  fn.back = () => fn._prev || fn
   fn.first = (f) => proxy(f, elements[0])
   fn.last = (f) => proxy(f, elements[elements.length - 1])
-  fn.odd = (f) => proxy(f, elements.filter((elmt, i) => !(i % 2)))
-  fn.even = (f) => proxy(f, elements.filter((elmt, i) => (i % 2)))
-  fn.nth = (value, f) => proxy(f, elements[value])
+  fn.nth = (idx, f) => proxy(f, elements[idx])
+  fn.odd = (f) => proxy(f, elements.filter((_, i) => !(i % 2)))
+  fn.even = (f) => proxy(f, elements.filter((_, i) => i % 2))
   fn.filter = (filter, f) => proxy(f, elements.filter((elmt, i) => filter(elmt, i, elements)))
-  fn.siblings = (f) => proxy(f, [ ...new Set(elements.flatMap((elmt) => elmt.parentNode ? [].slice.call(elmt.parentNode.children).filter((child) => child !== elmt) : [])) ])
-  fn.set = (f) => { const next = $(f(elements)); next._prev = fn; return next }
-  fn.back = () => fn._prev || fn
-  fn.each = fn
+  fn.siblings = (f) => proxy(f, [ ...new Set(elements.flatMap((elmt) => (elmt.parentNode ? Reflect.apply([].slice, elmt.parentNode.children, []).filter((child) => child !== elmt) : []))) ])
+  fn.set = (f) => {
+    const next = $(f(elements))
+
+    next._prev = fn
+
+    return next
+  }
 
   Object.entries($.plugins).forEach(([ name, plugin ]) => {
     fn[name] = (...argsFn) => {
       $(elements)((...args) => {
-        plugin.apply(args[0], [ ...args, ...argsFn ])
+        Reflect.apply(plugin, args[0], [ ...args, ...argsFn ])
       })
     }
   })
@@ -85,7 +90,8 @@ function $(selector, context = null) {
 }
 
 $.plugins = {}
-$.plugin = function(name, fn) {
+
+$.plugin = function (name, fn) {
   $.plugins[name] = fn
 }
 

@@ -1,103 +1,103 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bonze — demos</title>
-  <link rel="stylesheet" href="demo.css">
-  <style>
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
-      gap: 12px;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>bonze - demos</title>
+    <link rel="stylesheet" href="_demo.css" />
+  </head>
+  <body>
+    <header id="header"></header>
 
-    .card {
-      display: block;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 20px;
-      text-decoration: none;
-      color: var(--text);
-      transition: border-color .15s, box-shadow .15s;
-    }
+    <main>
+      <div class="center">
+        <a href="index.html" class="brand"><img src="../bonze.svg" alt="bonze"/></a>
 
-    .card:hover {
-      border-color: var(--indigo);
-      box-shadow: 0 2px 10px rgba(99,102,241,.1);
-    }
+        <h1>bonze</h1>
+        <h2>Hit your DOM the smart way</h2>
 
-    .card-name {
-      font-family: monospace;
-      font-size: .95rem;
-      font-weight: 600;
-      color: var(--indigo-text);
-      margin-bottom: 8px;
-    }
+        <p class="intro">
+          Super tiny chainable and extendable tool wrapping native <code>querySelectorAll</code> for selecting, creating and filtering DOM Elements.
+        </p>
 
-    .card-desc {
-      font-size: .8rem;
-      color: var(--muted);
-      line-height: 1.45;
-    }
-  </style>
-</head>
-<body>
-  <nav>
-    <a href="index.html" class="brand active">bonze</a>
-  </nav>
+        <div class="install">
+          <pre id="install-npm"></pre>
+          <pre id="install-import"></pre>
+        </div>
+      </div>
 
-  <main>
-    <div class="center">
-      <a href="index.html" class="brand"><img src="../bonze.svg" alt="bonze"></a>
+      <div class="cards">
+        <a class="card" href="selector.html">
+          <div class="card-name">$(selector)</div>
+          <div class="card-desc">
+            CSS string, context, array of selectors, HTML string creation.
+          </div>
+        </a>
+        <a class="card" href="first-last.html">
+          <div class="card-name">.first() .last()</div>
+          <div class="card-desc">
+            Target the first or last element of the current selection.
+          </div>
+        </a>
+        <a class="card" href="nth.html">
+          <div class="card-name">.nth(n)</div>
+          <div class="card-desc">
+            Target the nth element by zero-based index.
+          </div>
+        </a>
+        <a class="card" href="odd-even.html">
+          <div class="card-name">.odd() .even()</div>
+          <div class="card-desc">Filter to odd or even indexed elements.</div>
+        </a>
+        <a class="card" href="filter.html">
+          <div class="card-name">.filter(fn)</div>
+          <div class="card-desc">
+            Filter elements using a custom predicate function.
+          </div>
+        </a>
+        <a class="card" href="siblings.html">
+          <div class="card-name">.siblings()</div>
+          <div class="card-desc">
+            Get all sibling elements sharing the same parent node.
+          </div>
+        </a>
+        <a class="card" href="back.html">
+          <div class="card-name">.back()</div>
+          <div class="card-desc">
+            Return to the previous selection state in the chain.
+          </div>
+        </a>
+        <a class="card" href="set.html">
+          <div class="card-name">.set(fn)</div>
+          <div class="card-desc">
+            Morph the current element collection via a transform function.
+          </div>
+        </a>
+        <a class="card" href="each.html">
+          <div class="card-name">(callback) .each</div>
+          <div class="card-desc">
+            Iterate over elements with a callback. The core mechanic.
+          </div>
+        </a>
+        <a class="card" href="plugin.html">
+          <div class="card-name">$.plugin()</div>
+          <div class="card-desc">
+            Extend bonze with custom reusable methods on all instances.
+          </div>
+        </a>
+      </div>
+    </main>
 
-      <h1>bonze demos</h1>
-      <p class="subtitle">Super tiny chainable DOM selector. Explore each method below.</p>
-    </div>
+    <footer id="footer"></footer>
 
-    <div class="cards">
-      <a class="card" href="selector.html">
-        <div class="card-name">$(selector)</div>
-        <div class="card-desc">CSS string, context, array of selectors, HTML string creation.</div>
-      </a>
-      <a class="card" href="first-last.html">
-        <div class="card-name">.first() .last()</div>
-        <div class="card-desc">Target the first or last element of the current selection.</div>
-      </a>
-      <a class="card" href="nth.html">
-        <div class="card-name">.nth(n)</div>
-        <div class="card-desc">Target the nth element by zero-based index.</div>
-      </a>
-      <a class="card" href="odd-even.html">
-        <div class="card-name">.odd() .even()</div>
-        <div class="card-desc">Filter to odd or even indexed elements.</div>
-      </a>
-      <a class="card" href="filter.html">
-        <div class="card-name">.filter(fn)</div>
-        <div class="card-desc">Filter elements using a custom predicate function.</div>
-      </a>
-      <a class="card" href="siblings.html">
-        <div class="card-name">.siblings()</div>
-        <div class="card-desc">Get all sibling elements sharing the same parent node.</div>
-      </a>
-      <a class="card" href="back.html">
-        <div class="card-name">.back()</div>
-        <div class="card-desc">Return to the previous selection state in the chain.</div>
-      </a>
-      <a class="card" href="set.html">
-        <div class="card-name">.set(fn)</div>
-        <div class="card-desc">Morph the current element collection via a transform function.</div>
-      </a>
-      <a class="card" href="each.html">
-        <div class="card-name">(callback) .each</div>
-        <div class="card-desc">Iterate over elements with a callback. The core mechanic.</div>
-      </a>
-      <a class="card" href="plugin.html">
-        <div class="card-name">$.plugin()</div>
-        <div class="card-desc">Extend bonze with custom reusable methods on all instances.</div>
-      </a>
-    </div>
-  </main>
-</body>
+    <script type="module">
+      import { loadHeader, loadFooter, setCode } from './demo.js'
+
+      loadHeader('index')
+      loadFooter()
+
+      setCode('#install-npm', 'npm install bonze')
+      setCode('#install-import', "import $ from 'bonze'")
+    </script>
+  </body>
 </html>

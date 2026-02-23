@@ -1,26 +1,27 @@
-import bundleSize from 'rollup-plugin-bundle-size';
-import terser from '@rollup/plugin-terser';
+import bundleSize from 'rollup-plugin-bundle-size'
+import terser from '@rollup/plugin-terser'
 
-import pkg from './package.json' with { type: 'json' };
+import pkg from './package.json' with { type: 'json' }
 
-const dist = './dist';
-const entrypoint = './src/bonze.js';
-const date = new Date();
+const dist = './dist'
+const entrypoint = './src/bonze.js'
+const date = new Date()
 
 const bannerFull = `
 /**!
  * ${pkg.name}
+ * Hit your DOM the smart way
  * ${pkg.description}
  * https://github.com/jaysalvat/bonze
  * @version ${pkg.version} built ${date.toISOString().replace(/[TZ]/g, ' ')}
  * @license MIT
  * @author Jay Salvat http://jaysalvat.com
- */`;
+ */`
 
 const bannerLight = `
-/*! ${pkg.name} v${pkg.version} - github.com/jaysalvat/bonze */`;
+/*! ${pkg.name} v${pkg.version} - github.com/jaysalvat/bonze */`
 
-const watched = process.env.ROLLUP_WATCH;
+const watched = process.env.ROLLUP_WATCH
 
 const standard = {
   input: entrypoint,
@@ -52,7 +53,7 @@ const standard = {
     }),
     bundleSize()
   ]
-};
+}
 
 const minified = {
   input: entrypoint,
@@ -88,8 +89,8 @@ const minified = {
     }),
     bundleSize()
   ]
-};
+}
 
-const configs = [ standard, minified ];
+const configs = [standard, minified]
 
-export default configs;
+export default configs

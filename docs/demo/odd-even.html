@@ -3,24 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bonze — odd · even demo</title>
-  <link rel="stylesheet" href="demo.css">
-  <style>
-    .item .idx {
-      font-size: .7rem;
-      opacity: .5;
-      margin-left: 4px;
-    }
-  </style>
+  <title>bonze - odd · even demo</title>
+  <link rel="stylesheet" href="_demo.css">
 </head>
 <body>
-  <nav>
-    <a href="index.html" class="brand"><img src="../bonze.svg" alt="bonze"></a>
-  </nav>
-  <script>document.querySelector(`[data-page="${location.pathname.split('/').pop().replace('.html','')}"]`)?.classList.add('active')</script>
+  <div id="header"></div>
 
   <main>
-    <h1>bonze — <code>.odd()</code> <code>.even()</code></h1>
+    <h1>bonze <code>.odd()</code> <code>.even()</code></h1>
     <p class="subtitle">Filter to odd or even indexed elements. Index is zero-based: <code>.odd()</code> keeps indices 0, 2, 4… and <code>.even()</code> keeps 1, 3, 5…</p>
 
     <div class="scene">
@@ -42,7 +32,7 @@
         <button class="ghost" id="btn-oe-reset">reset</button>
       </div>
 
-      <pre id="oe-code"><span class="cm">// click a button</span></pre>
+      <pre id="oe-code">// click a button</pre>
     </div>
 
     <div class="scene">
@@ -64,41 +54,45 @@
         <button class="ghost" id="btn-oecb-reset">reset</button>
       </div>
 
-      <pre id="oecb-code"><span class="cm">// click a button</span></pre>
+      <pre id="oecb-code">// click a button</pre>
     </div>
   </main>
 
+  <footer id="footer"></footer>
+
   <script type="module">
     import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+    import { setCode, loadHeader, loadFooter } from './demo.js'
+
+    loadHeader('odd-even')
+    loadFooter()
 
     // Scene 1
     function oe(method) {
-      $('#oe-items .item')((el) => el.classList.remove('hl'))
-      $('#oe-items .item')[method]()(($el) => $el.classList.add('hl'))
-      document.querySelector('#oe-code').innerHTML =
-        `$(<span class="str">'#oe-items .item'</span>).<span class="fn">${method}</span>()(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`
+      $('#oe-items .item')((el) => el.classList.remove('focus'))
+      $('#oe-items .item')[method]()(($el) => $el.classList.add('focus'))
+      setCode('#oe-code', `$('.item').${method}()(($el) => $el.classList.add('focus'))`)
     }
 
     $('#btn-odd')((el)      => el.addEventListener('click', () => oe('odd')))
     $('#btn-even')((el)     => el.addEventListener('click', () => oe('even')))
     $('#btn-oe-reset')((el) => el.addEventListener('click', () => {
-      $('#oe-items .item')((el) => el.classList.remove('hl'))
-      document.querySelector('#oe-code').innerHTML = `<span class="cm">// click a button</span>`
+      $('#oe-items .item')((el) => el.classList.remove('focus'))
+      setCode('#oe-code', '// click a button')
     }))
 
-    // Scene 2 — with callback
+    // Scene 2 - with callback
     function oecb(method) {
-      $('#oecb-items .item')((el) => el.classList.remove('hl'))
-      $('#oecb-items .item')[method](($el) => $el.classList.add('hl'))
-      document.querySelector('#oecb-code').innerHTML =
-        `$(<span class="str">'#oecb-items .item'</span>).<span class="fn">${method}</span>(($el) <span class="kw">=></span> $el.classList.<span class="fn">add</span>(<span class="str">'hl'</span>))`
+      $('#oecb-items .item')((el) => el.classList.remove('focus'))
+      $('#oecb-items .item')[method](($el) => $el.classList.add('focus'))
+      setCode('#oecb-code', `$('.item').${method}(($el) => $el.classList.add('focus'))`)
     }
 
     $('#btn-odd-cb')((el)      => el.addEventListener('click', () => oecb('odd')))
     $('#btn-even-cb')((el)     => el.addEventListener('click', () => oecb('even')))
     $('#btn-oecb-reset')((el)  => el.addEventListener('click', () => {
-      $('#oecb-items .item')((el) => el.classList.remove('hl'))
-      document.querySelector('#oecb-code').innerHTML = `<span class="cm">// click a button</span>`
+      $('#oecb-items .item')((el) => el.classList.remove('focus'))
+      setCode('#oecb-code', '// click a button')
     }))
   </script>
 </body>

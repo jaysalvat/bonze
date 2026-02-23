@@ -3,33 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bonze — filter demo</title>
-  <link rel="stylesheet" href="demo.css">
+  <title>bonze - filter demo</title>
+  <link rel="stylesheet" href="_demo.css">
 </head>
 <body>
-  <nav>
-    <a href="index.html" class="brand"><img src="../bonze.svg" alt="bonze"></a>
-  </nav>
-  <script>document.querySelector(`[data-page="${location.pathname.split('/').pop().replace('.html','')}"]`)?.classList.add('active')</script>
+  <header id="header"></header>
 
   <main>
-    <h1>bonze — <code>.filter(fn)</code></h1>
-    <p class="subtitle">Narrow a selection using a predicate function. The callback receives <code>(element, index, allElements)</code>.</p>
+    <h1>bonze <code>.filter(fn)</code></h1>
+    <p class="subtitle">Narrow a selection using a predicategorye function. The callback receives <code>(element, index, allElements)</code>.</p>
 
     <!-- Scene 1: filter by attribute -->
     <div class="scene">
       <h2>Filter by data attribute</h2>
-      <p class="desc">Each item has a <code>data-cat</code> attribute. Filter to show only a subset.</p>
+      <p class="desc">Each item has a <code>data-category</code> attribute. Filter to show only a subset.</p>
 
       <div class="grid" id="f1-items">
-        <div class="item" data-cat="fruit">apple</div>
-        <div class="item" data-cat="veggie">carrot</div>
-        <div class="item" data-cat="fruit">banana</div>
-        <div class="item" data-cat="dairy">milk</div>
-        <div class="item" data-cat="veggie">broccoli</div>
-        <div class="item" data-cat="fruit">cherry</div>
-        <div class="item" data-cat="dairy">cheese</div>
-        <div class="item" data-cat="veggie">spinach</div>
+        <div class="item" data-category="fruit">apple</div>
+        <div class="item" data-category="veggie">carrot</div>
+        <div class="item" data-category="fruit">banana</div>
+        <div class="item" data-category="dairy">milk</div>
+        <div class="item" data-category="veggie">broccoli</div>
+        <div class="item" data-category="fruit">cherry</div>
+        <div class="item" data-category="dairy">cheese</div>
+        <div class="item" data-category="veggie">spinach</div>
       </div>
 
       <div class="controls">
@@ -39,13 +36,13 @@
         <button class="ghost" id="f1-reset">reset</button>
       </div>
 
-      <pre id="f1-code"><span class="cm">// click a button</span></pre>
+      <pre id="f1-code">// click a button</pre>
     </div>
 
     <!-- Scene 2: filter by index -->
     <div class="scene">
       <h2>Filter by index</h2>
-      <p class="desc">The predicate also receives the element's index and the full array.</p>
+      <p class="desc">The predicategorye also receives the element's index and the full array.</p>
 
       <div class="grid" id="f2-items">
         <div class="item">item-0</div>
@@ -63,13 +60,13 @@
         <button class="ghost" id="f2-reset">reset</button>
       </div>
 
-      <pre id="f2-code"><span class="cm">// click a button</span></pre>
+      <pre id="f2-code">// click a button</pre>
     </div>
 
     <!-- Scene 3: filter on text content -->
     <div class="scene">
       <h2>Filter by content</h2>
-      <p class="desc">Use any DOM property or method in the predicate — here we test <code>textContent</code>.</p>
+      <p class="desc">Use any DOM property or method in the predicategorye - here we test <code>textContent</code>.</p>
 
       <div class="grid" id="f3-items">
         <div class="item">bonze</div>
@@ -86,19 +83,24 @@
         <button class="ghost" id="f3-reset">reset</button>
       </div>
 
-      <pre id="f3-code"><span class="cm">// click a button</span></pre>
+      <pre id="f3-code">// click a button</pre>
     </div>
   </main>
 
+  <footer id="footer"></footer>
+
   <script type="module">
     import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+    import { setCode, loadHeader, loadFooter } from './demo.js'
+
+    loadHeader('filter')
+    loadFooter()
 
     // Scene 1
-    function f1(cat) {
+    function f1(category) {
       $('#f1-items .item')((el) => el.classList.remove('hl'))
-      $('#f1-items .item').filter((el) => el.dataset.cat === cat)(($el) => $el.classList.add('hl'))
-      document.querySelector('#f1-code').innerHTML =
-        `$(<span class="str">'#f1-items .item'</span>).<span class="fn">filter</span>((el) <span class="kw">=></span> el.dataset.cat === <span class="str">'${cat}'</span>)`
+      $('#f1-items .item').filter((el) => el.dataset.category === category)(($el) => $el.classList.add('hl'))
+      setCode('#f1-code', `$('.item').filter((el) => el.dataset.category === '${category}')`)
     }
 
     $('#f1-fruit')((el)  => el.addEventListener('click', () => f1('fruit')))
@@ -106,21 +108,20 @@
     $('#f1-dairy')((el)  => el.addEventListener('click', () => f1('dairy')))
     $('#f1-reset')((el)  => el.addEventListener('click', () => {
       $('#f1-items .item')((el) => el.classList.remove('hl'))
-      document.querySelector('#f1-code').innerHTML = `<span class="cm">// click a button</span>`
+      setCode('#f1-code', '// click a button')
     }))
 
     // Scene 2
     const f2cases = {
-      gt2: { pred: (_, i) => i > 2,         label: `(_, i) <span class="kw">=></span> i > <span class="num">2</span>` },
-      lt3: { pred: (_, i) => i < 3,         label: `(_, i) <span class="kw">=></span> i < <span class="num">3</span>` },
-      mid: { pred: (_, i) => i >= 1 && i <= 3, label: `(_, i) <span class="kw">=></span> i >= <span class="num">1</span> && i <= <span class="num">3</span>` },
+      gt2: { pred: (_, i) => i > 2, label: '(_, i) => i > 2' },
+      lt3: { pred: (_, i) => i < 3, label: '(_, i) => i < 3' },
+      mid: { pred: (_, i) => i >= 1 && i <= 3, label: '(_, i) => i >= 1 && i <= 3' },
     }
 
     function f2(key) {
       $('#f2-items .item')((el) => el.classList.remove('hl'))
       $('#f2-items .item').filter(f2cases[key].pred)(($el) => $el.classList.add('hl'))
-      document.querySelector('#f2-code').innerHTML =
-        `$(<span class="str">'#f2-items .item'</span>).<span class="fn">filter</span>(${f2cases[key].label})`
+      setCode('#f2-code', `$('.item').filter(${f2cases[key].label})`)
     }
 
     $('#f2-gt2')((el)  => el.addEventListener('click', () => f2('gt2')))
@@ -128,27 +129,26 @@
     $('#f2-mid')((el)  => el.addEventListener('click', () => f2('mid')))
     $('#f2-reset')((el) => el.addEventListener('click', () => {
       $('#f2-items .item')((el) => el.classList.remove('hl'))
-      document.querySelector('#f2-code').innerHTML = `<span class="cm">// click a button</span>`
+      setCode('#f2-code', '// click a button')
     }))
 
     // Scene 3
     const f3cases = {
-      bon: { pred: (el) => el.textContent.startsWith('bon'), label: `(el) <span class="kw">=></span> el.textContent.<span class="fn">startsWith</span>(<span class="str">'bon'</span>)` },
-      o:   { pred: (el) => el.textContent.includes('o'),     label: `(el) <span class="kw">=></span> el.textContent.<span class="fn">includes</span>(<span class="str">'o'</span>)` },
+      bon: { pred: (el) => el.textContent.startsWith('bon'), label: `(el) => el.textContent.startsWith('bon')` },
+      o:   { pred: (el) => el.textContent.includes('o'), label: `(el) => el.textContent.includes('o')` },
     }
 
     function f3(key) {
       $('#f3-items .item')((el) => el.classList.remove('hl'))
       $('#f3-items .item').filter(f3cases[key].pred)(($el) => $el.classList.add('hl'))
-      document.querySelector('#f3-code').innerHTML =
-        `$(<span class="str">'#f3-items .item'</span>).<span class="fn">filter</span>(${f3cases[key].label})`
+      setCode('#f3-code', `$('.item').filter(${f3cases[key].label})`)
     }
 
     $('#f3-bon')((el)   => el.addEventListener('click', () => f3('bon')))
     $('#f3-o')((el)     => el.addEventListener('click', () => f3('o')))
     $('#f3-reset')((el) => el.addEventListener('click', () => {
       $('#f3-items .item')((el) => el.classList.remove('hl'))
-      document.querySelector('#f3-code').innerHTML = `<span class="cm">// click a button</span>`
+      setCode('#f3-code', '// click a button')
     }))
   </script>
 </body>
