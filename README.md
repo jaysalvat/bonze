@@ -23,6 +23,9 @@ Super tiny chainable and extendable tool wrapping native `querySelectorAll` for 
 - [**.back()**](https://jaysalvat.github.io/bonze/demo/back.html) — Return to the previous selection
 - [**.set(fn)**](https://jaysalvat.github.io/bonze/demo/set.html) — Morph the element collection
 - [**(callback) .each**](https://jaysalvat.github.io/bonze/demo/each.html) — Iterate over elements
+
+And
+
 - [**$.plugin()**](https://jaysalvat.github.io/bonze/demo/plugin.html) — Extend bonze with custom methods
 
 [See all demos →](https://jaysalvat.github.io/bonze/demo/)
@@ -208,6 +211,10 @@ $("div")((div, i) => {
 
 ### Extendable
 
+Bonze can be extended with custom methods using the `$.plugin()` API. Plugins receive the element, index, elements array, and any custom arguments you pass.
+
+[**See plugin demos**](https://jaysalvat.github.io/bonze/demo/plugin.html)
+
 ```javascript
 $.plugin("addClass", (el, index, elmts, name) => {
   el.classList.add(name);
@@ -215,6 +222,15 @@ $.plugin("addClass", (el, index, elmts, name) => {
 
 $("div").odd().addClass("black");
 $("div").even().addClass("white");
+```
+
+```javascript
+$.plugin('stagger', (el, i, elmts, name, timing) => {
+  el.style.transitionDelay = `${i * timing}ms`
+  el.classList.toggleClass(name)
+})
+
+$('div').stagger('highlight')
 ```
 
 ### Get DOM elements
