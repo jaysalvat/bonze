@@ -1,184 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bonze - set demo</title>
-  <link rel="stylesheet" href="_demo.css">
-</head>
-<body>
-  <header id="header"></header>
 
-  <main>
-    <h1>bonze <code>.set(fn)</code></h1>
-    <p class="subtitle">Morph the current element collection. The callback receives the elements array and must return something <code>$()</code> can wrap.</p>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bonze - set demo</title>
+    <link rel="stylesheet" href="_demo.css">
+  </head>
 
-    <!-- Scene 1: slice the collection -->
-    <div class="scene">
-      <h2>Slice a collection</h2>
-      <p class="desc">Use <code>.set()</code> to derive a sub-array from the current elements.</p>
+  <body>
+    <header id="header"></header>
 
-      <div class="grid" id="set1-items">
-        <div class="item">item-0</div>
-        <div class="item">item-1</div>
-        <div class="item">item-2</div>
-        <div class="item">item-3</div>
-        <div class="item">item-4</div>
-        <div class="item">item-5</div>
+    <main>
+      <h1>bonze <code>.set(fn)</code></h1>
+      <p class="subtitle">Morph the current element collection. The callback receives the elements array and must return something <code>$()</code> can wrap.</p>
+
+      <!-- Scene 1: slice the collection -->
+      <div class="scene">
+        <h2>Slice a collection</h2>
+        <p class="desc">Use <code>.set()</code> to derive a sub-array from the current elements.</p>
+
+        <div class="grid" id="set1-items">
+          <div class="item">item-0</div>
+          <div class="item">item-1</div>
+          <div class="item">item-2</div>
+          <div class="item">item-3</div>
+          <div class="item">item-4</div>
+          <div class="item">item-5</div>
+        </div>
+
+        <div class="controls">
+          <button id="set1-first3">3 first</button>
+          <button id="set1-last3">3 last</button>
+          <button id="set1-rev">reverse</button>
+          <button class="ghost" id="set1-reset">reset</button>
+        </div>
+
+        <pre id="set1-code">// click a button</pre>
       </div>
 
-      <div class="controls">
-        <button id="set1-first3">3 first</button>
-        <button id="set1-last3">3 last</button>
-        <button id="set1-rev">reverse</button>
-        <button class="ghost" id="set1-reset">reset</button>
-      </div>
+      <!-- Scene 2: replace with a different selection -->
+      <div class="scene">
+        <h2>Replace with a different selection</h2>
+        <p class="desc">Start from one group, then morph the selection to a completely different set of elements.</p>
 
-      <pre id="set1-code">// click a button</pre>
-    </div>
-
-    <!-- Scene 2: replace with a different selection -->
-    <div class="scene">
-      <h2>Replace with a different selection</h2>
-      <p class="desc">Start from one group, then morph the selection to a completely different set of elements.</p>
-
-      <div class="groups">
-        <div class="group-wrap">
-          <div class="group-label">#set2-a</div>
-          <div class="group" id="set2-a">
-            <div class="item">A-1</div>
-            <div class="item">A-2</div>
-            <div class="item">A-3</div>
+        <div class="groups">
+          <div class="group-wrap">
+            <div class="group-label">#set2-a</div>
+            <div class="group" id="set2-a">
+              <div class="item">A-1</div>
+              <div class="item">A-2</div>
+              <div class="item">A-3</div>
+            </div>
+          </div>
+          <div class="group-wrap">
+            <div class="group-label">#set2-b</div>
+            <div class="group" id="set2-b">
+              <div class="item">B-1</div>
+              <div class="item">B-2</div>
+              <div class="item">B-3</div>
+            </div>
           </div>
         </div>
-        <div class="group-wrap">
-          <div class="group-label">#set2-b</div>
-          <div class="group" id="set2-b">
-            <div class="item">B-1</div>
-            <div class="item">B-2</div>
-            <div class="item">B-3</div>
+
+        <div class="controls">
+          <button id="set2-btn-a">start: A - then .set() to B</button>
+          <button id="set2-btn-b">start: B - then .set() to A</button>
+          <button class="ghost" id="set2-reset">reset</button>
+        </div>
+
+        <pre id="set2-code">// click a button</pre>
+      </div>
+
+      <!-- Scene 3: transform to parents -->
+      <div class="scene">
+        <h2>Derive parent elements</h2>
+        <p class="desc">Collect the unique parent nodes of the current selection.</p>
+
+        <div class="groups" id="set3-root">
+          <div class="group-wrap">
+            <div class="group" id="set3-g1">
+              <div class="item">item-1a</div>
+              <div class="item">item-1b</div>
+            </div>
+          </div>
+          <div class="group-wrap">
+            <div class="group" id="set3-g2">
+              <div class="item">item-2a</div>
+              <div class="item">item-2b</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="controls">
-        <button id="set2-a">start: A - then .set() to B</button>
-        <button id="set2-b">start: B - then .set() to A</button>
-        <button class="ghost" id="set2-reset">reset</button>
-      </div>
-
-      <pre id="set2-code">// click a button</pre>
-    </div>
-
-    <!-- Scene 3: transform to parents -->
-    <div class="scene">
-      <h2>Derive parent elements</h2>
-      <p class="desc">Collect the unique parent nodes of the current selection.</p>
-
-      <div class="groups" id="set3-root">
-        <div class="group-wrap">
-          <div class="group" id="set3-g1">
-            <div class="item">item-1a</div>
-            <div class="item">item-1b</div>
-          </div>
+        <div class="controls">
+          <button id="set3-items">select items</button>
+          <button id="set3-parents">.set() → unique parents</button>
+          <button class="ghost" id="set3-reset">reset</button>
         </div>
-        <div class="group-wrap">
-          <div class="group" id="set3-g2">
-            <div class="item">item-2a</div>
-            <div class="item">item-2b</div>
-          </div>
-        </div>
+
+        <pre id="set3-code">// click a button</pre>
       </div>
+    </main>
 
-      <div class="controls">
-        <button id="set3-items">select items</button>
-        <button id="set3-parents">.set() → unique parents</button>
-        <button class="ghost" id="set3-reset">reset</button>
-      </div>
+    <footer id="footer"></footer>
 
-      <pre id="set3-code">// click a button</pre>
-    </div>
-  </main>
+    <script type="module">
+      import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+      import { setCode, loadHeader, loadFooter } from './demo.js'
 
-  <footer id="footer"></footer>
+      loadHeader('set')
+      loadFooter()
 
-  <script type="module">
-    import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
-    import { setCode, loadHeader, loadFooter } from './demo.js'
-
-    loadHeader('set')
-    loadFooter()
-
-    // Scene 1
-    const set1cases = {
-      first3: {
-        fn: (elmts) => elmts.slice(0, 3),
-        label: '(elmts) => elmts.slice(0, 3)'
-      },
-      last3: {
-        fn: (elmts) => elmts.slice(-3),
-        label: '(elmts) => elmts.slice(-3)'
-      },
-      rev: {
-        fn: (elmts) => [...elmts].reverse(),
-        label: '(elmts) => [...elmts].reverse()'
+      // Scene 1
+      const set1cases = {
+        first3: {
+          fn: (elmts) => elmts.slice(0, 3),
+          label: '(elmts) => elmts.slice(0, 3)'
+        },
+        last3: {
+          fn: (elmts) => elmts.slice(-3),
+          label: '(elmts) => elmts.slice(-3)'
+        },
+        rev: {
+          fn: (elmts) => [...elmts].reverse(),
+          label: '(elmts) => [...elmts].reverse()'
+        }
       }
-    }
 
-    function s1(key) {
-      $('#set1-items .item')((el) => el.classList.remove('hl', 'src'))
-      const result = $('#set1-items .item').set(set1cases[key].fn)
-      result(($el) => $el.classList.add('hl'))
-      setCode('#set1-code', `$('.item').set(${set1cases[key].label})`)
-    }
+      function s1(key) {
+        $('#set1-items .item')((el) => el.classList.remove('hl', 'src'))
+        const result = $('#set1-items .item').set(set1cases[key].fn)
+        result(($el) => $el.classList.add('hl'))
+        setCode('#set1-code', `$('.item').set(${set1cases[key].label})`)
+      }
 
-    $('#set1-first3')((el)  => el.addEventListener('click', () => s1('first3')))
-    $('#set1-last3')((el)   => el.addEventListener('click', () => s1('last3')))
-    $('#set1-rev')((el)     => el.addEventListener('click', () => s1('rev')))
-    $('#set1-reset')((el)   => el.addEventListener('click', () => {
-      $('#set1-items .item')((el) => el.classList.remove('hl', 'src'))
-      setCode('#set1-code', '// click a button')
-    }))
+      $('#set1-first3')((el) => el.addEventListener('click', () => s1('first3')))
+      $('#set1-last3')((el) => el.addEventListener('click', () => s1('last3')))
+      $('#set1-rev')((el) => el.addEventListener('click', () => s1('rev')))
+      $('#set1-reset')((el) => el.addEventListener('click', () => {
+        $('#set1-items .item')((el) => el.classList.remove('hl', 'src'))
+        setCode('#set1-code', '// click a button')
+      }))
 
-    // Scene 2
-    function s2(from, to) {
-      $('#set2-a .item, #set2-b .item')((el) => el.classList.remove('hl', 'src'))
-      const fromSel = `#set2-${from} .item`
-      const toSel   = `#set2-${to}   .item`
-      $(fromSel)(($el) => $el.classList.add('src'))
-      $(fromSel).set(() => $(toSel))(($el) => $el.classList.add('hl'))
-      setCode('#set2-code', `$('#set2-${from} .item').set(() => $('#set2-${to} .item'))`)
-    }
+      // Scene 2
+      function s2(from, to) {
+        $('#set2-a .item, #set2-b .item')((el) => el.classList.remove('hl', 'src'))
+        const fromSel = `#set2-${from} .item`
+        const toSel = `#set2-${to}   .item`
+        $(fromSel)(($el) => $el.classList.add('src'))
+        $(fromSel).set(() => $(toSel))(($el) => $el.classList.add('hl'))
+        setCode('#set2-code', `$('#set2-${from} .item').set(() => $('#set2-${to} .item'))`)
+      }
 
-    $('#set2-a')((el)     => el.addEventListener('click', () => s2('a', 'b')))
-    $('#set2-b')((el)     => el.addEventListener('click', () => s2('b', 'a')))
-    $('#set2-reset')((el) => el.addEventListener('click', () => {
-      $('#set2-a .item, #set2-b .item')((el) => el.classList.remove('hl', 'src'))
-      setCode('#set2-code', '// click a button')
-    }))
+      $('#set2-btn-a')((el) => el.addEventListener('click', () => s2('a', 'b')))
+      $('#set2-btn-b')((el) => el.addEventListener('click', () => s2('b', 'a')))
+      $('#set2-reset')((el) => el.addEventListener('click', () => {
+        $('#set2-a .item, #set2-b .item')((el) => el.classList.remove('hl', 'src'))
+        setCode('#set2-code', '// click a button')
+      }))
 
-    // Scene 3
-    $('#set3-items')((el) => el.addEventListener('click', () => {
-      $('#set3-root .item')((el) => el.classList.remove('hl', 'src', 'new'))
-      $('#set3-root .group')((el) => el.classList.remove('hl'))
-      $('#set3-root .item')(($el) => $el.classList.add('src'))
-      setCode('#set3-code', "$('.item') // all items selected")
-    }))
+      // Scene 3
+      $('#set3-items')((el) => el.addEventListener('click', () => {
+        $('#set3-root .item')((el) => el.classList.remove('hl', 'src', 'new'))
+        $('#set3-root .group')((el) => el.classList.remove('hl'))
+        $('#set3-root .item')(($el) => $el.classList.add('src'))
+        setCode('#set3-code', "$('.item') // all items selected")
+      }))
 
-    $('#set3-parents')((el) => el.addEventListener('click', () => {
-      $('#set3-root .item')((el) => el.classList.remove('hl', 'src'))
-      $('#set3-root .group')((el) => el.classList.remove('hl'))
-      $('#set3-root .item')
-        .set((elmts) => [...new Set(elmts.map((el) => el.parentNode))])
-        (($el) => $el.classList.add('hl'))
-      setCode('#set3-code', "$('#set3-root .item').set(\n  (elmts) => [...new Set(elmts.map((el) => el.parentNode))]\n)")
-    }))
+      $('#set3-parents')((el) => el.addEventListener('click', () => {
+        $('#set3-root .item')((el) => el.classList.remove('hl', 'src'))
+        $('#set3-root .group')((el) => el.classList.remove('hl'))
+        $('#set3-root .item')
+          .set((elmts) => [...new Set(elmts.map((el) => el.parentNode))])
+          (($el) => $el.classList.add('hl'))
+        setCode('#set3-code', "$('#set3-root .item').set(\n  (elmts) => [...new Set(elmts.map((el) => el.parentNode))]\n)")
+      }))
 
-    $('#set3-reset')((el) => el.addEventListener('click', () => {
-      $('#set3-root .item')((el) => el.classList.remove('hl', 'src', 'new'))
-      $('#set3-root .group')((el) => el.classList.remove('hl'))
-      setCode('#set3-code', '// click a button')
-    }))
-  </script>
-</body>
+      $('#set3-reset')((el) => el.addEventListener('click', () => {
+        $('#set3-root .item')((el) => el.classList.remove('hl', 'src', 'new'))
+        $('#set3-root .group')((el) => el.classList.remove('hl'))
+        setCode('#set3-code', '// click a button')
+      }))
+    </script>
+  </body>
+
 </html>

@@ -1,0 +1,24 @@
+// {
+//   "eslint.useFlatConfig": true,
+//   "eslint.validate": [
+//     "javascript",
+//     "javascriptreact",
+//     "typescript",
+//     "typescriptreact",
+//     "html"
+//   ],
+//   "editor.codeActionsOnSave": {
+//     "source.fixAll.eslint": "always"
+//   },
+//   "[html]": {
+//     "editor.defaultFormatter": "vscode.html-language-features",
+//     "editor.formatOnSave": true,
+//     "editor.codeActionsOnSave": {
+//       "source.fixAll.eslint": "never"
+//     }
+//   },
+//   "[css]": {
+//     "editor.defaultFormatter": "vscode.css-language-features",
+//     "editor.formatOnSave": true
+//   }
+// }

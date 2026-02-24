@@ -1,99 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bonze - odd · even demo</title>
-  <link rel="stylesheet" href="_demo.css">
-</head>
-<body>
-  <div id="header"></div>
 
-  <main>
-    <h1>bonze <code>.odd()</code> <code>.even()</code></h1>
-    <p class="subtitle">Filter to odd or even indexed elements. Index is zero-based: <code>.odd()</code> keeps indices 0, 2, 4… and <code>.even()</code> keeps 1, 3, 5…</p>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bonze - odd · even demo</title>
+    <link rel="stylesheet" href="_demo.css">
+  </head>
 
-    <div class="scene">
-      <h2>Six items</h2>
-      <p class="desc">Each item shows its zero-based index. Click a button to see which are selected.</p>
+  <body>
+    <header id="header"></header>
 
-      <div class="grid" id="oe-items">
-        <div class="item">item <span class="idx">[0]</span></div>
-        <div class="item">item <span class="idx">[1]</span></div>
-        <div class="item">item <span class="idx">[2]</span></div>
-        <div class="item">item <span class="idx">[3]</span></div>
-        <div class="item">item <span class="idx">[4]</span></div>
-        <div class="item">item <span class="idx">[5]</span></div>
+    <main>
+      <h1>bonze <code>.odd()</code> <code>.even()</code></h1>
+      <p class="subtitle">Filter to odd or even indexed elements. Index is zero-based: <code>.odd()</code> keeps indices 0, 2, 4… and <code>.even()</code> keeps 1, 3, 5…</p>
+
+      <div class="scene">
+        <h2>Six items</h2>
+        <p class="desc">Each item shows its zero-based index. Click a button to see which are selected.</p>
+
+        <div class="grid" id="oe-items">
+          <div class="item">item <span class="idx">[0]</span></div>
+          <div class="item">item <span class="idx">[1]</span></div>
+          <div class="item">item <span class="idx">[2]</span></div>
+          <div class="item">item <span class="idx">[3]</span></div>
+          <div class="item">item <span class="idx">[4]</span></div>
+          <div class="item">item <span class="idx">[5]</span></div>
+        </div>
+
+        <div class="controls">
+          <button id="btn-odd">.odd()</button>
+          <button id="btn-even">.even()</button>
+          <button class="ghost" id="btn-oe-reset">reset</button>
+        </div>
+
+        <pre id="oe-code">// click a button</pre>
       </div>
 
-      <div class="controls">
-        <button id="btn-odd">.odd()</button>
-        <button id="btn-even">.even()</button>
-        <button class="ghost" id="btn-oe-reset">reset</button>
+      <div class="scene">
+        <h2>With callback shorthand</h2>
+        <p class="desc">Pass a callback directly: <code>.odd(cb)</code> is shorthand for <code>.odd()(cb)</code>.</p>
+
+        <div class="grid" id="oecb-items">
+          <div class="item">item <span class="idx">[0]</span></div>
+          <div class="item">item <span class="idx">[1]</span></div>
+          <div class="item">item <span class="idx">[2]</span></div>
+          <div class="item">item <span class="idx">[3]</span></div>
+          <div class="item">item <span class="idx">[4]</span></div>
+          <div class="item">item <span class="idx">[5]</span></div>
+        </div>
+
+        <div class="controls">
+          <button id="btn-odd-cb">.odd(cb)</button>
+          <button id="btn-even-cb">.even(cb)</button>
+          <button class="ghost" id="btn-oecb-reset">reset</button>
+        </div>
+
+        <pre id="oecb-code">// click a button</pre>
       </div>
+    </main>
 
-      <pre id="oe-code">// click a button</pre>
-    </div>
+    <footer id="footer"></footer>
 
-    <div class="scene">
-      <h2>With callback shorthand</h2>
-      <p class="desc">Pass a callback directly: <code>.odd(cb)</code> is shorthand for <code>.odd()(cb)</code>.</p>
+    <script type="module">
+      import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+      import { setCode, loadHeader, loadFooter } from './demo.js'
 
-      <div class="grid" id="oecb-items">
-        <div class="item">item <span class="idx">[0]</span></div>
-        <div class="item">item <span class="idx">[1]</span></div>
-        <div class="item">item <span class="idx">[2]</span></div>
-        <div class="item">item <span class="idx">[3]</span></div>
-        <div class="item">item <span class="idx">[4]</span></div>
-        <div class="item">item <span class="idx">[5]</span></div>
-      </div>
+      loadHeader('odd-even')
+      loadFooter()
 
-      <div class="controls">
-        <button id="btn-odd-cb">.odd(cb)</button>
-        <button id="btn-even-cb">.even(cb)</button>
-        <button class="ghost" id="btn-oecb-reset">reset</button>
-      </div>
+      // Scene 1
+      function oe(method) {
+        $('#oe-items .item')((el) => el.classList.remove('focus'))
+        $('#oe-items .item')[method]()(($el) => $el.classList.add('focus'))
+        setCode('#oe-code', `$('.item').${method}()(($el) => $el.classList.add('focus'))`)
+      }
 
-      <pre id="oecb-code">// click a button</pre>
-    </div>
-  </main>
+      $('#btn-odd')((el) => el.addEventListener('click', () => oe('odd')))
+      $('#btn-even')((el) => el.addEventListener('click', () => oe('even')))
+      $('#btn-oe-reset')((el) => el.addEventListener('click', () => {
+        $('#oe-items .item')((el) => el.classList.remove('focus'))
+        setCode('#oe-code', '// click a button')
+      }))
 
-  <footer id="footer"></footer>
+      // Scene 2 - with callback
+      function oecb(method) {
+        $('#oecb-items .item')((el) => el.classList.remove('focus'))
+        $('#oecb-items .item')[method](($el) => $el.classList.add('focus'))
+        setCode('#oecb-code', `$('.item').${method}(($el) => $el.classList.add('focus'))`)
+      }
 
-  <script type="module">
-    import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
-    import { setCode, loadHeader, loadFooter } from './demo.js'
+      $('#btn-odd-cb')((el) => el.addEventListener('click', () => oecb('odd')))
+      $('#btn-even-cb')((el) => el.addEventListener('click', () => oecb('even')))
+      $('#btn-oecb-reset')((el) => el.addEventListener('click', () => {
+        $('#oecb-items .item')((el) => el.classList.remove('focus'))
+        setCode('#oecb-code', '// click a button')
+      }))
+    </script>
+  </body>
 
-    loadHeader('odd-even')
-    loadFooter()
-
-    // Scene 1
-    function oe(method) {
-      $('#oe-items .item')((el) => el.classList.remove('focus'))
-      $('#oe-items .item')[method]()(($el) => $el.classList.add('focus'))
-      setCode('#oe-code', `$('.item').${method}()(($el) => $el.classList.add('focus'))`)
-    }
-
-    $('#btn-odd')((el)      => el.addEventListener('click', () => oe('odd')))
-    $('#btn-even')((el)     => el.addEventListener('click', () => oe('even')))
-    $('#btn-oe-reset')((el) => el.addEventListener('click', () => {
-      $('#oe-items .item')((el) => el.classList.remove('focus'))
-      setCode('#oe-code', '// click a button')
-    }))
-
-    // Scene 2 - with callback
-    function oecb(method) {
-      $('#oecb-items .item')((el) => el.classList.remove('focus'))
-      $('#oecb-items .item')[method](($el) => $el.classList.add('focus'))
-      setCode('#oecb-code', `$('.item').${method}(($el) => $el.classList.add('focus'))`)
-    }
-
-    $('#btn-odd-cb')((el)      => el.addEventListener('click', () => oecb('odd')))
-    $('#btn-even-cb')((el)     => el.addEventListener('click', () => oecb('even')))
-    $('#btn-oecb-reset')((el)  => el.addEventListener('click', () => {
-      $('#oecb-items .item')((el) => el.classList.remove('focus'))
-      setCode('#oecb-code', '// click a button')
-    }))
-  </script>
-</body>
 </html>

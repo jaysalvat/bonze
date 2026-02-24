@@ -1,167 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bonze - siblings demo</title>
-  <link rel="stylesheet" href="_demo.css">
-</head>
-<body>
-  <header id="header"></header>
 
-  <main>
-    <h1>bonze <code>.siblings()</code></h1>
-    <p class="subtitle">Returns all sibling elements sharing the same parent node, excluding the source element itself. Deduplicated across multiple sources.</p>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bonze - siblings demo</title>
+    <link rel="stylesheet" href="_demo.css">
+  </head>
 
-    <div class="legend">
-      <span><span class="dot src"></span> source element</span>
-      <span><span class="dot hl"></span> siblings</span>
-    </div>
+  <body>
+    <header id="header"></header>
 
-    <!-- Scene 1: single source -->
-    <div class="scene">
-      <h2>Single source element</h2>
-      <p class="desc">Click a button to highlight the siblings of that item.</p>
+    <main>
+      <h1>bonze <code>.siblings()</code></h1>
+      <p class="subtitle">Returns all sibling elements sharing the same parent node, excluding the source element itself. Deduplicated across multiple sources.</p>
 
-      <div class="grid" id="sib1-items">
-        <div class="item" data-label="item-1">item-1</div>
-        <div class="item" data-label="item-2">item-2</div>
-        <div class="item" data-label="item-3">item-3</div>
-        <div class="item" data-label="item-4">item-4</div>
-        <div class="item" data-label="item-5">item-5</div>
+      <div class="legend">
+        <span><span class="dot src"></span> source element</span>
+        <span><span class="dot hl"></span> siblings</span>
       </div>
 
-      <div class="controls">
-        <button id="sib1-a">item-1 .siblings()</button>
-        <button id="sib1-c">item-3 .siblings()</button>
-        <button id="sib1-e">item-5 .siblings()</button>
-        <button class="ghost" id="sib1-reset">reset</button>
+      <!-- Scene 1: single source -->
+      <div class="scene">
+        <h2>Single source element</h2>
+        <p class="desc">Click a button to highlight the siblings of that item.</p>
+
+        <div class="grid" id="sib1-items">
+          <div class="item" data-label="item-1">item-1</div>
+          <div class="item" data-label="item-2">item-2</div>
+          <div class="item" data-label="item-3">item-3</div>
+          <div class="item" data-label="item-4">item-4</div>
+          <div class="item" data-label="item-5">item-5</div>
+        </div>
+
+        <div class="controls">
+          <button id="sib1-a">item-1 .siblings()</button>
+          <button id="sib1-c">item-3 .siblings()</button>
+          <button id="sib1-e">item-5 .siblings()</button>
+          <button class="ghost" id="sib1-reset">reset</button>
+        </div>
+
+        <pre id="sib1-code">// click a button</pre>
       </div>
 
-      <pre id="sib1-code">// click a button</pre>
-    </div>
+      <!-- Scene 2: multiple sources, cross-parent -->
+      <div class="scene">
+        <h2>Multiple sources - deduplication</h2>
+        <p class="desc">Sources from two different parents. Siblings are collected and deduplicated across all sources.</p>
 
-    <!-- Scene 2: multiple sources, cross-parent -->
-    <div class="scene">
-      <h2>Multiple sources - deduplication</h2>
-      <p class="desc">Sources from two different parents. Siblings are collected and deduplicated across all sources.</p>
-
-      <div class="groups" id="sib2-root">
-        <div class="group-wrap">
-          <div class="group-label">#group-a</div>
-          <div class="group" id="sib2-ga">
-            <div class="item" data-label="A-1">A-1</div>
-            <div class="item" data-label="A-2">A-2</div>
-            <div class="item" data-label="A-3">A-3</div>
+        <div class="groups" id="sib2-root">
+          <div class="group-wrap">
+            <div class="group-label">#group-a</div>
+            <div class="group" id="sib2-ga">
+              <div class="item" data-label="A-1">A-1</div>
+              <div class="item" data-label="A-2">A-2</div>
+              <div class="item" data-label="A-3">A-3</div>
+            </div>
+          </div>
+          <div class="group-wrap">
+            <div class="group-label">#group-b</div>
+            <div class="group" id="sib2-gb">
+              <div class="item" data-label="B-1">B-1</div>
+              <div class="item" data-label="B-2">B-2</div>
+              <div class="item" data-label="B-3">B-3</div>
+            </div>
           </div>
         </div>
-        <div class="group-wrap">
-          <div class="group-label">#group-b</div>
-          <div class="group" id="sib2-gb">
-            <div class="item" data-label="B-1">B-1</div>
-            <div class="item" data-label="B-2">B-2</div>
-            <div class="item" data-label="B-3">B-3</div>
-          </div>
+
+        <div class="controls">
+          <button id="sib2-1">A-1 + B-1 .siblings()</button>
+          <button id="sib2-2">A-2 + B-2 .siblings()</button>
+          <button class="ghost" id="sib2-reset">reset</button>
         </div>
+
+        <pre id="sib2-code">// click a button</pre>
       </div>
 
-      <div class="controls">
-        <button id="sib2-1">A-1 + B-1 .siblings()</button>
-        <button id="sib2-2">A-2 + B-2 .siblings()</button>
-        <button class="ghost" id="sib2-reset">reset</button>
+      <!-- Scene 3: with callback -->
+      <div class="scene">
+        <h2>With callback</h2>
+        <p class="desc"><code>.siblings(callback)</code> iterates directly over siblings without an extra call.</p>
+
+        <div class="grid" id="sib3-items">
+          <div class="item" data-label="c-1">c-1</div>
+          <div class="item" data-label="c-2">c-2</div>
+          <div class="item" data-label="c-3">c-3</div>
+          <div class="item" data-label="c-4">c-4</div>
+        </div>
+
+        <div class="controls">
+          <button id="sib3-1">c-1 .siblings(cb)</button>
+          <button id="sib3-3">c-3 .siblings(cb)</button>
+          <button class="ghost" id="sib3-reset">reset</button>
+        </div>
+
+        <pre id="sib3-code">// click a button</pre>
       </div>
+    </main>
 
-      <pre id="sib2-code">// click a button</pre>
-    </div>
+    <footer id="footer"></footer>
 
-    <!-- Scene 3: with callback -->
-    <div class="scene">
-      <h2>With callback</h2>
-      <p class="desc"><code>.siblings(callback)</code> iterates directly over siblings without an extra call.</p>
+    <script type="module">
+      import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+      import { setCode, loadHeader, loadFooter } from './demo.js'
 
-      <div class="grid" id="sib3-items">
-        <div class="item" data-label="c-1">c-1</div>
-        <div class="item" data-label="c-2">c-2</div>
-        <div class="item" data-label="c-3">c-3</div>
-        <div class="item" data-label="c-4">c-4</div>
-      </div>
+      loadHeader('siblings')
+      loadFooter()
 
-      <div class="controls">
-        <button id="sib3-1">c-1 .siblings(cb)</button>
-        <button id="sib3-3">c-3 .siblings(cb)</button>
-        <button class="ghost" id="sib3-reset">reset</button>
-      </div>
+      // Scene 1
+      function sib1(label) {
+        $('#sib1-items .item')((el) => el.classList.remove('src', 'focus'))
+        $(`[data-label="${label}"]`, '#sib1-items')((el) => el.classList.add('src'))
+        $(`[data-label="${label}"]`, '#sib1-items').siblings((el) => el.classList.add('focus'))
+        setCode('#sib1-code', `$('[data-label="${label}"]').siblings((el) => el.classList.add('focus'))`)
+      }
 
-      <pre id="sib3-code">// click a button</pre>
-    </div>
-  </main>
+      $('#sib1-a')((el) => el.addEventListener('click', () => sib1('item-1')))
+      $('#sib1-c')((el) => el.addEventListener('click', () => sib1('item-3')))
+      $('#sib1-e')((el) => el.addEventListener('click', () => sib1('item-5')))
+      $('#sib1-reset')((el) => el.addEventListener('click', () => {
+        $('#sib1-items .item')((el) => el.classList.remove('src', 'focus'))
+        setCode('#sib1-code', '// click a button')
+      }))
 
-  <footer id="footer"></footer>
+      // Scene 2
+      function sib2(la, lb) {
+        $('#sib2-root .item')((el) => el.classList.remove('src', 'focus'))
+        $(`[data-label="${la}"]`)((el) => el.classList.add('src'))
+        $(`[data-label="${lb}"]`)((el) => el.classList.add('src'))
+        $([`[data-label="${la}"]`, `[data-label="${lb}"]`]).siblings((el) => el.classList.add('focus'))
+        setCode('#sib2-code', `$(['[data-label="${la}"]', '[data-label="${lb}"]']).siblings(...)`)
+      }
 
-  <script type="module">
-    import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
-    import { setCode, loadHeader, loadFooter } from './demo.js'
+      $('#sib2-1')((el) => el.addEventListener('click', () => sib2('A-1', 'B-1')))
+      $('#sib2-2')((el) => el.addEventListener('click', () => sib2('A-2', 'B-2')))
+      $('#sib2-reset')((el) => el.addEventListener('click', () => {
+        $('#sib2-root .item')((el) => el.classList.remove('src', 'focus'))
+        setCode('#sib2-code', '// click a button')
+      }))
 
-    loadHeader('siblings')
-    loadFooter()
+      // Scene 3
+      const sib3orig = { 'c-1': 'c-1', 'c-2': 'c-2', 'c-3': 'c-3', 'c-4': 'c-4' }
 
-    // Scene 1
-    function sib1(label) {
-      $('#sib1-items .item')((el) => el.classList.remove('src', 'focus'))
-      $(`[data-label="${label}"]`, '#sib1-items')((el) => el.classList.add('src'))
-      $(`[data-label="${label}"]`, '#sib1-items').siblings((el) => el.classList.add('focus'))
-      setCode('#sib1-code', `$('[data-label="${label}"]').siblings((el) => el.classList.add('focus'))`)
-    }
+      function sib3(label) {
+        $('#sib3-items .item')((el) => {
+          el.classList.remove('src', 'focus')
+          el.textContent = sib3orig[el.dataset.label]
+        })
+        $(`[data-label="${label}"]`, '#sib3-items')((el) => el.classList.add('src'))
+        $(`[data-label="${label}"]`, '#sib3-items').siblings((el) => {
+          el.classList.add('focus')
+          el.textContent += ' ✓'
+        })
+        setCode('#sib3-code', `$('[data-label="${label}"]').siblings(($el) => {\n  $el.classList.add('focus')\n  $el.textContent += ' ✓'\n})`)
+      }
 
-    $('#sib1-a')((el)     => el.addEventListener('click', () => sib1('item-1')))
-    $('#sib1-c')((el)     => el.addEventListener('click', () => sib1('item-3')))
-    $('#sib1-e')((el)     => el.addEventListener('click', () => sib1('item-5')))
-    $('#sib1-reset')((el) => el.addEventListener('click', () => {
-      $('#sib1-items .item')((el) => el.classList.remove('src', 'focus'))
-      setCode('#sib1-code', '// click a button')
-    }))
+      $('#sib3-1')((el) => el.addEventListener('click', () => sib3('c-1')))
+      $('#sib3-3')((el) => el.addEventListener('click', () => sib3('c-3')))
+      $('#sib3-reset')((el) => el.addEventListener('click', () => {
+        $('#sib3-items .item')((el) => {
+          el.classList.remove('src', 'focus')
+          el.textContent = sib3orig[el.dataset.label]
+        })
+        setCode('#sib3-code', '// click a button')
+      }))
+    </script>
+  </body>
 
-    // Scene 2
-    function sib2(la, lb) {
-      $('#sib2-root .item')((el) => el.classList.remove('src', 'focus'))
-      $(`[data-label="${la}"]`)((el) => el.classList.add('src'))
-      $(`[data-label="${lb}"]`)((el) => el.classList.add('src'))
-      $([`[data-label="${la}"]`, `[data-label="${lb}"]`]).siblings((el) => el.classList.add('focus'))
-      setCode('#sib2-code', `$(['[data-label="${la}"]', '[data-label="${lb}"]']).siblings(...)`)
-    }
-
-    $('#sib2-1')((el)     => el.addEventListener('click', () => sib2('A-1', 'B-1')))
-    $('#sib2-2')((el)     => el.addEventListener('click', () => sib2('A-2', 'B-2')))
-    $('#sib2-reset')((el) => el.addEventListener('click', () => {
-      $('#sib2-root .item')((el) => el.classList.remove('src', 'focus'))
-      setCode('#sib2-code', '// click a button')
-    }))
-
-    // Scene 3
-    const sib3orig = { 'c-1': 'c-1', 'c-2': 'c-2', 'c-3': 'c-3', 'c-4': 'c-4' }
-
-    function sib3(label) {
-      $('#sib3-items .item')((el) => {
-        el.classList.remove('src', 'focus')
-        el.textContent = sib3orig[el.dataset.label]
-      })
-      $(`[data-label="${label}"]`, '#sib3-items')((el) => el.classList.add('src'))
-      $(`[data-label="${label}"]`, '#sib3-items').siblings((el) => {
-        el.classList.add('focus')
-        el.textContent += ' ✓'
-      })
-      setCode('#sib3-code', `$('[data-label="${label}"]').siblings(($el) => {\n  $el.classList.add('focus')\n  $el.textContent += ' ✓'\n})`)
-    }
-
-    $('#sib3-1')((el)     => el.addEventListener('click', () => sib3('c-1')))
-    $('#sib3-3')((el)     => el.addEventListener('click', () => sib3('c-3')))
-    $('#sib3-reset')((el) => el.addEventListener('click', () => {
-      $('#sib3-items .item')((el) => {
-        el.classList.remove('src', 'focus')
-        el.textContent = sib3orig[el.dataset.label]
-      })
-      setCode('#sib3-code', '// click a button')
-    }))
-  </script>
-</body>
 </html>

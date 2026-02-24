@@ -1,152 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bonze - plugin demo</title>
-  <link rel="stylesheet" href="_demo.css">
-</head>
-<body>
-  <header id="header"></header>
 
-  <main>
-    <h1>bonze <code>$.plugin()</code></h1>
-    <p class="subtitle">Register reusable methods that become available on every bonze instance. Plugin signature: <code>($el, index, allElements, ...args)</code>.</p>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bonze - plugin demo</title>
+    <link rel="stylesheet" href="_demo.css">
+  </head>
 
-    <!-- Scene 1: simple plugin, no args -->
-    <div class="scene">
-      <h2>Simple plugin - no arguments</h2>
-      <p class="desc">Register a plugin once and call it on any selection.</p>
+  <body>
+    <header id="header"></header>
 
-      <div class="grid" id="p1-items">
-        <div class="item">alpha</div>
-        <div class="item">beta</div>
-        <div class="item">gamma</div>
-        <div class="item">delta</div>
-        <div class="item">epsilon</div>
+    <main>
+      <h1>bonze <code>$.plugin()</code></h1>
+      <p class="subtitle">Register reusable methods that become available on every bonze instance. Plugin signature: <code>($el, index, allElements, ...args)</code>.</p>
+
+      <!-- Scene 1: simple plugin, no args -->
+      <div class="scene">
+        <h2>Simple plugin - no arguments</h2>
+        <p class="desc">Register a plugin once and call it on any selection.</p>
+
+        <div class="grid" id="p1-items">
+          <div class="item">alpha</div>
+          <div class="item">beta</div>
+          <div class="item">gamma</div>
+          <div class="item">delta</div>
+          <div class="item">epsilon</div>
+        </div>
+
+        <div class="controls">
+          <button id="p1-toggle">.toggleHighlight()</button>
+          <button class="ghost" id="p1-reset">reset</button>
+        </div>
+
+        <pre id="p1-code"></pre>
       </div>
 
-      <div class="controls">
-        <button id="p1-toggle">.toggleHighlight()</button>
-        <button class="ghost" id="p1-reset">reset</button>
+      <!-- Scene 2: plugin with arguments -->
+      <div class="scene">
+        <h2>Plugin with arguments</h2>
+        <p class="desc">Extra arguments passed when calling the plugin are forwarded to the handler.</p>
+
+        <div class="grid" id="p2-items">
+          <div class="item">alpha</div>
+          <div class="item">beta</div>
+          <div class="item">gamma</div>
+          <div class="item">delta</div>
+        </div>
+
+        <div class="controls">
+          <button id="p2-new">.badge('new')</button>
+          <button id="p2-hot">.badge('hot')</button>
+          <button id="p2-sale">.badge('sale')</button>
+          <button class="ghost" id="p2-reset">reset</button>
+        </div>
+
+        <pre id="p2-code"></pre>
       </div>
 
-      <pre id="p1-code"></pre>
-    </div>
+      <!-- Scene 3: plugin using index -->
+      <div class="scene">
+        <h2>Plugin using index</h2>
+        <p class="desc">The plugin receives each element's index, useful for staggered effects.</p>
 
-    <!-- Scene 2: plugin with arguments -->
-    <div class="scene">
-      <h2>Plugin with arguments</h2>
-      <p class="desc">Extra arguments passed when calling the plugin are forwarded to the handler.</p>
+        <div class="grid" id="p3-items">
+          <div class="item">item-0</div>
+          <div class="item">item-1</div>
+          <div class="item">item-2</div>
+          <div class="item">item-3</div>
+          <div class="item">item-4</div>
+        </div>
 
-      <div class="grid" id="p2-items">
-        <div class="item">alpha</div>
-        <div class="item">beta</div>
-        <div class="item">gamma</div>
-        <div class="item">delta</div>
+        <div class="controls">
+          <button id="p3-stagger">.stagger()</button>
+          <button class="ghost" id="p3-reset">reset</button>
+        </div>
+
+        <pre id="p3-code"></pre>
       </div>
+    </main>
 
-      <div class="controls">
-        <button id="p2-new">.badge('new')</button>
-        <button id="p2-hot">.badge('hot')</button>
-        <button id="p2-sale">.badge('sale')</button>
-        <button class="ghost" id="p2-reset">reset</button>
-      </div>
+    <footer id="footer"></footer>
 
-      <pre id="p2-code"></pre>
-    </div>
+    <script type="module">
+      import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+      import { setCode, loadHeader, loadFooter } from './demo.js'
 
-    <!-- Scene 3: plugin using index -->
-    <div class="scene">
-      <h2>Plugin using index</h2>
-      <p class="desc">The plugin receives each element's index, useful for staggered effects.</p>
+      loadHeader('plugin')
+      loadFooter()
 
-      <div class="grid" id="p3-items">
-        <div class="item">item-0</div>
-        <div class="item">item-1</div>
-        <div class="item">item-2</div>
-        <div class="item">item-3</div>
-        <div class="item">item-4</div>
-      </div>
+      setCode('#p1-code', "// register once\n$.plugin('toggleHighlight', ($el) => $el.classList.toggle('highlight'))\n\n// use on any instance\n$('.item').toggleHighlight()")
+      setCode('#p2-code', "// register with extra arg\n$.plugin('badge', ($el, i, els, label) => {\n  $el.dataset.badge = label\n  $el.classList.add('badge')\n})\n\n// call with argument\n$('.item').badge('new')")
+      setCode('#p3-code', "// register: uses index to delay each item\n$.plugin('stagger', ($el, i) => {\n  $el.style.transitionDelay = `${i * 500}ms`\n  $el.classList.add('focus')\n})\n\n$('.item').stagger()")
 
-      <div class="controls">
-        <button id="p3-stagger">.stagger()</button>
-        <button class="ghost" id="p3-reset">reset</button>
-      </div>
+      // Register all plugins up front
+      $.plugin('toggleHighlight', ($el) => $el.classList.toggle('hl'))
 
-      <pre id="p3-code"></pre>
-    </div>
-  </main>
-
-  <footer id="footer"></footer>
-
-  <script type="module">
-    import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
-    import { setCode, loadHeader, loadFooter } from './demo.js'
-
-    loadHeader('plugin')
-    loadFooter()
-
-    setCode('#p1-code', "// register once\n$.plugin('toggleHighlight', ($el) => $el.classList.toggle('highlight'))\n\n// use on any instance\n$('.item').toggleHighlight()")
-    setCode('#p2-code', "// register with extra arg\n$.plugin('badge', ($el, i, els, label) => {\n  $el.dataset.badge = label\n  $el.classList.add('badge')\n})\n\n// call with argument\n$('.item').badge('new')")
-    setCode('#p3-code', "// register: uses index to delay each item\n$.plugin('stagger', ($el, i) => {\n  $el.style.transitionDelay = `${i * 500}ms`\n  $el.classList.add('focus')\n})\n\n$('.item').stagger()")
-
-    // Register all plugins up front
-    $.plugin('toggleHighlight', ($el) => $el.classList.toggle('hl'))
-
-    $.plugin('badge', ($el, i, els, label) => {
-      $el.dataset.badge = label
-      $el.classList.remove('badge-new', 'badge-hot', 'badge-sale')
-      $el.classList.add('badge', 'badge-' + label)
-    })
-
-    $.plugin('stagger', ($el, i) => {
-      $el.style.transitionDelay = `${i * 500}ms`
-      $el.classList.add('focus')
-    })
-
-    // Scene 1
-    $('#p1-toggle')((el) => el.addEventListener('click', () => {
-      $('#p1-items .item').toggleHighlight()
-    }))
-
-    $('#p1-reset')((el) => el.addEventListener('click', () => {
-      $('#p1-items .item')((el) => el.classList.remove('hl'))
-    }))
-
-    // Scene 2
-    function badge(label) {
-      $('#p2-items .item')((el) => {
-        el.classList.remove('badge')
-        delete el.dataset.badge
+      $.plugin('badge', ($el, i, els, label) => {
+        $el.dataset.badge = label
+        $el.classList.remove('badge-new', 'badge-hot', 'badge-sale')
+        $el.classList.add('badge', 'badge-' + label)
       })
-      $('#p2-items .item').badge(label)
-    }
 
-    $('#p2-new')((el)   => el.addEventListener('click', () => badge('new')))
-    $('#p2-hot')((el)   => el.addEventListener('click', () => badge('hot')))
-    $('#p2-sale')((el)  => el.addEventListener('click', () => badge('sale')))
-    $('#p2-reset')((el) => el.addEventListener('click', () => {
-      $('#p2-items .item')((el) => {
-        el.classList.remove('badge')
-        delete el.dataset.badge
+      $.plugin('stagger', ($el, i) => {
+        $el.style.transitionDelay = `${i * 500}ms`
+        $el.classList.add('focus')
       })
-    }))
 
-    // Scene 3
-    $('#p3-stagger')((el) => el.addEventListener('click', () => {
-      $('#p3-items .item')((el) => el.classList.remove('docus'))
-      requestAnimationFrame(() => {
-        $('#p3-items .item').stagger()
-      })
-    }))
+      // Scene 1
+      $('#p1-toggle')((el) => el.addEventListener('click', () => {
+        $('#p1-items .item').toggleHighlight()
+      }))
 
-    $('#p3-reset')((el) => el.addEventListener('click', () => {
-      $('#p3-items .item')((el) => {
-        el.style.transitionDelay = ''
-        el.classList.remove('focus')
-      })
-    }))
-  </script>
-</body>
+      $('#p1-reset')((el) => el.addEventListener('click', () => {
+        $('#p1-items .item')((el) => el.classList.remove('hl'))
+      }))
+
+      // Scene 2
+      function badge(label) {
+        $('#p2-items .item')((el) => {
+          el.classList.remove('badge')
+          delete el.dataset.badge
+        })
+        $('#p2-items .item').badge(label)
+      }
+
+      $('#p2-new')((el) => el.addEventListener('click', () => badge('new')))
+      $('#p2-hot')((el) => el.addEventListener('click', () => badge('hot')))
+      $('#p2-sale')((el) => el.addEventListener('click', () => badge('sale')))
+      $('#p2-reset')((el) => el.addEventListener('click', () => {
+        $('#p2-items .item')((el) => {
+          el.classList.remove('badge')
+          delete el.dataset.badge
+        })
+      }))
+
+      // Scene 3
+      $('#p3-stagger')((el) => el.addEventListener('click', () => {
+        $('#p3-items .item')((el) => el.classList.remove('docus'))
+        requestAnimationFrame(() => {
+          $('#p3-items .item').stagger()
+        })
+      }))
+
+      $('#p3-reset')((el) => el.addEventListener('click', () => {
+        $('#p3-items .item')((el) => {
+          el.style.transitionDelay = ''
+          el.classList.remove('focus')
+        })
+      }))
+    </script>
+  </body>
+
 </html>

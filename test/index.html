@@ -1,39 +1,42 @@
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Mocha Tests</title>
-        <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
-    </head>
-    <body>
-        <style>
-            .bonz {
-                margin-left: 60px;
-                font: 1em sans-serif;
-            }
-        </style>
-        <div id="mocha"></div>
+<html lang="en">
 
-        <div id="test"></div>
+  <head>
+    <meta charset="utf-8">
+    <title>Mocha Tests</title>
+    <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+  </head>
 
-        <script type="importmap">
+  <body>
+    <style>
+      .bonz {
+        margin-left: 60px;
+        font: 1em sans-serif;
+      }
+    </style>
+    <div id="mocha"></div>
+
+    <div id="test"></div>
+
+    <script type="importmap">
         {
             "imports": {
                 "chai": "../node_modules/chai/index.js"
             }
         }
-        </script>
+    </script>
 
-        <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/mocha/mocha.js"></script>
 
-        <script>
-            /* global mocha */
-            mocha.setup('bdd');
-        </script>
-        <script type="module">
-            import './tests.js';
+    <script>
+      /* global mocha */
+      mocha.setup('bdd');
+    </script>
+    <script type="module">
+      import './tests.js';
 
-            mocha.checkLeaks();
-            mocha.run().globals('devToolsOptions');
-        </script>
-    </body>
+      mocha.checkLeaks();
+      mocha.run().globals('devToolsOptions');
+    </script>
+  </body>
+
 </html>

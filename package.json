@@ -13,6 +13,8 @@
   "scripts": {
     "lint": "eslint 'src/*.js'",
     "lint:fix": "eslint 'src/*.js' --fix",
+    "lint:html": "eslint 'docs/**/*.html' 'test/**/*.html'",
+    "lint:html:fix": "eslint 'docs/**/*.html' 'test/**/*.html' --fix",
     "test": "mocha ./test/tests.js --timeout 10000",
     "test:watch": "mocha ./test/ --watch",
     "prewatch": "rm -rf ./dist",
@@ -21,8 +23,7 @@
     "version": "npm run build",
     "release:patch": "npm version patch -m 'Release patch v%s' && npm publish",
     "release:minor": "npm version minor -m 'Release minor v%s' && npm publish",
-    "release:major": "npm version major -m 'Release major v%s' && npm publish",
-    "postinstall": "npm run install-hooks"
+    "release:major": "npm version major -m 'Release major v%s' && npm publish"
   },
   "files": [
     "dist"
@@ -36,16 +37,14 @@
     "dom"
   ],
   "devDependencies": {
+    "@jaysalvat/eslint-config": "^3.1.1",
     "@rollup/plugin-terser": "^0.4.4",
     "chai": "^6.2.2",
-    "eslint": "^10.0.0",
+    "eslint": "^10.0.2",
     "jsdom": "^28.1.0",
     "mocha": "^11.7.5",
-    "rollup": "^4.58.0",
+    "rollup": "^4.59.0",
     "rollup-plugin-bundle-size": "^1.0.3",
     "rollup-plugin-sizes": "^1.1.0"
-  },
-  "dependencies": {
-    "@jaysalvat/eslint-config": "^3.1.0"
   }
 }

@@ -1,99 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bonze - first · last demo</title>
-  <link rel="stylesheet" href="_demo.css">
-</head>
-<body>
-  <header id="header"></header>
 
-  <main>
-    <h1>bonze <code>.first()</code> <code>.last()</code></h1>
-    <p class="subtitle">Target the first or last element of the current selection. Optional callback shorthand.</p>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bonze - first · last demo</title>
+    <link rel="stylesheet" href="_demo.css">
+  </head>
 
-    <div class="scene">
-      <h2>Without callback - returns a bonze instance</h2>
-      <p class="desc"><code>.first()</code> and <code>.last()</code> return a new bonze wrapping a single element. Chain further operations on it.</p>
+  <body>
+    <header id="header"></header>
 
-      <div class="grid" id="fl-items">
-        <div class="item">item-0</div>
-        <div class="item">item-1</div>
-        <div class="item">item-2</div>
-        <div class="item">item-3</div>
-        <div class="item">item-4</div>
-        <div class="item">item-5</div>
+    <main>
+      <h1>bonze <code>.first()</code> <code>.last()</code></h1>
+      <p class="subtitle">Target the first or last element of the current selection. Optional callback shorthand.</p>
+
+      <div class="scene">
+        <h2>Without callback - returns a bonze instance</h2>
+        <p class="desc"><code>.first()</code> and <code>.last()</code> return a new bonze wrapping a single element. Chain further operations on it.</p>
+
+        <div class="grid" id="fl-items">
+          <div class="item">item-0</div>
+          <div class="item">item-1</div>
+          <div class="item">item-2</div>
+          <div class="item">item-3</div>
+          <div class="item">item-4</div>
+          <div class="item">item-5</div>
+        </div>
+
+        <div class="controls">
+          <button id="btn-first">$.first()</button>
+          <button id="btn-last">$.last()</button>
+          <button class="ghost" id="btn-fl-reset">reset</button>
+        </div>
+
+        <pre id="fl-code">// click a button</pre>
       </div>
 
-      <div class="controls">
-        <button id="btn-first">$.first()</button>
-        <button id="btn-last">$.last()</button>
-        <button class="ghost" id="btn-fl-reset">reset</button>
+      <div class="scene">
+        <h2>With callback - iterates immediately</h2>
+        <p class="desc">Pass a callback directly to <code>.first(cb)</code> or <code>.last(cb)</code> as a shorthand for <code>.first()(cb)</code>.</p>
+
+        <div class="grid" id="flcb-items">
+          <div class="item">item-0</div>
+          <div class="item">item-1</div>
+          <div class="item">item-2</div>
+          <div class="item">item-3</div>
+          <div class="item">item-4</div>
+          <div class="item">item-5</div>
+        </div>
+
+        <div class="controls">
+          <button id="btn-first-cb">$.first(cb)</button>
+          <button id="btn-last-cb">$.last(cb)</button>
+          <button class="ghost" id="btn-flcb-reset">reset</button>
+        </div>
+
+        <pre id="flcb-code">// click a button</pre>
       </div>
+    </main>
 
-      <pre id="fl-code">// click a button</pre>
-    </div>
+    <footer id="footer"></footer>
 
-    <div class="scene">
-      <h2>With callback - iterates immediately</h2>
-      <p class="desc">Pass a callback directly to <code>.first(cb)</code> or <code>.last(cb)</code> as a shorthand for <code>.first()(cb)</code>.</p>
+    <script type="module">
+      import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+      import { setCode, loadHeader, loadFooter } from './demo.js'
 
-      <div class="grid" id="flcb-items">
-        <div class="item">item-0</div>
-        <div class="item">item-1</div>
-        <div class="item">item-2</div>
-        <div class="item">item-3</div>
-        <div class="item">item-4</div>
-        <div class="item">item-5</div>
-      </div>
+      loadHeader('first-last')
+      loadFooter()
 
-      <div class="controls">
-        <button id="btn-first-cb">$.first(cb)</button>
-        <button id="btn-last-cb">$.last(cb)</button>
-        <button class="ghost" id="btn-flcb-reset">reset</button>
-      </div>
+      // Scene 1
+      function fl(method) {
+        $('#fl-items .item')((el) => el.classList.remove('focus'))
+        $('#fl-items .item')[method]()(($el) => $el.classList.add('focus'))
+        setCode('#fl-code', `$('.item').${method}()(($el) => $el.classList.add('focus'))`)
+      }
 
-      <pre id="flcb-code">// click a button</pre>
-    </div>
-  </main>
+      $('#btn-first')((el) => el.addEventListener('click', () => fl('first')))
+      $('#btn-last')((el) => el.addEventListener('click', () => fl('last')))
+      $('#btn-fl-reset')((el) => el.addEventListener('click', () => {
+        $('#fl-items .item')((el) => el.classList.remove('focus'))
+        setCode('#fl-code', '// click a button')
+      }))
 
-  <footer id="footer"></footer>
+      // Scene 2
+      function flcb(method) {
+        $('#flcb-items .item')((el) => el.classList.remove('focus'))
+        $('#flcb-items .item')[method](($el) => $el.classList.add('focus'))
+        setCode('#flcb-code', `$('.item').${method}(($el) => $el.classList.add('focus'))`)
+      }
 
-  <script type="module">
-    import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
-    import { setCode, loadHeader, loadFooter } from './demo.js'
+      $('#btn-first-cb')((el) => el.addEventListener('click', () => flcb('first')))
+      $('#btn-last-cb')((el) => el.addEventListener('click', () => flcb('last')))
+      $('#btn-flcb-reset')((el) => el.addEventListener('click', () => {
+        $('#flcb-items .item')((el) => el.classList.remove('focus'))
+        setCode('#flcb-code', '// click a button')
+      }))
+    </script>
+  </body>
 
-    loadHeader('first-last')
-    loadFooter()
-
-    // Scene 1
-    function fl(method) {
-      $('#fl-items .item')((el) => el.classList.remove('focus'))
-      $('#fl-items .item')[method]()(($el) => $el.classList.add('focus'))
-      setCode('#fl-code', `$('.item').${method}()(($el) => $el.classList.add('focus'))`)
-    }
-
-    $('#btn-first')((el)    => el.addEventListener('click', () => fl('first')))
-    $('#btn-last')((el)     => el.addEventListener('click', () => fl('last')))
-    $('#btn-fl-reset')((el) => el.addEventListener('click', () => {
-      $('#fl-items .item')((el) => el.classList.remove('focus'))
-      setCode('#fl-code', '// click a button')
-    }))
-
-    // Scene 2
-    function flcb(method) {
-      $('#flcb-items .item')((el) => el.classList.remove('focus'))
-      $('#flcb-items .item')[method](($el) => $el.classList.add('focus'))
-      setCode('#flcb-code', `$('.item').${method}(($el) => $el.classList.add('focus'))`)
-    }
-
-    $('#btn-first-cb')((el)    => el.addEventListener('click', () => flcb('first')))
-    $('#btn-last-cb')((el)     => el.addEventListener('click', () => flcb('last')))
-    $('#btn-flcb-reset')((el)  => el.addEventListener('click', () => {
-      $('#flcb-items .item')((el) => el.classList.remove('focus'))
-      setCode('#flcb-code', '// click a button')
-    }))
-  </script>
-</body>
 </html>

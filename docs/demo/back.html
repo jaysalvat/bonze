@@ -1,43 +1,13 @@
 <!doctype html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>bonze - back demo</title>
     <link rel="stylesheet" href="_demo.css" />
-    <style>
-      .stack {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        margin-bottom: 16px;
-      }
-
-      .stack-row {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .stack-label {
-        font-size: 0.75rem;
-        font-family: monospace;
-        color: var(--dim);
-        width: 90px;
-        flex-shrink: 0;
-        text-align: right;
-      }
-
-      .stack-row.active .stack-label {
-        color: var(--primary-text);
-        font-weight: 600;
-      }
-      .stack-row.active .item {
-        border-color: var(--primary);
-        background: var(--primary-light);
-      }
-    </style>
   </head>
+
   <body>
     <header id="header"></header>
 
@@ -103,11 +73,11 @@
     <footer id="footer"></footer>
 
     <script type="module">
-     import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
-    import { setCode, loadHeader, loadFooter } from './demo.js'
+      import $ from 'https://unpkg.com/bonze/dist/bonze.esm.js'
+      import { setCode, loadHeader, loadFooter } from './demo.js'
 
-    loadHeader('back')
-    loadFooter()
+      loadHeader('back')
+      loadFooter()
 
       // Scene 2 - practical chaining
       function reset2() {
@@ -126,9 +96,9 @@
           setCode(
             "#s2-code",
             "$('.item')\n" +
-              "  .even(($el) => $el.classList.add('yellow'))\n" +
-              "  .back()\n" +
-              "  .odd(($el) => $el.classList.add('blue'))",
+            "  .even(($el) => $el.classList.add('yellow'))\n" +
+            "  .back()\n" +
+            "  .odd(($el) => $el.classList.add('blue'))",
           );
         }),
       );
@@ -145,11 +115,11 @@
           setCode(
             "#s2-code",
             "$('.item')\n" +
-              "  .first(($el) => $el.classList.add('yellow'))\n" +
-              "  .back()\n" +
-              "  .last(($el) => $el.classList.add('blue'))\n" +
-              "  .back()\n" +
-              "  .nth(2, ($el) => $el.classList.add('red'))",
+            "  .first(($el) => $el.classList.add('yellow'))\n" +
+            "  .back()\n" +
+            "  .last(($el) => $el.classList.add('blue'))\n" +
+            "  .back()\n" +
+            "  .nth(2, ($el) => $el.classList.add('red'))",
           );
         }),
       );
@@ -181,4 +151,5 @@
       );
     </script>
   </body>
+
 </html>
